@@ -1,0 +1,87 @@
+\let\ph=\phantom
+\let\hph=\hphantom
+\let\vph=\vphantom
+\let\mrel=\mathrel
+\let\mbin=\mathbin
+\let\mllap=\mathllap
+\let\mrlap=\mathrlap
+\let\mclap=\mathclap
+
+\newcommand{\mathHL}[2]{{%                   % 高亮
+  \setlength{\fboxsep}{0pt}%
+  \colorbox{#1}{\(#2\)}%
+}}
+\newcommand{\mathHLf}[2]{{%                  % 高亮 (带边框)
+  \setlength{\fboxrule}{0.2pt}%
+  \setlength{\fboxsep}{0pt}%
+  \fcolorbox{#1}{\(#2\)}%
+}}
+
+\def\vts#1{\lvert#1\rvert}                     % 竖线 ||
+\def\prs#1{\left(#1\right)}                    % 括号 ()
+\def\bcs#1{\left\{#1\right\}}                  % 括号 {}
+\def\bks#1{\left[#1\right]}                    % 括号 []
+\def\plr{\vph{(fg)}}                           % 柱子, 用于指定盒子的最小高度
+\def\etc{\textrm{etc}}                         % 对应省略号
+\def\wld{\_}                                   % 通配符
+
+% 值构造器
+\def\cons{\mbin{.}}                            % 对应积类型 , 同 ","
+\def\ethr{\mbin{\vert}}                        % 对应和类型 , 同 "|"
+
+% 几个类型 : 对象 , 范畴 , 态射 , 函子 , 自然变换
+\def\Series#1#2#3{%                            % 大类, 用于加高亮色
+  \mathHL{#1! #2}%
+  {\plr\smash{#3}}
+}
+\def\objSeries#1#2{\Series{blue}{#1}{\sf #2}}  % 对象类型 , 蓝色底色 , sf 字体
+\def\arrSeries#1#2{\Series{pink}{#1}{#2}}      % 箭头类型 , 红色底色 , 普通字体
+
+\def\obj#1{\objSeries{10}{#1}}                 % 对象
+\def\cat#1{\objSeries{30}{#1}}                 % 范畴
+
+\def\arr#1{\arrSeries{20!Orchid}{#1}}          % 箭头
+\def\fct#1{\arrSeries{40!Orchid}{#1}}          % 函子 
+\def\ntf#1{\arrSeries{60!Orchid}{#1}}          % 自然变换
+
+% 常用变量
+\makeatletter
+\def\varFreqUse#1#2{
+  \expandafter\newcommand\expandafter{\csname #1#2\endcsname}[1][]%
+  {\@ifnextchar p%
+    {\csname #1#2@A\endcsname{##1}}%
+    {\csname #1#2@B\endcsname{##1}}%
+  }
+  \expandafter\def\csname #1#2@A\endcsname##1p%
+  {\@ifnextchar p%
+    {\csname #1#2@A@A\endcsname{##1}p}%
+    {\csname #1#2@A@B\endcsname{##1}p}%
+  }
+  \expandafter\def\csname #1#2@A@A\endcsname##1pp%
+  {\csname #1\endcsname {#2_{##1}''}}
+  \expandafter\def\csname #1#2@A@B\endcsname##1p%
+  {\csname #1\endcsname {#2_{##1}'}}
+  \expandafter\def\csname #1#2@B\endcsname##1%
+  {\csname #1\endcsname {#2_{##1}}}
+}
+\varFreqUse{obj}{0}                            % 对象 0
+\varFreqUse{obj}{1}                            % 对象 1
+\varFreqUse{obj}{c}                            % 对象 c
+\varFreqUse{obj}{d}                            % 对象 d
+\varFreqUse{arr}{f}                            % 箭头 f
+\varFreqUse{arr}{g}                            % 箭头 g
+\varFreqUse{cat}{C}                            % 范畴 C
+\varFreqUse{cat}{D}                            % 范畴 D
+\varFreqUse{cat}{Cat}                          % 范畴 Cat
+\varFreqUse{cat}{Set}                          % 范畴 Set
+\makeatother
+% 打印方法名
+\newcommand{\opr}[2][\cat C]{                  % 方法的名称
+  \plr\smash{\overset{\mclap{\small #1}}{#2}}
+}
+\def\rst#1undr#2{
+  {}^{}_{\smash{:#2}}{\plr\smash{#1}}
+}
+\newcommand{\id}[1][\obj c]{
+  \rst{\textrm{id}}undr#1
+}

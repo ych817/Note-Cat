@@ -1,0 +1,27 @@
+\documentclass[10pt,a4paper]{article}
+\input{layouts_origin/use}                 % 宏包导入
+\input{layouts_origin/set_code}            % 样式设置 : codefence 相关包 : tcolorbox , minted , fcextra , fancyvrb
+\input{layouts_origin/set_call}            % 样式设置 : callout   tcolorbox
+
+\setlength\parindent{0pt}                  % 段落缩进取消
+\setlength{\columnseprule}{.4pt}           % 绘制每列之间的竖线 (multicol 宏包)
+\setlength{\fboxrule}{.2pt}
+\setlength{\fboxsep}{0pt}
+
+\input{content/def_maths}
+
+\begin{document}
+
+Hello
+
+$\obj a,\obj b,\obj c$ , $\cat C$
+
+$\arr f$ , $\fct F$ , $\ntf \eta$
+
+$\obj0$ , $\obj1$ , $\objc[1]pp$ , $\objd[1]p$ , $\objd[i]p$ 
+
+$\objd$
+
+$\arrf[1]$
+
+\end{document}
