@@ -3,7 +3,7 @@
     10pt%,fontset=fandol
 ]{ctex}                   % 中文支持
 % 字体相关
-\usepackage{FiraMono}     % 打字机字体
+\usepackage{fontspec}			% 字体选择
 % 编程相关
 \usepackage{etoolbox}     % 打补丁专用
 \usepackage{calc}         % 计算用
@@ -21,7 +21,7 @@
 	gridcolor=red!20, 
 	subgridcolor=blue!10
 ]{eso-pic}                % 绘制背景
-\usepackage{multicol}     % 多栏排版
+\usepackage{multicol}
 % 数学公式
 \usepackage{amsmath}      % 数学排版命令
 \usepackage{amssymb}      % 数学符号
@@ -37,7 +37,7 @@
 	svgnames,
     table                   % 允许为单元格染色
 ]{xcolor}                 % 颜色扩展
-% \usepackage{luacolor}
+% \usepackage{luacolor}		% LuaLaTeX 颜色支持
 % 代码排版
 \usepackage{minted}	      % 代码高亮
 % 盒子相关
@@ -47,10 +47,10 @@
 \usepackage[
     export
 ]{adjustbox}              % 盒子缩放
+% \usepackage{soulpos}      % 下划线 / 高亮相关
 \usepackage{relsize}      % 控制相对字号
 % 表格相关
 \usepackage{tabularray}   
 % 绘图相关
-\usepackage{tikz}
-\usepackage[all,pdf]{xy}
-\usepackage{asypictureB}
+\usepackage{asypictureB}  % asymptote 相关
+% 文字相关

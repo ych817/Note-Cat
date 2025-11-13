@@ -1,3 +1,7 @@
+% \setmonofont{JuliaMono-Medium}
+\setmonofont[                                                % 设置代码块字体
+  Contextuals={Alternate}
+]{Fira Code}
 \usemintedstyle{material}                                    % 代码块主体高亮风格(见https://pygments.org/styles/)
 \colorlet{colorCodefenceBodyDraw}{Gray}                      % 代码块主体边框颜色
 \colorlet{colorCodefenceBodyFill}{Black!80!DarkBlue}         % 代码块主体填充颜色
@@ -24,9 +28,7 @@
     text depth =0.7* depth("/()Fg泥濠"),
     outer xsep=0pt,
     outer ysep=0pt,
-    inner ysep=1pt,
-    draw=black,
-    fill=black
+    inner ysep=1pt
   }
 }
 \tcbset{
@@ -65,7 +67,7 @@
 % 代码块外观样式设置
 % 相关的库 : minted , tcolorbox , xparse
 
-\NewTCBListing{codefence}{ !o !E{\Syntax\Highlight\Mode}{{latex}{}{listing only}} }{%
+\NewTCBListing{codefence}{ !E{\FileName\Syntax\Lexer\Highlight\Mode}{{}{latex}{#2}{}{listing only}} }{%
   code={\linespread{1.3}},
   codestyle,
   boxsep=2pt,
@@ -81,14 +83,14 @@
     \end{tcbclipframe}
     }
   },
-  #4, % 默认 listing only , 可以换成 listing and comment 及其他
+  #5, % 默认 listing only , 可以换成 listing and comment 及其他
   listing engine=minted,
-  minted language = #2, 
+  minted language = #3, 
   minted options = {   % minted 设置
     tabsize=2,
     linenos=true,
     numbersep=5pt,
-    highlightlines={#3},
+    highlightlines={#4},
     highlightcolor=colorCodefenceBodyFillHL,
     xleftmargin=+10pt,
   }
@@ -113,7 +115,7 @@
 % 代码块中高亮一行内的部分内容 。
 % 相关的库 : 
 \newcommand{\codeHL}[2][colorCodefenceBodyFillHL]{%        % 代码高亮部分
-    \setlength\fboxsep{0pt}%
-    \rlap{\colorbox{#1}{\vphantom{(Fg)}\phantom{#2}}}%
-    \setlength\fboxsep{3pt}%
+  \setlength\fboxsep{0pt}%
+  \rlap{\colorbox{#1}{\vphantom{(Fg)}\phantom{#2}}}%
+  \setlength\fboxsep{3pt}%
 }%

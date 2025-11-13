@@ -1,0 +1,15 @@
+\begin{codefence}\FileName{./main.tex}\Lexer{lexers/latex.py:LexerTeX}\Highlight{4-5,10}\Mode{listing above text}
+% 空格是必须的, 否则会吞掉第一个命令
+% 代码块中高亮行的行号也能被高亮 。
+% 代码来自 https://tex.stackexchange.com/questions/741923
+% 相关的库 : minted , fbextra , fancyvrb , etoolbox
+
+
+
+\begin{tikzpicture}
+\path[fill=yellow!50!white] (0,0) circle (11mm);
+\path[fill=white] (0,0) circle (9mm);
+\foreach \w/\c in {90/red,210/green,330/blue}
+{\path[shading=ball,ball color=\c] (\w:1cm) circle (7mm);}
+\end{tikzpicture}
+\end{codefence}

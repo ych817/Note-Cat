@@ -5,65 +5,13 @@
 
 \setlength\parindent{0pt}                  % 段落缩进取消
 \setlength{\columnseprule}{.4pt}           % 绘制每列之间的竖线 (multicol 宏包)
-\setlength{\fboxrule}{.2pt}
-\setlength{\fboxsep}{0pt}
 
-\input{content/def_maths}
+\usetikzlibrary{calc}
+
 
 \begin{document}
 
-\begin{multicols*}{2}
-
-Hello
-
-$\obj a,\obj b,\obj c$ , $\cat C$ \par
-$\arr f$ , $\ntf \eta$ , $\fct F$ \par
-$\obj0$ , $\obj1$ , $\objc[1]pp$ , $\objd[1]p$ , $\objd[i]p$ \par
-$\arrf$ , $\arrf[1]p$ , $\arrg[2]pp$ \par
-$\fctF$ , $\fctG$
-
-% \usepgfmodule{oo}
-
-% \pgfkeys{/my key/.code=The value is '#1'.}
-% \pgfkeys{/my key=hi!}
-
-% \pgfooclass{stamp}{
-%     % This is the class stamp
-%     \method stamp() { % The constructor
-%     }
-%     \method apply(#1,#2) { % Causes the stamp to be shown at coordinate (#1,#2)
-%         % Draw the stamp:
-%         \node [rotate=20,font=\huge] at (#1,#2) {Passed};
-%     }
-% }
-% \pgfoonew\mystamp=new stamp()
-% \begin{tikzpicture}
-%     \mystamp.apply(1,2)
-%     \mystamp.apply(3,4)
-% \end{tikzpicture}
-
-\begin{codefence}[./fgmain.tex]\Highlight{4-5,10}\Mode{listing above text}\ 
-\def\state#1{\mathclap{\smash[b]{\scalebox{0.75}{$#1$}}}}
-\begin{xy}<1cm,0cm>:
-(0,0)*=<+30pt>[Fo]{\state{\rm Closed}}="closed";
-(3,0)*=<+30pt>[Fo]{\state{\rm Open}}="open";
-"closed",{\ar@{->}@/^20pt/_{\state{\rm front}}"open"};
-"closed",{\ar@{<-}@/_20pt/^{\state{\rm neither}}"open"};
-"closed",{\ar@`{p+(-2,2.5),p+(+2,2.5)}^>(.25)*+(1,0)
-{\state{\begin{matrix}
-  \rm rear\\[-3pt]
-  \rm both\\[-3pt]
-  \rm neither
-\end{matrix}}} c};
-"open",{\ar@`{p+(-2,2.5),p+(+2,2.5)}^<(.75)*+(1,0)
-{\state{\begin{matrix}
-  \rm rear\\[-3pt]
-  \rm both\\[-3pt]
-  \rm neither
-\end{matrix}}} c};
-\end{xy}
-\end{codefence}
-
-\end{multicols*}
+\input{contents/01-test-code}
+\input{contents/03-test-tikz}
 
 \end{document}
