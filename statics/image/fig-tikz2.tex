@@ -14,12 +14,12 @@
 }
 \makeatother
 
-\mybox[%
-  color = red,
-  % font  = \ttfamily
-]{%
-  This is my box%
-}%
+% \mybox[%
+%   color = red,
+%   % font  = \ttfamily
+% ]{%
+%   This is my box%
+% }%
 
 \pgfkeys{
   /family/.is family,
@@ -34,9 +34,21 @@
   #2
 }
 
+\pgfkeysvalueof{/family/color}
+
 \mybox[%
   color = red,
   % font  = \ttfamily
 ]{%
   This is my box%
 }%
+
+\pgfkeysvalueof{/family/color}
+
+% \def\helloworld{Hello, world!}
+% \pgfkeyslet{/my family/my key}{\helloworld}
+% \pgfkeysvalueof{/my family/my key}
+
+% \pgfkeyssetvalue{/my family/my key}{Hello, world!}
+% \pgfkeysgetvalue{/my family/my key}{\helloworld}
+% \helloworld

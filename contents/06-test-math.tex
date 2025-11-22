@@ -1,0 +1,45 @@
+% 一系列别名
+\let\ph=\phantom
+\let\hph=\hphantom
+\let\vph=\vphantom
+\let\mrel=\mathrel
+\let\mbin=\mathbin
+\let\mllap=\mathllap
+\let\mrlap=\mathrlap
+\let\mclap=\mathclap
+
+\def\vts#1{\lvert#1\rvert}                     % 竖线 ||
+\def\prs#1{\left(#1\right)}                    % 括号 ()
+\def\bcs#1{\left\{#1\right\}}                  % 括号 {}
+\def\bks#1{\left[#1\right]}                    % 括号 []
+\def\plr{\vph{(fg)}}                           % 柱子, 用于指定盒子的最小高度
+\def\etc{\textrm{etc}}                         % 对应省略号
+\def\wld{\_}                                   % 通配符
+
+
+\def\RegistMathHL#1BG#2Font#3{
+  \colorlet{color#1}{#2}
+  \expandafter\newif\csname ifmathHLcolor#1\endcsname
+  \expandafter\def\csname #1\endcsname##1{
+    \setlength{\fboxsep}{0pt}%
+    \setlength{\fboxrule}{0pt}%
+    \let\intermediate=\relax
+    \csname ifmathHLcolor#1\endcsname{%
+      \gdef\intermediate{\colorbox{color#1}}%
+    }\else{%
+      \gdef\intermediate{\fbox}%
+    }\fi
+    \intermediate{\ensuremath{\plr\smash{#3 ##1}}}
+  }
+  \csname mathHLcolor#1true\endcsname
+}
+
+\RegistMathHL{obj}BG{blue!10}Font{\sf}
+\RegistMathHL{cat}BG{blue!30}Font{\sf}
+\RegistMathHL{arr}BG{pink!90!Orchid}Font{}
+\RegistMathHL{fct}BG{pink!10!Orchid}Font{}
+\RegistMathHL{ntf}BG{pink!40!Orchid}Font{}
+
+$\obj a,\obj b,\obj c$ , $\cat C$ \par
+$\arr f$ , $\ntf \eta$ , $\fct F$ \par
+

@@ -1,6 +1,6 @@
 # latex.py
-from pygments.lexer import RegexLexer, include, default
-from pygments.token import Comment, Name, Keyword, String, Number, Operator, Text
+from pygments.lexer import RegexLexer, default, include
+from pygments.token import Comment, Keyword, Name, Number, Operator, String, Text
 
 
 class LexerTeX(RegexLexer):
