@@ -22,6 +22,7 @@
 \pgfooclass{mathobj}{
   \attribute form LaTeX ;
   \attribute form Verb  ;
+  \attribute type       ;
   \method mathobj(#1) {%
     \pgfooset{form LaTeX}{\ensuremath{#1}}%
   }

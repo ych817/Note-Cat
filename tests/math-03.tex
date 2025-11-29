@@ -1,0 +1,74 @@
+% 一系列别名
+\let\ph=\phantom
+\let\hph=\hphantom
+\let\vph=\vphantom
+\let\mrel=\mathrel
+\let\mbin=\mathbin
+\let\mllap=\mathllap
+\let\mrlap=\mathrlap
+\let\mclap=\mathclap
+
+\def\vts#1{\lvert#1\rvert}                     % 竖线 ||
+\def\prs#1{\left(#1\right)}                    % 括号 ()
+\def\bcs#1{\left\{#1\right\}}                  % 括号 {}
+\def\bks#1{\left[#1\right]}                    % 括号 []
+\def\plr{\vph{(fg)}}                           % 柱子, 用于指定盒子的最小高度
+\def\etc{\textrm{etc}}                         % 对应省略号
+\def\wld{\_}                                   % 通配符
+
+\makeatletter
+\def\opr{%
+  \@ifnextchar<
+  {\opr@Q}
+  {f}%
+}
+\def\opr@Q<{%
+  \@ifnextchar<%
+  {\opr@YopY}
+  {\opr@YopX}%
+}
+\def\opr@YopX#1{%
+  \@ifnextchar<%
+  {\opr@YopX@YopY{#1}}
+  {\opr@YopX@NopY{#1}}%
+}
+\def\opr@YopX@YopY#1<#2{%
+  #2~#1~f
+}
+\def\opr@YopX@NopY#1{%
+  #1~f
+}
+\def\opr@YopY<#1{%
+  \@ifnextchar<%
+  {\opr@YopY@YopX{#1}}
+  {\opr@YopY@NopX{#1}}%
+}
+\def\opr@YopY@YopX#1<#2{%
+  #1~#2~f%
+}
+\def\opr@YopY@NopX#1{%
+  #1~\_~f%
+}
+\makeatother
+
+\begin{tblr}{
+  colspec={Q[l]Q[r]},
+  hlines,vlines,
+  rows = {LightGray}
+}
+\codeinline{$\opr=z$} &
+$\opr=z$ 
+\\
+\codeinline{$\opr<{x_1}=z$} &
+$\opr<{x_1}=z$ 
+\\
+\codeinline{$\opr<{x_2}<{y_2}=z$} &
+$\opr<{x_2}<{y_2}=z$ 
+\\
+\codeinline{$\opr<<{y_3}=z$} &
+$\opr<<{y_3}=z$ 
+\\
+\codeinline{$\opr<<{y_4}<{x_4}=z$} &
+$\opr<<{y_4}<{x_4}=z$ 
+\\
+\end{tblr}

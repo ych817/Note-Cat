@@ -87,10 +87,60 @@ $\arrf$ , $\arrf[1]p$ , $\arrg[2]pp$ \par
 $\fctF$ , $\fctG$
 
 % 打印方法名
+% \def\RegistMathOpr#1{%
+%   \expandafter\def\csname #1\endcsname{%
+%     \@ifnextchar [%
+%       {\csname #1@A\endcsname}%
+%       {\csname #1@B\endcsname}%
+%   }%
+%   \expandafter\def\csname #1@A\endcsname[##1]##2{%
+%     Mandatory ##2 , Optional ##1%
+%   }%
+%   \expandafter\def\csname #1@B\endcsname##1{%
+%     \csname #1@A\endcsname[Default]{##1}
+%   }%
+% }
+
+
+
 \newcommand{\opr}[2][\catC]{                      % 方法的名称
   \plr\smash{\overset{\mclap{\small #1}}{#2}}
 }
 
-\def\RegistMathOpr#1#2{
-  TODO
+\makeatletter
+\def\testOpt#1{
+  \@ifnextchar <%
+  {\testOpt@A#1}%
+  {\testOpt@B#1}%
 }
+\def\testOpt@A#1<#2>{%
+  Mandatory {\ttfamily #2} , Optional {\ttfamily #1}%
+}%
+\def\testOpt@B#1{%
+  \testOpt@A#1[d]
+}%
+\makeatother
+
+\testOpt{A}<x>
+% \testOpt@A x
+
+\makeatletter
+\def\RegistMathOpr#1#2{
+  \expandafter\def\csname #1\endcsname{%
+    \@ifnextchar <%
+      {\csname #1@A\endcsname}%
+      {\csname #1@B\endcsname}%
+  }%
+  \expandafter\def\csname #1@A\endcsname<##1>{%
+    \plr\smash{\overset{\mclap{\small ##1}}{#2}}
+  }%
+  \expandafter\def\csname #1@B\endcsname{%
+    \csname #1@A\endcsname<\catC>
+  }%
+}
+\makeatother
+
+\RegistMathOpr{cattimes}{\times}
+
+$\cattimes<\catD>$\par
+$\cattimes$

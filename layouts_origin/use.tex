@@ -26,7 +26,11 @@
 \usepackage{amsmath}      % 数学排版命令
 \usepackage{amssymb}      % 数学符号
 \usepackage{amsfonts}     % 数学字体 , 如 \mathbf \mathsf \mathit
-\usepackage{mathrsfs}     % 数学花体 , 如 \mathscr
+\usepackage[
+  scr=boondox,  % heavily sloped
+  cal=esstix    % slightly sloped
+]{mathalpha}              % 数学字体
+% \usepackage{mathrsfs}     % 数学花体 , 如 \mathscr
 \usepackage{mathtools}    % 数学工具 , 如 \overbracket
 \usepackage{delarray}     % 数学表格 , 允许在写矩阵的时候不用写 \left(\right) 之类的命令
 \usepackage{cancel}       % 删除线   , 如 \cancel
