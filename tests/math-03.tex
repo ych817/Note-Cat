@@ -33,10 +33,10 @@
   {\opr@YopX@NopY{#1}}%
 }
 \def\opr@YopX@YopY#1<#2{%
-  #2~#1~f
+  (#2~#1~f)
 }
 \def\opr@YopX@NopY#1{%
-  #1~f
+  (#1~f)
 }
 \def\opr@YopY<#1{%
   \@ifnextchar<%
@@ -44,31 +44,69 @@
   {\opr@YopY@NopX{#1}}%
 }
 \def\opr@YopY@YopX#1<#2{%
-  #1~#2~f%
+  (#1~#2~f)%
+  %=#2~(#1~\_~f)%
 }
 \def\opr@YopY@NopX#1{%
-  #1~\_~f%
+  (#1~\_~f)%
+}
+
+\def\RegistOprBin#1#2{
+  \expandafter\def\csname #1\endcsname{%
+    \@ifnextchar<
+    {\csname #1@Q\endcsname}
+    {#2}%
+  }
+  \expandafter\def\csname #1@Q\endcsname<{%
+    \@ifnextchar<%
+    {\csname #1@YopY\endcsname}
+    {\csname #1@YopX\endcsname}%
+  }
+  \expandafter\def\csname #1@YopX\endcsname##1{%
+    \@ifnextchar<%
+    {\csname #1@YopX@YopY\endcsname{##1}}
+    {\csname #1@YopX@NopY\endcsname{##1}}%
+  }
+  \expandafter\def\csname #1@YopX@YopY\endcsname##1<##2{%
+    (##2~##1~#2)%
+  }
+  \expandafter\def\csname #1@YopX@NopY\endcsname##1{%
+    (##1~#2)%
+  }
+  \expandafter\def\csname #1@YopY\endcsname<##1{%
+    \@ifnextchar<%
+    {\csname #1@YopY@YopX\endcsname{##1}}
+    {\csname #1@YopY@NopX\endcsname{##1}}%
+  }
+  \expandafter\def\csname #1@YopY@YopX\endcsname##1<##2{%
+    (##1~##2~#2)%
+  }
+  \expandafter\def\csname #1@YopY@NopX\endcsname##1{%
+    (##1~\_~#2)% 
+  }
 }
 \makeatother
+
+\RegistOprBin{test}{g}% typeZ <- typeX <- type Y
 
 \begin{tblr}{
   colspec={Q[l]Q[r]},
   hlines,vlines,
   rows = {LightGray}
 }
-\codeinline{$\opr=z$} &
-$\opr=z$ 
+\codeinline{$\test=z_u$} &
+$\test=z_u$ 
 \\
-\codeinline{$\opr<{x_1}=z$} &
-$\opr<{x_1}=z$ 
+\codeinline{$\test<{x_u}=z_u$} &
+$\test<{x_u}=z_u$ 
 \\
-\codeinline{$\opr<{x_2}<{y_2}=z$} &
-$\opr<{x_2}<{y_2}=z$ 
+\codeinline{$\test<{x_u}<{y_u}=z_u$} &
+$\test<{x_u}<{y_u}=z_u$ 
 \\
-\codeinline{$\opr<<{y_3}=z$} &
-$\opr<<{y_3}=z$ 
+\codeinline{$\test<<{y_u}=z_u$} &
+$\test<<{y_u}=z_u$ 
 \\
-\codeinline{$\opr<<{y_4}<{x_4}=z$} &
-$\opr<<{y_4}<{x_4}=z$ 
+\codeinline{$\test<<{y_u}<{x_u}=z_u$} &
+$\test<<{y_u}<{x_u}=z_u$ 
 \\
 \end{tblr}
