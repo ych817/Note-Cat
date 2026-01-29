@@ -1,0 +1,216 @@
+\let\xpndaft=\expandafter
+\let\ncm=\newcommand
+\let\rcm=\renewcommand
+% ----- 排版相关
+\let\ph=\phantom
+\let\hph=\hphantom
+\let\vph=\vphantom
+\let\mrel=\mathrel
+\let\mbin=\mathbin
+\let\mllap=\mathllap                 % 根据文本右侧对齐
+\let\mrlap=\mathrlap                 % 根据文本左侧对齐
+\let\mclap=\mathclap                 % 根据文本中央对齐
+\def\vts#1{\lvert#1\rvert}
+\def\prs#1{\left(#1\right)}
+\def\bcs#1{\left\{#1\right\}}
+\def\bks#1{\left[#1\right]}
+\def\plr#1{\vph{(fg)}\smash{#1}}     % 柱子
+% ----- 
+\def\etc{\plr{\rm etc}}              % 省略号
+\def\occ{\plr{\_}}                   % 占位符
+% ----- 变量注册模板 带高亮
+\def\RegistVarType#1BG#2Font#3{
+  \colorlet{color#1}{#2}
+  \xpndaft\newif\csname ifColorVarType#1\endcsname    % 确认是否开启背景高亮
+  \xpndaft\def\csname #1\endcsname##1{%
+    \setlength{\fboxsep}{0pt}%
+    \setlength{\fboxrule}{0pt}%
+    \let\intermediate=\relax
+    \csname ifColorVarType#1\endcsname{%
+      \gdef\intermediate{\colorbox{color#1}}%
+    }\else{%
+      \gdef\intermediate{\fbox}%
+    }\fi%
+    \intermediate{\ensuremath{\plr{#3 ##1}}}%
+  }
+  \csname ColorVarType#1true\endcsname                    % 默认开启背景高亮
+}
+% ----- 操作符注册模板
+\makeatletter
+\def\RegistOprBin#1Display#2{%
+  \expandafter\def\csname #1\endcsname{%
+    \@ifnextchar<
+    {\csname #1@\endcsname}
+    {#2}%
+  }
+  \expandafter\def\csname #1@\endcsname<{%
+    \@ifnextchar<
+    {\csname #1@YopY@\endcsname}
+    {\csname #1@YopX@\endcsname}%
+  }
+  \expandafter\def\csname #1@YopX@\endcsname##1{%
+    \@ifnextchar p%
+      {\csname #1@YopX@Yp@\endcsname{##1}}%
+      {\csname #1@YopX@Np@\endcsname{##1}}%
+  }
+  \expandafter\def\csname #1@YopX@Np@\endcsname##1{%
+    \@ifnextchar<
+    {\csname #1@YopX@Np@YopY@\endcsname{##1}}%
+    {\csname #1@YopX@Np@NopY@\endcsname{##1}}%
+  }
+  \expandafter\def\csname #1@YopX@Np@NopY@\endcsname##1{%
+    \@ifnextchar p
+    {\csname #1@YopX@Np@NopY@Yp\endcsname{##1}}%
+    {\csname #1@YopX@Np@NopY@Np\endcsname{##1}}%
+  }
+  \expandafter\def\csname #1@YopX@Np@NopY@Np\endcsname##1{##1~#2}
+  \expandafter\def\csname #1@YopX@Np@NopY@Yp\endcsname##1p{\prs{##1~#2}}
+  \expandafter\def\csname #1@YopX@Np@YopY@\endcsname##1<##2{%
+    \@ifnextchar p
+    {\csname #1@YopX@Np@YopY@Yp\endcsname{##1}{##2}}%
+    {\csname #1@YopX@Np@YopY@Np\endcsname{##1}{##2}}%
+  }
+  \expandafter\def\csname #1@YopX@Np@YopY@Np\endcsname##1##2{##2~##1~#2}
+  \expandafter\def\csname #1@YopX@Np@YopY@Yp\endcsname##1##2p{\prs{##2~##1~#2}}
+  \expandafter\def\csname #1@YopX@Yp@\endcsname##1p{%
+    \@ifnextchar<
+    {\csname #1@YopX@Yp@YopY@\endcsname{##1}}%
+    {\csname #1@YopX@Yp@NopY@\endcsname{##1}}%
+  }
+  \expandafter\def\csname #1@YopX@Yp@NopY@\endcsname##1{%
+    \@ifnextchar p
+    {\csname #1@YopX@Yp@NopY@Yp\endcsname{##1}}%
+    {\csname #1@YopX@Yp@NopY@Np\endcsname{##1}}%
+  }
+  \expandafter\def\csname #1@YopX@Yp@NopY@Np\endcsname##1{\prs{##1~#2}}
+  \expandafter\def\csname #1@YopX@Yp@NopY@Yp\endcsname##1p{\prs{##1~#2}}
+  \expandafter\def\csname #1@YopX@Yp@YopY@\endcsname##1<##2{%
+    \@ifnextchar p
+    {\csname #1@YopX@Yp@YopY@Yp\endcsname{##1}{##2}}%
+    {\csname #1@YopX@Yp@YopY@Np\endcsname{##1}{##2}}%
+  }
+  \expandafter\def\csname #1@YopX@Yp@YopY@Np\endcsname##1##2{##2~\prs{##1~#2}}
+  \expandafter\def\csname #1@YopX@Yp@YopY@Yp\endcsname##1##2p{\prs{##2~\prs{##1~#2}}}
+
+  \expandafter\def\csname #1@YopY@\endcsname<##1{%
+    \@ifnextchar p%
+    {\csname #1@YopY@Yp@\endcsname{##1}}%
+    {\csname #1@YopY@Np@\endcsname{##1}}%
+  }
+  \expandafter\def\csname #1@YopY@Np@\endcsname##1{%
+    \@ifnextchar<
+    {\csname #1@YopY@Np@YopX@\endcsname{##1}}%
+    {\csname #1@YopY@Np@NopX@\endcsname{##1}}%
+  }
+  \expandafter\def\csname #1@YopY@Np@NopX@\endcsname##1{%
+    \@ifnextchar p
+    {\csname #1@YopY@Np@NopX@Yp\endcsname{##1}}%
+    {\csname #1@YopY@Np@NopX@Np\endcsname{##1}}%
+  }
+  \expandafter\def\csname #1@YopY@Np@NopX@Np\endcsname##1{##1~\_~#2}
+  \expandafter\def\csname #1@YopY@Np@NopX@Yp\endcsname##1p{\prs{##1~\_~#2}}
+  \expandafter\def\csname #1@YopY@Np@YopX@\endcsname##1<##2{%
+    \@ifnextchar p
+    {\csname #1@YopY@Np@YopX@Yp\endcsname{##1}{##2}}%
+    {\csname #1@YopY@Np@YopX@Np\endcsname{##1}{##2}}%
+  }
+  \expandafter\def\csname #1@YopY@Np@YopX@Np\endcsname##1##2{##1~##2~#2}
+  \expandafter\def\csname #1@YopY@Np@YopX@Yp\endcsname##1##2p{\prs{##1~##2~#2}}
+  \expandafter\def\csname #1@YopY@Yp@\endcsname##1p{%
+    \@ifnextchar<
+    {\csname #1@YopY@Yp@YopX@\endcsname{##1}}%
+    {\csname #1@YopY@Yp@NopX@\endcsname{##1}}%
+  }
+  \expandafter\def\csname #1@YopY@Yp@NopX@\endcsname##1{%
+    \@ifnextchar p
+    {\csname #1@YopY@Yp@NopX@Yp\endcsname{##1}}%
+    {\csname #1@YopY@Yp@NopX@Np\endcsname{##1}}%
+  }
+  \expandafter\def\csname #1@YopY@Yp@NopX@Np\endcsname##1{\prs{##1~\occ~#2}}
+  \expandafter\def\csname #1@YopY@Yp@NopX@Yp\endcsname##1p{\prs{##1~\occ~#2}}
+  % -- Y有括号, X存在
+  \expandafter\def\csname #1@YopY@Yp@YopX@\endcsname##1<##2{%
+    \@ifnextchar p
+    {\csname #1@YopY@Yp@YopX@Yp\endcsname{##1}{##2}}%
+    {\csname #1@YopY@Yp@YopX@Np\endcsname{##1}{##2}}%
+  }
+  \expandafter\def\csname #1@YopY@Yp@YopX@Np\endcsname##1##2{##2~\prs{##1~\occ~#2}}
+  \expandafter\def\csname #1@YopY@Yp@YopX@Yp\endcsname##1##2p{\prs{##2~\prs{##1~\occ~#2}}}
+}
+\makeatother
+
+\RegistOprBin{test}Display{g}% typeZ <- typeX <- type Y
+
+\begin{tblr}{
+  colspec={Q[l]Q[r]},
+  hlines,vlines,
+  rows = {LightGray}
+}
+\codeinline{$\test$} &
+$\test$ 
+\\
+\codeinline{$\test<{x_u}$} &
+$\test<{x_u}$ 
+\\
+\codeinline{$\test<{x_u}<{y_u}$} &
+$\test<{x_u}<{y_u}$ 
+\\
+\codeinline{$\test<{x_u}<{y_u}p$} &
+$\test<{x_u}<{y_u}p$ 
+\\
+\codeinline{$\test<{x_u}p$} &
+$\test<{x_u}p$
+\\
+\codeinline{$\test<{x_u}p<{y_u}$} &
+$\test<{x_u}p<{y_u}$
+\\
+\codeinline{$\test<{x_u}p<{y_u}p$} &
+$\test<{x_u}p<{y_u}p$
+\\
+\codeinline{$\test<<{y_u}$} &
+$\test<<{y_u}$ 
+\\
+\codeinline{$\test<<{y_u}<{x_u}$} &
+$\test<<{y_u}<{x_u}$ 
+\\
+\codeinline{$\test<<{y_u}<{x_u}p$} &
+$\test<<{y_u}<{x_u}p$ 
+\\
+\codeinline{$\test<<{y_u}p$} &
+$\test<<{y_u}p$ 
+\\
+\codeinline{$\test<<{y_u}p<{x_u}$} &
+$\test<<{y_u}p<{x_u}$ 
+\\
+\codeinline{$\test<<{y_u}p<{x_u}p$} &
+$\test<<{y_u}p<{x_u}p$ 
+\\
+\end{tblr}
+
+\ncm{\OprEvlTypeU}[2]{{#2}{#1}}               % 一元
+\ncm{\OprEvlTypeUtxt}[2]{{#2}~{#1}}           % 一元 文字形式
+\ncm{\OprEvlTypeUexp}[2]{{#2}^{#1}}           % 一元 指数形式
+\ncm{\OprEvlTypeBinfix}[3]{{#2}\mbin{#1}{#3}} % 二元 中缀形式
+% ----- 变量注册
+\RegistVarType{obj}BG{pink}Font{\sf}
+\RegistVarType{cat}BG{Rhodamine}Font{\sf}
+\RegistVarType{arr}BG{SpringGreen}Font{}
+\RegistVarType{fct}BG{YellowGreen}Font{}
+\RegistVarType{ntf}BG{LightBlue}Font{}
+
+% 测试
+{\ColorVarTypeobjfalse
+$\obj a$ , $\obj b$
+}, 
+$\obj c$ , $\obj d$ , 
+$\cat C$ \par
+$\arr f$ , $\fct F$ , $\ntf \eta$\par
+
+\ncm{\catAdd}[1][\cat C]{
+  \underset{\small\plr{#1}}
+  {\oplus}
+}
+
+\RegistOprBin{Add}Display{\catAdd}Eval{}
+
+$\Add<{\obj a}<{\obj b}[\cat C]$

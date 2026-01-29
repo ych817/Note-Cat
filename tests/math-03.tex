@@ -54,35 +54,35 @@
 \def\RegistOprBin#1#2{
   \expandafter\def\csname #1\endcsname{%
     \@ifnextchar<
-    {\csname #1@Q\endcsname}
+    {\csname #1@\endcsname}
     {#2}%
   }
-  \expandafter\def\csname #1@Q\endcsname<{%
+  \expandafter\def\csname #1@\endcsname<{%
     \@ifnextchar<%
-    {\csname #1@YopY\endcsname}
-    {\csname #1@YopX\endcsname}%
+    {\csname #1@YopY@\endcsname}
+    {\csname #1@YopX@\endcsname}%
   }
-  \expandafter\def\csname #1@YopX\endcsname##1{%
+  \expandafter\def\csname #1@YopX@\endcsname##1{%
     \@ifnextchar<%
     {\csname #1@YopX@YopY\endcsname{##1}}
     {\csname #1@YopX@NopY\endcsname{##1}}%
   }
-  \expandafter\def\csname #1@YopX@YopY\endcsname##1<##2{%
-    (##2~##1~#2)%
-  }
   \expandafter\def\csname #1@YopX@NopY\endcsname##1{%
     (##1~#2)%
   }
-  \expandafter\def\csname #1@YopY\endcsname<##1{%
+  \expandafter\def\csname #1@YopX@YopY\endcsname##1<##2{%
+    (##2~##1~#2)%
+  }
+  \expandafter\def\csname #1@YopY@\endcsname<##1{%
     \@ifnextchar<%
     {\csname #1@YopY@YopX\endcsname{##1}}
     {\csname #1@YopY@NopX\endcsname{##1}}%
   }
-  \expandafter\def\csname #1@YopY@YopX\endcsname##1<##2{%
-    (##1~##2~#2)%
-  }
   \expandafter\def\csname #1@YopY@NopX\endcsname##1{%
     (##1~\_~#2)% 
+  }
+  \expandafter\def\csname #1@YopY@YopX\endcsname##1<##2{%
+    (##1~##2~#2)%
   }
 }
 \makeatother
