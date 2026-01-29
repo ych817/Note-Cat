@@ -7,6 +7,7 @@
 \let\vph=\vphantom
 \let\mrel=\mathrel
 \let\mbin=\mathbin
+\let\mop=\mathop
 \let\mllap=\mathllap                 % 根据文本右侧对齐
 \let\mrlap=\mathrlap                 % 根据文本左侧对齐
 \let\mclap=\mathclap                 % 根据文本中央对齐
@@ -17,7 +18,7 @@
 \def\plr#1{\vph{(fg)}\smash{#1}}     % 柱子
 % ----- 
 \def\etc{\plr{\rm etc}}              % 省略号
-\def\occ{\plr{\_}}                   % 占位符
+\def\occ{\plr{\tt\_}}                % 占位符
 % ----- 变量注册模板 带高亮
 \def\RegistVarType#1BG#2Font#3{
   \colorlet{color#1}{#2}
@@ -35,7 +36,109 @@
   }
   \csname ColorVarType#1true\endcsname                    % 默认开启背景高亮
 }
-% ----- 操作符注册模板
+% ----- 二元操作符注册模板
+% \makeatletter
+% % 调用方式保持一致: \RegistOprBin{test}Disp{#2}Eval{#3}OccA{#4}OccB{#5}
+% \def\RegistOprBin#1Form#2Eval#3OccA#4OccB#5{%
+%   % 1. 扩充入口：支持可选参数 [opt]
+%   \expandafter\def\csname #1\endcsname{%
+%     \@ifnextchar[%
+%       {\csname #1@entry@opt\endcsname}%
+%       {\csname #1@entry@noopt\endcsname}%
+%   }
+%   % 捕获可选参数并将其存入局部符号宏 \...S
+%   \expandafter\def\csname #1@entry@opt\endcsname[##1]{%
+%     \expandafter\def\csname #1@S\endcsname{#2[##1]}%
+%     \csname #1@entry@check\endcsname
+%   }
+%   \expandafter\def\csname #1@entry@noopt\endcsname{%
+%     \expandafter\def\csname #1@S\endcsname{#2}%
+%     \csname #1@entry@check\endcsname
+%   }
+%   % 检查后续是否有参数开启状态机
+%   \expandafter\def\csname #1@entry@check\endcsname{%
+%     \@ifnextchar<{\csname #1@\endcsname}{\csname #1@S\endcsname}%
+%   }
+%   % 2. 状态机分流
+%   \expandafter\def\csname #1@\endcsname<{%
+%     \@ifnextchar<
+%     {\csname #1@YopY@\endcsname}
+%     {\csname #1@YopX@\endcsname}%
+%   }
+%   % ==========================================
+%   % 路径 1: YopX (参数 1 优先)
+%   % ==========================================
+%   \expandafter\def\csname #1@YopX@\endcsname##1{%
+%     \@ifnextchar p{\csname #1@YopX@Yp@\endcsname{##1}}{\csname #1@YopX@Np@\endcsname{##1}}%
+%   }
+%   % --- X无括号 ---
+%   \expandafter\def\csname #1@YopX@Np@\endcsname##1{%
+%     \@ifnextchar<{\csname #1@YopX@Np@YopY@\endcsname{##1}}{\csname #1@YopX@Np@NopY@\endcsname{##1}}%
+%   }
+%   \expandafter\def\csname #1@YopX@Np@NopY@\endcsname##1{%
+%     \@ifnextchar p{\csname #1@YopX@Np@NopY@Yp\endcsname{##1}}{\csname #1@YopX@Np@NopY@Np\endcsname{##1}}%
+%   }
+%   \expandafter\def\csname #1@YopX@Np@NopY@Np\endcsname##1{#3{\csname #1@S\endcsname}{##1}{#5}}
+%   \expandafter\def\csname #1@YopX@Np@NopY@Yp\endcsname##1p{\prs{#3{\csname #1@S\endcsname}{##1}{#5}}}
+%   \expandafter\def\csname #1@YopX@Np@YopY@\endcsname##1<##2{%
+%     \@ifnextchar p{\csname #1@YopX@Np@YopY@Yp\endcsname{##1}{##2}}{\csname #1@YopX@Np@YopY@Np\endcsname{##1}{##2}}%
+%   }
+%   \expandafter\def\csname #1@YopX@Np@YopY@Np\endcsname##1##2{#3{\csname #1@S\endcsname}{##1}{##2}}
+%   \expandafter\def\csname #1@YopX@Np@YopY@Yp\endcsname##1##2p{\prs{#3{\csname #1@S\endcsname}{##1}{##2}}}
+%   % --- X有括号 ---
+%   \expandafter\def\csname #1@YopX@Yp@\endcsname##1p{%
+%     \@ifnextchar<{\csname #1@YopX@Yp@YopY@\endcsname{##1}}{\csname #1@YopX@Yp@NopY@\endcsname{##1}}%
+%   }
+%   \expandafter\def\csname #1@YopX@Yp@NopY@\endcsname##1{%
+%     \@ifnextchar p{\csname #1@YopX@Yp@NopY@Yp\endcsname{##1}}{\csname #1@YopX@Yp@NopY@Np\endcsname{##1}}%
+%   }
+%   \expandafter\def\csname #1@YopX@Yp@NopY@Np\endcsname##1{\prs{#3{\csname #1@S\endcsname}{##1}{#5}}}
+%   \expandafter\def\csname #1@YopX@Yp@NopY@Yp\endcsname##1p{\prs{\prs{#3{\csname #1@S\endcsname}{##1}{#5}}}}
+  
+%   \expandafter\def\csname #1@YopX@Yp@YopY@\endcsname##1<##2{%
+%     \@ifnextchar p{\csname #1@YopX@Yp@YopY@Yp\endcsname{##1}{##2}}{\csname #1@YopX@Yp@YopY@Np\endcsname{##1}{##2}}%
+%   }
+%   \expandafter\def\csname #1@YopX@Yp@YopY@Np\endcsname##1##2{##2\prs{#3{\csname #1@S\endcsname}{##1}{#5}}}
+%   \expandafter\def\csname #1@YopX@Yp@YopY@Yp\endcsname##1##2p{\prs{##2\prs{#3{\csname #1@S\endcsname}{##1}{#5}}}}
+%   % ==========================================
+%   % 路径 2: YopY (参数 2 优先)
+%   % ==========================================
+%   \expandafter\def\csname #1@YopY@\endcsname<##1{%
+%     \@ifnextchar p{\csname #1@YopY@Yp@\endcsname{##1}}{\csname #1@YopY@Np@\endcsname{##1}}%
+%   }
+%   % --- Y无括号 ---
+%   \expandafter\def\csname #1@YopY@Np@\endcsname##1{%
+%     \@ifnextchar<{\csname #1@YopY@Np@YopX@\endcsname{##1}}{\csname #1@YopY@Np@NopX@\endcsname{##1}}%
+%   }
+%   \expandafter\def\csname #1@YopY@Np@NopX@\endcsname##1{%
+%     \@ifnextchar p{\csname #1@YopY@Np@NopX@Yp\endcsname{##1}}{\csname #1@YopY@Np@NopX@Np\endcsname{##1}}%
+%   }
+%   % 【修正重点】: 将占位符 #4 (OccA) 放在左操作数位置, ##1 (y) 放在右操作数位置
+%   \expandafter\def\csname #1@YopY@Np@NopX@Np\endcsname##1{#3{\csname #1@S\endcsname}{#4}{##1}}
+%   \expandafter\def\csname #1@YopY@Np@NopX@Yp\endcsname##1p{\prs{#3{\csname #1@S\endcsname}{#4}{##1}}}
+  
+%   \expandafter\def\csname #1@YopY@Np@YopX@\endcsname##1<##2{%
+%     \@ifnextchar p{\csname #1@YopY@Np@YopX@Yp\endcsname{##1}{##2}}{\csname #1@YopY@Np@YopX@Np\endcsname{##1}{##2}}%
+%   }
+%   \expandafter\def\csname #1@YopY@Np@YopX@Np\endcsname##1##2{#3{\csname #1@S\endcsname}{##2}{##1}}
+%   \expandafter\def\csname #1@YopY@Np@YopX@Yp\endcsname##1##2p{\prs{#3{\csname #1@S\endcsname}{##2}{##1}}}
+%   % --- Y有括号 ---
+%   \expandafter\def\csname #1@YopY@Yp@\endcsname##1p{%
+%     \@ifnextchar<{\csname #1@YopY@Yp@YopX@\endcsname{##1}}{\csname #1@YopY@Yp@NopX@\endcsname{##1}}%
+%   }
+%   \expandafter\def\csname #1@YopY@Yp@NopX@\endcsname##1{%
+%     \@ifnextchar p{\csname #1@YopY@Yp@NopX@Yp\endcsname{##1}}{\csname #1@YopY@Yp@NopX@Np\endcsname{##1}}%
+%   }
+%   % 【修正重点】: 同上，占位符在左
+%   \expandafter\def\csname #1@YopY@Yp@NopX@Np\endcsname##1{\prs{#3{\csname #1@S\endcsname}{#4}{##1}}}
+%   \expandafter\def\csname #1@YopY@Yp@NopX@Yp\endcsname##1p{\prs{\prs{#3{\csname #1@S\endcsname}{#4}{##1}}}}  
+%   \expandafter\def\csname #1@YopY@Yp@YopX@\endcsname##1<##2{%
+%     \@ifnextchar p{\csname #1@YopY@Yp@YopX@Yp\endcsname{##1}{##2}}{\csname #1@YopY@Yp@YopX@Np\endcsname{##1}{##2}}%
+%   }
+%   \expandafter\def\csname #1@YopY@Yp@YopX@Np\endcsname##1##2{##2\prs{#3{\csname #1@S\endcsname}{#4}{##1}}}
+%   \expandafter\def\csname #1@YopY@Yp@YopX@Yp\endcsname##1##2p{\prs{##2\prs{#3{\csname #1@S\endcsname}{#4}{##1}}}}
+% }
+% \makeatother
 \makeatletter
 \def\RegistOprBin#1Disp#2Eval#3OccA#4OccB#5{%
   \expandafter\def\csname #1\endcsname{%
@@ -138,14 +241,35 @@
   \expandafter\def\csname #1@YopY@Yp@YopX@Yp\endcsname##1##2p{\prs{##2\prs{#3{#2}\occ{##1}}}}
 }
 \makeatother
+% ----- 二元操作符求值模板
+\ncm{\OprBinEvlPo}[3]{\plr{{#3}{#2}\mop{#1}}}    % 二元 后缀形式
+\ncm{\OprBinEvlIn}[3]{\plr{{#2}\mbin{#1}{#3}}}   % 二元 中缀形式
+\ncm{\OprBinEvlInS}[3]{\plr{{}_{\plr{{#2}\mbin{#1}{}}}{#3}}}   % 二元 中缀形式
+% ----- 二元操作符形式模板（不包括 Hom 函子）
+\def\RegistOprBinFormA#1Disp#2Dflt#3{
+  \xpndaft\ncm\xpndaft{\csname#1\endcsname}[1][#3]{\plr{
+    \overset{\mclap{\small\plr{}}}{
+    \underset{\mclap{\small\plr{##1}}}
+    {\plr{#2}}}
+  }}
+}
 
-\ncm{\OprEvlTypeU}[2]{\plr{{#2}{#1}}}              % 一元
-\ncm{\OprEvlTypeUtx}[2]{\plr{{#2}~{#1}}}           % 一元 文字形式
-\ncm{\OprEvlTypeUxp}[2]{\plr{{#2}^{#1}}}           % 一元 指数形式
-\ncm{\OprEvlTypeBin}[3]{\plr{{#2}\mbin{#1}{#3}}}   % 二元 中缀形式
-\ncm{\OprEvlTypeBpo}[3]{\plr{{#3}{#2}{#1}}}        % 二元 后缀形式
+% ----- 注册变量
+\RegistVarType{obj}BG{pink}Font{\sf}
+\RegistVarType{cat}BG{Rhodamine}Font{\sf}
+\RegistVarType{arr}BG{SpringGreen}Font{}
+\RegistVarType{fct}BG{YellowGreen}Font{}
+\RegistVarType{ntf}BG{LightBlue}Font{}
+% ----- 注册二元运算形式
+\RegistOprBinFormA{catAddForm}Disp{+}Dflt{\cat C}
+\RegistOprBinFormA{catMulForm}Disp{\times}Dflt{\cat C}
+\ncm{\catHomForm}[1][\cat C]{\xrightarrow[\small\plr{#1}]{}}
+% ----- 注册二元运算
+\RegistOprBin{test}Form{{\rm Opr}}Eval{\OprBinEvlPo}OccA{\occ}OccB{}
+\RegistOprBin{catAdd}Form{\catAddForm}Eval{\OprBinEvlIn}OccA{\occ}OccB{\occ}
+\RegistOprBin{catMul}Form{\catMulForm}Eval{\OprBinEvlIn}OccA{\occ}OccB{\occ}
+\RegistOprBin{catHom}Form{\catHomForm}Eval{\OprBinEvlIn}OccA{\occ}OccB{\occ}
 
-\RegistOprBin{test}Disp{g}Eval{\OprEvlTypeBpo}OccA{\occ}OccB{}
 
 \begin{tblr}{
   colspec={Q[l]Q[r]},
@@ -192,13 +316,51 @@ $\test<<{y_u}p<{x_u}$
 $\test<<{y_u}p<{x_u}p$ 
 \\
 \end{tblr}
-
-% ----- 变量注册
-\RegistVarType{obj}BG{pink}Font{\sf}
-\RegistVarType{cat}BG{Rhodamine}Font{\sf}
-\RegistVarType{arr}BG{SpringGreen}Font{}
-\RegistVarType{fct}BG{YellowGreen}Font{}
-\RegistVarType{ntf}BG{LightBlue}Font{}
+\begin{tblr}{
+  colspec={Q[l]Q[r]},
+  hlines,vlines,
+  rows = {LightGray}
+}
+\codeinline{$\catAdd[\cat D]$} &
+$\catAdd[\cat D]$ 
+\\
+\codeinline{$\catAdd[\cat D]<{x_u}$} &
+$\catAdd[\cat D]<{x_u}$ 
+\\
+\codeinline{$\catAdd[\cat D]<{x_u}<{y_u}$} &
+$\catAdd[\cat D]<{x_u}<{y_u}$ 
+\\
+\codeinline{$\catAdd[\cat D]<{x_u}<{y_u}p$} &
+$\catAdd[\cat D]<{x_u}<{y_u}p$ 
+\\
+\codeinline{$\catAdd[\cat D]<{x_u}p$} &
+$\catAdd[\cat D]<{x_u}p$
+\\
+\codeinline{$\catAdd[\cat D]<{x_u}p<{y_u}$} &
+$\catAdd[\cat D]<{x_u}p<{y_u}$
+\\
+\codeinline{$\catAdd[\cat D]<{x_u}p<{y_u}p$} &
+$\catAdd[\cat D]<{x_u}p<{y_u}p$
+\\
+\codeinline{$\catAdd[\cat D]<<{y_u}$} &
+$\catAdd[\cat D]<<{y_u}$ 
+\\
+\codeinline{$\catAdd[\cat D]<<{y_u}<{x_u}$} &
+$\catAdd[\cat D]<<{y_u}<{x_u}$ 
+\\
+\codeinline{$\catAdd[\cat D]<<{y_u}<{x_u}p$} &
+$\catAdd[\cat D]<<{y_u}<{x_u}p$ 
+\\
+\codeinline{$\catAdd[\cat D]<<{y_u}p$} &
+$\catAdd[\cat D]<<{y_u}p$ 
+\\
+\codeinline{$\catAdd[\cat D]<<{y_u}p<{x_u}$} &
+$\catAdd[\cat D]<<{y_u}p<{x_u}$ 
+\\
+\codeinline{$\catAdd[\cat D]<<{y_u}p<{x_u}p$} &
+$\catAdd[\cat D]<<{y_u}p<{x_u}p$ 
+\\
+\end{tblr}
 
 % 测试
 {\ColorVarTypeobjfalse
@@ -208,11 +370,4 @@ $\obj c$ , $\obj d$ ,
 $\cat C$ \par
 $\arr f$ , $\fct F$ , $\ntf \eta$\par
 
-\ncm{\catAdd}[1][\cat C]{
-  \underset{\small\plr{#1}}
-  {\plr{\oplus}}
-}
-
-\RegistOprBin{Add}Disp{\catAdd}Eval{\OprEvlTypeBin}OccA{\occ}OccB{\occ}
-
-$\Add<{\obj a}<{\obj b}[\cat{Cat}]$
+% $\Add[\cat{Cat}]<{\obj a}<{\obj b}$
