@@ -3,9 +3,11 @@
 \let\rcm=\renewcommand
 % ----- 排版相关
 \newcommand{\cfbox}[2][blue]{%
+  \setlength{\fboxsep}{0pt}%
+  \setlength{\fboxrule}{0.4pt}%
   \colorlet{currentcolor}{.}%
   {\color{#1}%
-  \fbox{\color{currentcolor}#2}}%
+  \fbox{\color{currentcolor}\ensuremath{#2}}}%
 }
 \let\ph=\phantom
 \let\hph=\hphantom
@@ -80,8 +82,8 @@
     {\csname #1@YopX@Np@YopY@Yp\endcsname{##1}{##2}}% 
     {\csname #1@YopX@Np@YopY@Np\endcsname{##1}{##2}}%
   }
-  \xpndaft\def\csname #1@YopX@Np@YopY@Np\endcsname##1##2{#3{\cache}{##1}{##2}}
-  \xpndaft\def\csname #1@YopX@Np@YopY@Yp\endcsname##1##2p{\prs{#3{\cache}{##1}{##2}}}
+  \xpndaft\def\csname #1@YopX@Np@YopY@Np\endcsname##1##2{\cfbox{#3{\cache}{##1}{##2}}}
+  \xpndaft\def\csname #1@YopX@Np@YopY@Yp\endcsname##1##2p{\cfbox{\prs{#3{\cache}{##1}{##2}}}}
   \xpndaft\def\csname #1@YopX@Yp@\endcsname##1p{%
     \@ifnextchar<
     {\csname #1@YopX@Yp@YopY@\endcsname{##1}}%
@@ -133,6 +135,8 @@
 \ncm{\OprBinEvlPo}[3]{\plr{{#3}{#2}\mop{#1}}}                  % 二元 后缀形式
 \ncm{\OprBinEvlIn}[3]{\plr{{#2}\mbin{#1}{#3}}}                 % 二元 中缀形式
 \ncm{\OprBinEvlInS}[3]{\plr{{}_{\plr{{#2}\mbin{#1}{}}}{#3}}}   % 二元 中缀形式
+\ncm{\OprUniEvlPo}[2]{\plr{{#2}\mop{#1}}}                      % 一元 后缀形式
+\ncm{\OprUniEvlPr}[2]{\plr{\mop{#1}{#2}}}                      % 一元 前缀形式
 % ----- 二元操作符形式模板（不包括 Hom 函子）
 \def\RegistOprBinFormA#1Disp#2Dflt#3{
   \xpndaft\ncm\xpndaft{\csname#1\endcsname}[1][#3]{\plr{
