@@ -2,6 +2,11 @@
 \let\ncm=\newcommand
 \let\rcm=\renewcommand
 % ----- 排版相关
+\newcommand{\cfbox}[2][blue]{%
+  \colorlet{currentcolor}{.}%
+  {\color{#1}%
+  \fbox{\color{currentcolor}#2}}%
+}
 \let\ph=\phantom
 \let\hph=\hphantom
 \let\vph=\vphantom
