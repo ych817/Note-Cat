@@ -1,0 +1,97 @@
+\let\xpndaft=\expandafter
+\let\ncm=\newcommand
+\let\rcm=\renewcommand
+% ----- 排版相关
+\newcommand{\cfbox}[2][blue]{%
+  \setlength{\fboxsep}{0pt}%
+  \setlength{\fboxrule}{0.4pt}%
+  \colorlet{currentcolor}{.}%
+  {\color{#1}%
+  \fbox{\color{currentcolor}\ensuremath{#2}}}%
+}
+\let\ph=\phantom
+\let\hph=\hphantom
+\let\vph=\vphantom
+\let\mrel=\mathrel
+\let\mbin=\mathbin
+\let\mop=\mathop
+\let\mllap=\mathllap                 % 根据文本右侧对齐
+\let\mrlap=\mathrlap                 % 根据文本左侧对齐
+\let\mclap=\mathclap                 % 根据文本中央对齐
+\def\vts#1{\lvert#1\rvert}
+\def\prs#1{\left(#1\right)}
+\def\bcs#1{\left\{#1\right\}}
+\def\bks#1{\left[#1\right]}
+\def\plr#1{\vph{(fg)}\smash{#1}}     % 柱子
+\def\etc{\plr{\rm etc}}              % 省略号
+\def\occ{\plr{\tt\_}}                % 占位符
+% ----- 变量注册模板 带高亮
+\def\gobble#1{}                      % 吞掉参数
+\makeatletter
+\def\RegistVarType#1BG#2Font#3{
+  \colorlet{color#1}{#2}
+  \xpndaft\newif\csname ifColorVarType#1\endcsname    % 确认是否开启背景高亮
+  \xpndaft\def\csname #1\endcsname##1{%
+    \setlength{\fboxsep}{0pt}%
+    \setlength{\fboxrule}{0pt}%
+    \let\RegistVarTypeCache=\relax
+    \csname ifColorVarType#1\endcsname{%
+      \gdef\RegistVarTypeCache{\colorbox{color#1}}%
+    }\else{%
+      \gdef\RegistVarTypeCache{\fbox}%
+    }\fi%
+    \RegistVarTypeCache{\ensuremath{\plr{#3 ##1}}}%
+  }
+  \csname ColorVarType#1true\endcsname                    % 默认开启背景高亮
+}
+\makeatletter
+\def\RegistVarFreqType#1Disp#2{%
+  \xpndaft\def\csname #1#2\endcsname{%
+    \csname #1#2@pCheck\endcsname{\plr{}}%
+  }
+  \xpndaft\def\csname #1#2n\endcsname##1{%
+    \csname #1#2@pCheck\endcsname{##1}%
+  }
+  % \xpndaft\def\csname #1#2@Nn\endcsname{%
+  %   \csname #1#2@pCheck\endcsname{}%
+  % }
+  % \xpndaft\def\csname #1#2@Yn\endcsname n##1{%
+  %   \csname #1#2@pCheck\endcsname{_{##1}}%
+  % }
+  \xpndaft\def\csname #1#2@pCheck\endcsname##1{%
+    \@ifnextchar p%
+    {\csname #1#2@pLoop\endcsname{##1}{}}% ##1=下标, {}=撇号累积
+    {\csname #1\endcsname{#2_{##1}^{}}}% 无撇号，直接输出 \obj{c_{sub}}
+  }
+  \xpndaft\def\csname #1#2@pLoop\endcsname##1##2p{%
+    \@ifnextchar p%
+    {\csname #1#2@pLoop\endcsname{##1}{##2'}}% 后面还有 p，继续累积撇号
+    {\csname #1\endcsname{#2_{##1}##2'}}% 后面没了，输出最终结果
+  }
+}
+\makeatother
+
+\RegistVarType{obj}BG{pink}Font{\sf}
+\RegistVarType{cat}BG{Rhodamine}Font{\sf}
+\RegistVarType{arr}BG{SpringGreen}Font{}
+\RegistVarType{fct}BG{YellowGreen}Font{}
+\RegistVarType{ntf}BG{LightBlue}Font{}
+
+\RegistVarFreqType{obj}Disp{c}
+\RegistVarFreqType{arr}Disp{f}
+\RegistVarFreqType{ntf}Disp{η}
+\RegistVarFreqType{fct}Disp{F}
+
+$\objc pp$ ,
+$\objcn2p$ , 
+$\objcn{30}ppppp pp\relax p$ ,
+$\arrfn1$
+$\arrfn2p$
+
+% 测试
+{\ColorVarTypeobjfalse
+$\obj a$ , $\obj b$
+}, 
+$\obj c$ , $\obj d$ , 
+$\cat C$ \par
+$\arr f$ , $\fct F$ , $\ntf \eta$\par
