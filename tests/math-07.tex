@@ -50,24 +50,29 @@
     \csname #1#2@pCheck\endcsname{\plr{}}%
   }
   \xpndaft\def\csname #1#2n\endcsname##1{%
-    \csname #1#2@pCheck\endcsname{##1}%
+    \csname #1#2@pCheck\endcsname{\vph{fg}##1}%
   }
-  % \xpndaft\def\csname #1#2@Nn\endcsname{%
-  %   \csname #1#2@pCheck\endcsname{}%
-  % }
-  % \xpndaft\def\csname #1#2@Yn\endcsname n##1{%
-  %   \csname #1#2@pCheck\endcsname{_{##1}}%
-  % }
   \xpndaft\def\csname #1#2@pCheck\endcsname##1{%
     \@ifnextchar p%
-    {\csname #1#2@pLoop\endcsname{##1}{}}% ##1=下标, {}=撇号累积
+    {\csname #1#2@pLoop\endcsname{##1}{}{}}% ##1=下标, {}=撇号累积, {}=p累积
     {\csname #1\endcsname{#2_{##1}^{}}}% 无撇号，直接输出 \obj{c_{sub}}
   }
-  \xpndaft\def\csname #1#2@pLoop\endcsname##1##2p{%
+  \xpndaft\def\csname #1#2@pLoop\endcsname##1##2##3p{%
     \@ifnextchar p%
-    {\csname #1#2@pLoop\endcsname{##1}{##2'}}% 后面还有 p，继续累积撇号
-    {\csname #1\endcsname{#2_{##1}##2'}}% 后面没了，输出最终结果
+    {\csname #1#2@pLoop\endcsname{##1}{##2'}{##3p}}% 后面还有 p，继续累积撇号
+    {\csname #1\endcsname{#2_{##1}##2'}            % 后面没了，输出最终结果
+      \def\RegistVarFreqType@temp{##3p}
+      \xpndaft\xpndaft\xpndaft\gdef\xpndaft\csname \xpndaft#1\xpndaft#2\RegistVarFreqType@temp\endcsname{
+        \csname #1\endcsname{#2_{##1}##2'}
+      }
+    }
   }
+  % \xpndaft\def\csname #1#2p\endcsname{%
+  %   \csname #1#2\endcsname p%
+  % }
+  % \xpndaft\def\csname #1#2pp\endcsname{%
+  %   \csname #1#2\endcsname pp%
+  % }
 }
 \makeatother
 
@@ -82,9 +87,11 @@
 \RegistVarFreqType{ntf}Disp{η}
 \RegistVarFreqType{fct}Disp{F}
 
-$\objc pp$ ,
+$\objc pp$ , $\objc ppp$ , $\objc ppppp$ , 
+$\objcpp$ , $\objcppp$ , $\objcppppp$
+$\objcn pp$
 $\objcn2p$ , 
-$\objcn{30}ppppp pp\relax p$ ,
+$\cfbox{\objcn{30}ppppp pp}$ ,
 $\arrfn1$
 $\arrfn2p$
 
