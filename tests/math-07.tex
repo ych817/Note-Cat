@@ -42,10 +42,10 @@
     }\fi%
     \RegistVarTypeCache{\ensuremath{\plr{#3 ##1}}}%
   }
-  \csname ColorVarType#1true\endcsname                    % 默认开启背景高亮
+  \csname ColorVarType#1true\endcsname                % 默认开启背景高亮
 }
 \makeatletter
-\def\RegistVarFreqType#1Disp#2{%
+\def\RegistVarFreqTXType#1Disp#2{%
   \xpndaft\def\csname #1#2\endcsname{%
     \csname #1\endcsname{{#2}^{}}%
   }
@@ -53,20 +53,41 @@
     \csname #1\endcsname{{#2}_{##1}^{}}%
   }
   \@ifnextchar p
-  {\RegistVarFreqType@Loop{#1}{#2}{p}{'}} 
+  {\RegistVarFreqType@Loop{#1}{#2}{p}{'}{#2}} 
   {\relax}
 }
-\def\RegistVarFreqType@Loop#1#2#3#4p{% 
-  \xpndaft\def\csname #1#2#3\endcsname{%
-      \csname #1\endcsname{{#2}{#4}}%
+\def\RegistVarFreqCSType#1Disp#2{%
+  \edef\RegistVarFreqType@Cache{%
+    \xpndaft\gobble\string#2%
   }
-  \xpndaft\def\csname #1#2#3n\endcsname##1{%
-    \csname #1\endcsname{{#2}_{##1}{#4}}%
+  \xpndaft\xpndaft\xpndaft\def\xpndaft\csname\xpndaft #1\RegistVarFreqType@Cache\endcsname{%
+    \csname #1\endcsname{{#2}^{}}%
+  }
+  \xpndaft\xpndaft\xpndaft\def\xpndaft\csname\xpndaft #1\RegistVarFreqType@Cache n\endcsname##1{%
+    \csname #1\endcsname{{#2}_{##1}^{}}%
+  }
+  \@ifnextchar p
+  {\RegistVarFreqType@Loop{#1}{#2}{p}{'}{\RegistVarFreqType@Cache}}
+  {\relax}
+}
+\def\RegistVarFreqType@Loop#1#2#3#4#5p{% 
+  \xpndaft\def\csname #1#5#3\endcsname{%
+      \csname #1\endcsname{{#2}#4}%
+  }
+  \xpndaft\def\csname #1#5#3n\endcsname##1{%
+    \csname #1\endcsname{{#2}#4_{##1}}%
   } 
   \@ifnextchar p
-  {\RegistVarFreqType@Loop{#1}{#2}{#3p}{#4'}} 
+  {\RegistVarFreqType@Loop{#1}{#2}{#3p}{#4'}{#5}} 
   {\relax}   
 }
+% \def\RegistOprTypeA#1Disp#2Dflt#3{
+%   \xpndaft\newcommand\xpndaft{\csname #1\endcsname}[1][#3]{\plr{
+%     \underset{##1}{
+%     \overset{}
+%     {\plr{#2}}}
+%   }}
+% }
 \makeatother
 
 \RegistVarType{obj}BG{pink}Font{\sf}
@@ -75,22 +96,16 @@
 \RegistVarType{fct}BG{YellowGreen}Font{}
 \RegistVarType{ntf}BG{LightBlue}Font{}
 
-\RegistVarFreqType{obj}Disp{c}ppppp
-\RegistVarFreqType{arr}Disp{f}ppppp
-\RegistVarFreqType{ntf}Disp{η}ppppp
-\RegistVarFreqType{fct}Disp{F}ppppp
+\RegistVarFreqTXType{obj}Disp{c}ppppp
+\RegistVarFreqTXType{arr}Disp{f}ppppp
+\RegistVarFreqCSType{ntf}Disp{\eta}ppppp
+\RegistVarFreqTXType{cat}Disp{C}ppppp
+\RegistVarFreqTXType{cat}Disp{D}ppppp
+\RegistVarFreqTXType{fct}Disp{F}ppppp
+\RegistVarFreqTXType{fct}Disp{G}ppppp
 
-$\objc$ , $\objcpp$ , $\objcppp$ , $\objcppppp$
-$\objcppn1$
-$\objcpn2$\\
+$\objc$ , $\objcpp$ , $\objcppp$ , $\objcppppp$ , $\objcppn1$ , $\objcpn2$\\
 $\arrf$ , $\arrfp$ , $\arrfn1$ , $\arrfpn2$\\
-$\fctF$ , $\fctFn1$ , 
-
-
-% 测试
-{\ColorVarTypeobjfalse
-$\obj a$ , $\obj b$
-}, 
-$\obj c$ , $\obj d$ , 
-$\cat C$ \par
-$\arr f$ , $\fct F$ , $\ntf \eta$\par
+$\ntfeta$ , $\ntfetap$ , $\ntfetan1$ , $\ntfetapn1$ \\
+$\catC$ , $\catCp$ , $\catCn1$ , $\catCppn2$ \\
+$\fctF$ , $\fctFn1$ , \\
