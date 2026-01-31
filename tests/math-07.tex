@@ -47,32 +47,25 @@
 \makeatletter
 \def\RegistVarFreqType#1Disp#2{%
   \xpndaft\def\csname #1#2\endcsname{%
-    \csname #1#2@pCheck\endcsname{\plr{}}%
+    \csname #1\endcsname{{#2}^{}}%
   }
   \xpndaft\def\csname #1#2n\endcsname##1{%
-    \csname #1#2@pCheck\endcsname{\vph{fg}##1}%
+    \csname #1\endcsname{{#2}_{##1}^{}}%
   }
-  \xpndaft\def\csname #1#2@pCheck\endcsname##1{%
-    \@ifnextchar p%
-    {\csname #1#2@pLoop\endcsname{##1}{}{}}% ##1=下标, {}=撇号累积, {}=p累积
-    {\csname #1\endcsname{#2_{##1}^{}}}% 无撇号，直接输出 \obj{c_{sub}}
+  \@ifnextchar p
+  {\RegistVarFreqType@Loop{#1}{#2}{p}{'}} 
+  {\relax}
+}
+\def\RegistVarFreqType@Loop#1#2#3#4p{% 
+  \xpndaft\def\csname #1#2#3\endcsname{%
+      \csname #1\endcsname{{#2}{#4}}%
   }
-  \xpndaft\def\csname #1#2@pLoop\endcsname##1##2##3p{%
-    \@ifnextchar p%
-    {\csname #1#2@pLoop\endcsname{##1}{##2'}{##3p}}% 后面还有 p，继续累积撇号
-    {\csname #1\endcsname{#2_{##1}##2'}            % 后面没了，输出最终结果
-      \def\RegistVarFreqType@temp{##3p}
-      \xpndaft\xpndaft\xpndaft\gdef\xpndaft\csname \xpndaft#1\xpndaft#2\RegistVarFreqType@temp\endcsname{
-        \csname #1\endcsname{#2_{##1}##2'}
-      }
-    }
-  }
-  % \xpndaft\def\csname #1#2p\endcsname{%
-  %   \csname #1#2\endcsname p%
-  % }
-  % \xpndaft\def\csname #1#2pp\endcsname{%
-  %   \csname #1#2\endcsname pp%
-  % }
+  \xpndaft\def\csname #1#2#3n\endcsname##1{%
+    \csname #1\endcsname{{#2}_{##1}{#4}}%
+  } 
+  \@ifnextchar p
+  {\RegistVarFreqType@Loop{#1}{#2}{#3p}{#4'}} 
+  {\relax}   
 }
 \makeatother
 
@@ -82,18 +75,17 @@
 \RegistVarType{fct}BG{YellowGreen}Font{}
 \RegistVarType{ntf}BG{LightBlue}Font{}
 
-\RegistVarFreqType{obj}Disp{c}
-\RegistVarFreqType{arr}Disp{f}
-\RegistVarFreqType{ntf}Disp{η}
-\RegistVarFreqType{fct}Disp{F}
+\RegistVarFreqType{obj}Disp{c}ppppp
+\RegistVarFreqType{arr}Disp{f}ppppp
+\RegistVarFreqType{ntf}Disp{η}ppppp
+\RegistVarFreqType{fct}Disp{F}ppppp
 
-$\objc pp$ , $\objc ppp$ , $\objc ppppp$ , 
-$\objcpp$ , $\objcppp$ , $\objcppppp$
-$\objcn pp$
-$\objcn2p$ , 
-$\cfbox{\objcn{30}ppppp pp}$ ,
-$\arrfn1$
-$\arrfn2p$
+$\objc$ , $\objcpp$ , $\objcppp$ , $\objcppppp$
+$\objcppn1$
+$\objcpn2$\\
+$\arrf$ , $\arrfp$ , $\arrfn1$ , $\arrfpn2$\\
+$\fctF$ , $\fctFn1$ , 
+
 
 % 测试
 {\ColorVarTypeobjfalse
