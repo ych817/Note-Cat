@@ -1,0 +1,36 @@
+\usepgfmodule{oo}
+
+\pgfooclass{stamp}{
+  % This is the class stamp
+
+  \method stamp() { % The constructor
+  }
+
+  \method apply(#1,#2) { % Causes the stamp to be shown at coordinate (#1,#2)
+    % Draw the stamp:
+    \node [rotate=20,font=\huge] at (#1,#2) {Passed};
+  }
+}
+
+\pgfoonew \mystamp=new stamp()
+
+\begin{tikzpicture}
+  \mystamp.apply(1,2)
+  \mystamp.apply(3,4)
+\end{tikzpicture}
+
+\pgfooclass{mathobj}{
+  \attribute form LaTeX ;
+  \attribute form Verb  ;
+  \attribute type       ;
+  \method mathobj(#1) {%
+    \pgfooset{form LaTeX}{\ensuremath{#1}}%
+  }
+  \method print LaTeX() {%
+    \pgfoovalueof{form LaTeX}%
+  }
+}
+
+\pgfoonew\mymathobj=new mathobj(x^2)
+
+\mymathobj.print LaTeX()

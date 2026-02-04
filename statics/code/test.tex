@@ -1,0 +1,9 @@
+\pgfdeclarefunctionalshading{sphere}
+{\pgfpoint{-25bp}{-25bp}}
+{\pgfpoint{+25bp}{+25bp}}{}{
+25 div exch  25 div exch 2 copy dup mul exch dup mul add 1.0 sub
+0.3 dup mul -0.5 dup mul add 1.0 sub mul abs sqrt
+exch 0.3 mul add exch -0.5 mul add dup abs add 2.0 div 
+0.6 mul 0.4 add dup 0.4
+}
+\scalebox{0.5}{\tikz{\shade[shading=sphere] (0,0) circle [radius=5cm];}}

@@ -1,7 +1,11 @@
 % 中文支持
 \usepackage[
-    10pt%,fontset=fandol
+  10pt,
+  % fontset=fandol,
 ]{ctex}                   % 中文支持
+% 字体相关
+\usepackage{pifont}       % 带圈字体
+\usepackage{fontspec}			% 字体选择
 % 编程相关
 \usepackage{etoolbox}     % 打补丁专用
 \usepackage{calc}         % 计算用
@@ -24,30 +28,35 @@
 \usepackage{amsmath}      % 数学排版命令
 \usepackage{amssymb}      % 数学符号
 \usepackage{amsfonts}     % 数学字体 , 如 \mathbf \mathsf \mathit
-\usepackage{mathrsfs}     % 数学花体 , 如 \mathscr
+\usepackage[
+  scr=boondox,  % heavily sloped
+  cal=esstix    % slightly sloped
+]{mathalpha}              % 数学字体
+% \usepackage{mathrsfs}     % 数学花体 , 如 \mathscr
 \usepackage{mathtools}    % 数学工具 , 如 \overbracket
 \usepackage{delarray}     % 数学表格 , 允许在写矩阵的时候不用写 \left(\right) 之类的命令
 \usepackage{cancel}       % 删除线   , 如 \cancel
 \usepackage{bm}           % 数学粗体
+\usepackage{stackengine}  % 数学堆叠
 % 颜色控制
 \usepackage[
 	dvipsnames,
 	svgnames,
-    table                   % 允许为单元格染色
+  table                   % 允许为单元格染色
 ]{xcolor}                 % 颜色扩展
-% \usepackage{luacolor}
 % 代码排版
 \usepackage{minted}	      % 代码高亮
 % 盒子相关
 \usepackage[
-    all
+  all
 ]{tcolorbox}              % 盒子样式定制
 \usepackage[
-    export
+  export
 ]{adjustbox}              % 盒子缩放
 % \usepackage{soulpos}      % 下划线 / 高亮相关
 \usepackage{relsize}      % 控制相对字号
 % 表格相关
 \usepackage{tabularray}   
 % 绘图相关
-\usepackage{luamplib}     % 绘图工具
+% \usepackage{asypictureB}  % asymptote 相关
+% 文字相关

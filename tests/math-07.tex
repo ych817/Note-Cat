@@ -1,0 +1,182 @@
+% ----- 注册变量类型
+\RegistVarType{obj}BG{pink}Font{\sf}
+\RegistVarType{cat}BG{Rhodamine}Font{\sf}
+\RegistVarType{arr}BG{SpringGreen}Font{}
+\RegistVarType{fct}BG{YellowGreen}Font{}
+\RegistVarType{ntf}BG{LightBlue}Font{}
+% ----- 注册常用变量
+\RegistVarFreqType{obj}Name{c}ppppp
+\RegistVarFreqType{obj}Name{init}Disp{0}ppppp
+\RegistVarFreqType{obj}Name{term}Disp{1}ppppp
+\RegistVarFreqType{arr}Name{f}ppppp
+\RegistVarFreqType{cat}Name{C}ppppp
+\RegistVarFreqType{cat}Name{D}ppppp
+\RegistVarFreqType{cat}Name{I}ppppp
+\RegistVarFreqType{fct}Name{F}ppppp
+\RegistVarFreqType{fct}Name{G}ppppp
+\RegistVarFreqType{ntf}Name{eta}Disp{\eta}ppppp
+% ----- 注册常量
+\RegistVarFreqType{cat}Name{Cat}Disp{Cat}
+\RegistVarFreqType{cat}Name{Set}Disp{Set}
+\RegistVarFreqType{cat}Name{Uni}Disp{\text{\ding{192}}}
+\RegistVarFreqType{cat}Name{Bin}Disp{\text{\ding{193}}}
+\RegistVarFreqType{cat}Name{Tri}Disp{\text{\ding{194}}}
+% ----- 注册常量（运算符）
+\RegistOprFormTypeAName{objget}Disp{{\rm Obj}}Dflt{\catCat}
+\RegistOprFormTypeAName{arrget}Disp{{\rm Arr}}Dflt{\catCat}
+\RegistOprFormTypeBName{Homo}Dflt{\catC}                                % hom函子
+\RegistOprFormTypeBName{Expo}Dflt{\catC}                                %  ^ 函子
+\RegistOprFormTypeAName{Mult}Disp{\times}Dflt{\catC}                    %  × 函子
+\RegistOprFormTypeAName{Addt}Disp{+}Dflt{\catC}                         %  + 函子
+\RegistOprFormTypeAName{Diag}Disp{{\rm Di}}Dflt{\catC,\catI}            % 对角函子
+\RegistOprFormTypeAName{srcget}Disp{{\rm src}}Dflt{\catC}               % 箭头源头
+\RegistOprFormTypeAName{target}Disp{{\rm tar}}Dflt{\catC}               % 箭头目标
+\RegistOprFormTypeDName{iden}Disp{{\rm id}}Dflt{\objc}                  % 恒等箭头
+\RegistOprFormTypeDName{bang}Disp{\text{!}}Dflt{\objc}                  % bang箭头
+\RegistOprFormTypeDName{absd}Disp{\text{\textexclamdown}}Dflt{\objc}    % absurd箭头
+\RegistOprFormTypeAName{Yone}Disp{\text{よ}}Dflt{\catC}                 % 米田嵌入
+\RegistOprFormTypeAName{Yoda}Disp{\text{\small 尤}}Dflt{\catC}          % 尤达嵌入
+% ----- 注册求值方式
+% \RegistOprEvalTypeU{}Form{objget}
+% \RegistOprEvalTypeU{}Form{arrget}
+% \RegistOprEvalTypeU{}Form{srcget}
+% \RegistOprEvalTypeU{}Form{target}
+% \RegistOprEvalTypeU{}Form{Yone}
+% \RegistOprEvalTypeU{}Form{Yoda}
+\RegistOprEvalTypeB{in}Form{Homo}
+\RegistOprEvalTypeB{inx}Form{Expo}
+% \RegistOprEvalTypeB{in}Form{Mult}
+% \RegistOprEvalTypeB{in}Form{Addt}
+% \RegistOprEvalTypeB{in}Form{Diag}
+% \RegistOprEvalTypeU{n}Form{ntfeta}
+% 
+\begin{multicols*}{2}
+
+$\objc$ , $\objcpp$ , $\objcppp$ , $\objcppppp$ , $\objcppn1$ , $\objcpn2$ , $\objinit$ , $\objterm$\\
+$\arrf$ , $\arrfp$ , $\arrfn1$ , $\arrfpn2$ , \\
+$\ntfeta$ , $\ntfetap$ , $\ntfetan1$ , $\ntfetapn1$ , \\
+$\catC$ , $\catCp$ , $\catCn1$ , $\catCppn2$ , $\catUni$ , $\catBin$ , $\catTri$\\
+$\fctF$ , $\fctFn1$\ , $\fctG$ , $\fctGpn2$ \\
+$\Yone$ , $\Yoda$
+
+$\Addt[\catD]$ , 
+$\Mult[\catD]$ , 
+$\Homo$ , 
+$\objget[\catD]$ , 
+$\arrget[\catD]$ , 
+$\Diag$ ,
+$\Diag[\catD,\catUni]$ , 
+$\srcget$ , $\target$ ,
+$\bang$ , $\bang[\objcpp]$ , $\absd$ , $\iden[\objcpn1]$
+
+\vspace{10pt}
+
+% $\evobjget$ , $\evobjget.{\catD}$ , $\evobjget[\catCat].{\catD}p$ \\
+% $\evobjget$ , $\evarrget.{\catD}$ , $\evarrget[\catCat].{\catD}p$ \\
+% $\evntfeta$ , $\evntfeta.{\objcn1}$ 
+
+\vspace{10pt}
+
+$\evBpo\arrf{\objcn1}{\objcn2}$    , $\evBpop\arrf{\objcn1}{\objcn2}$    \\
+$\evBpoA\arrf{\objcn1}$            ,                                     \\
+$\evBpoAp\arrf{\objcn1}$           ,                                     \\
+$\evBpoBp\arrf{\objcn2}$           ,                                     \\
+$\evBpoAB\arrf{\objcn1}{\objcn2}$  , $\evBpoABp\arrf{\objcn1}{\objcn2}$  \\
+$\evBpoApB\arrf{\objcn1}{\objcn2}$ , $\evBpoApBp\arrf{\objcn1}{\objcn2}$ \\
+$\evBpoBpA\arrf{\objcn2}{\objcn1}$ , $\evBpoBpAp\arrf{\objcn1}{\objcn2}$
+
+$\evHomo[{\evHomo[\catCat]<{\catC}.{\catD}}]<{\fctF}.{\fctG}$
+
+\vfill\null\columnbreak
+
+$\evHomo[\catC]$ , \\
+$\evHomo[\catC].{\objcn1}.{\objcn2}$ , $\evHomo[\catC].{\objcn1}.{\objcn2}p$   \\
+$\evHomo[\catC]<{\objcn1}.{\objcn2}$ , $\evHomo[\catC]<{\objcn1}.{\objcn2}p$   \\
+$\evHomo[\catC]<{\objcn1}p$ ,                                                  \\
+$\evHomo[\catC]<{\objcn1}p.{\objcn2}$ , $\evHomo[\catC]<{\objcn1}p.{\objcn2}p$ \\
+$\evHomo[\catC]>{\objcn2}.{\objcn1}$ , $\evHomo[\catC]>{\objcn2}.{\objcn1}p$   \\
+$\evHomo[\catC]>{\objcn2}p$ ,                                                  \\
+$\evHomo[\catC]>{\objcn2}p.{\objcn1}$ , $\evHomo[\catC]>{\objcn2}p.{\objcn1}p$ \\
+
+$\evExpo[\catC]$ , \\
+$\evExpo[\catC].{\objcn1}.{\objcn2}$ , $\evExpo[\catC].{\objcn1}.{\objcn2}p$   \\
+$\evExpo[\catC]<{\objcn1}.{\objcn2}$ , $\evExpo[\catC]<{\objcn1}.{\objcn2}p$   \\
+$\evExpo[\catC]<{\objcn1}p$ ,                                                  \\
+$\evExpo[\catC]<{\objcn1}p.{\objcn2}$ , $\evExpo[\catC]<{\objcn1}p.{\objcn2}p$ \\
+$\evExpo[\catC]>{\objcn2}.{\objcn1}$ , $\evExpo[\catC]>{\objcn2}.{\objcn1}p$   \\
+$\evExpo[\catC]>{\objcn2}p$ ,                                                  \\
+$\evExpo[\catC]>{\objcn2}p.{\objcn1}$ , $\evExpo[\catC]>{\objcn2}p.{\objcn1}p$ 
+
+\end{multicols*}
+
+\newpage
+
+\begin{multicols*}{2}
+
+\begin{tblr}{
+  colspec={Q[l]Q[r]},
+  hlines,vlines,
+  rows = {LightGray}
+}
+\tcblst{$\evHomo[\catC]$}                      &
+$\evHomo[\catC]$                                  \\
+\tcblst{$\evHomo[\catC].{\objcn1}.{\objcn2}$}  &
+$\evHomo[\catC].{\objcn1}.{\objcn2}$              \\
+\tcblst{$\evHomo[\catC].{\objcn1}.{\objcn2}p$} &
+$\evHomo[\catC].{\objcn1}.{\objcn2}p$             \\
+\tcblst{$\evHomo[\catC]<{\objcn1}.{\objcn2}$}  &
+$\evHomo[\catC]<{\objcn1}.{\objcn2}$              \\
+\tcblst{$\evHomo[\catC]<{\objcn1}.{\objcn2}p$} &
+$\evHomo[\catC]<{\objcn1}.{\objcn2}p$             \\
+\tcblst{$\evHomo[\catC]<{\objcn1}p$}           &
+$\evHomo[\catC]<{\objcn1}p$                       \\
+\tcblst{$\evHomo[\catC]<{\objcn1}p.{\objcn2}$} &
+$\evHomo[\catC]<{\objcn1}p.{\objcn2}$             \\
+\tcblst{$\evHomo[\catC]<{\objcn1}p.{\objcn2}p$}&
+$\evHomo[\catC]<{\objcn1}p.{\objcn2}p$            \\
+\tcblst{$\evHomo[\catC]>{\objcn2}.{\objcn1}$} &
+$\evHomo[\catC]>{\objcn2}.{\objcn1}$              \\
+\tcblst{$\evHomo[\catC]>{\objcn2}.{\objcn1}p$}&
+$\evHomo[\catC]>{\objcn2}.{\objcn1}p$             \\
+\tcblst{$\evHomo[\catC]>{\objcn2}p$}          &
+$\evHomo[\catC]>{\objcn2}p$                       \\
+\tcblst{$\evHomo[\catC]>{\objcn2}p.{\objcn1}$}&
+$\evHomo[\catC]>{\objcn2}p.{\objcn1}$             \\
+\tcblst{$\evHomo[\catC]>{\objcn2}p.{\objcn1}p$}&
+$\evHomo[\catC]>{\objcn2}p.{\objcn1}p$            \\
+\end{tblr}
+
+\begin{tblr}{
+  colspec={Q[l]Q[r]},
+  hlines,vlines,
+  rows = {LightGray}
+}
+\tcblst{$\evExpo$}                             &
+$\evExpo[\catC]$                                  \\
+\tcblst{$\evExpo[\catC].{\objcn1}.{\objcn2}$}  &
+$\evExpo[\catC].{\objcn1}.{\objcn2}$              \\
+\tcblst{$\evExpo[\catC].{\objcn1}.{\objcn2}p$} &
+$\evExpo[\catC].{\objcn1}.{\objcn2}p$             \\
+\tcblst{$\evExpo[\catC]<{\objcn1}.{\objcn2}$}  &
+$\evExpo[\catC]<{\objcn1}.{\objcn2}$              \\
+\tcblst{$\evExpo[\catC]<{\objcn1}.{\objcn2}p$} &
+$\evExpo[\catC]<{\objcn1}.{\objcn2}p$             \\
+\tcblst{$\evExpo[\catC]<{\objcn1}p$}           &
+$\evExpo[\catC]<{\objcn1}p$                       \\
+\tcblst{$\evExpo[\catC]<{\objcn1}p.{\objcn2}$} &
+$\evExpo[\catC]<{\objcn1}p.{\objcn2}$             \\
+\tcblst{$\evExpo[\catC]<{\objcn1}p.{\objcn2}p$}&
+$\evExpo[\catC]<{\objcn1}p.{\objcn2}p$            \\
+\tcblst{$\evExpo[\catC]>{\objcn2}.{\objcn1}$}  &
+$\evExpo[\catC]>{\objcn2}.{\objcn1}$              \\
+\tcblst{$\evExpo[\catC]>{\objcn2}.{\objcn1}p$} &
+$\evExpo[\catC]>{\objcn2}.{\objcn1}p$             \\
+\tcblst{$\evExpo[\catC]>{\objcn2}p$}           &
+$\evExpo[\catC]>{\objcn2}p$                       \\
+\tcblst{$\evExpo[\catC]>{\objcn2}p.{\objcn1}$} &
+$\evExpo[\catC]>{\objcn2}p.{\objcn1}$             \\
+\tcblst{$\evExpo[\catC]>{\objcn2}p.{\objcn1}p$}&
+$\evExpo[\catC]>{\objcn2}p.{\objcn1}p$            \\
+\end{tblr}
+
+\end{multicols*}

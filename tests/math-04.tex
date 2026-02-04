@@ -1,0 +1,58 @@
+\newline
+
+\let\xpndaft=\expandafter
+\makeatletter
+\def\RegistMathObjField#1.#2={%
+  \@ifnextchar[%
+    {\RegistMathObjFieldAvecArgs#1.#2=}%
+    {\RegistMathObjFieldSansArgs#1.#2=}%
+}
+\def\RegistMathObjFieldAvecArgs#1.#2=[#3]#4{%
+  \xpndaft\newcommand\xpndaft{\csname #1.#2\endcsname}[#3]{#4}%
+}
+\def\RegistMathObjFieldSansArgs#1.#2=#3{%
+  \xpndaft\newcommand\xpndaft{\csname #1.#2\endcsname}{#3}%
+}
+\makeatother
+\def\RegistMathObj#1=#2:#3{
+  \def\this{\RegistMathObjField{#1}}
+  \xpndaft\newcommand\xpndaft{\csname #1\endcsname}{#1}
+  \this.{get_eqn}={#2}
+  \this.{get_typ}={#3}
+  \this.{set_eqn}=[1]{%
+    \xpndaft\renewcommand\xpndaft{\csname #1.get_eqn\endcsname}[1]{##1}
+  }
+  \this.{set_typ}=[1]{%
+    \xpndaft\renewcommand\xpndaft{\csname #1.get_typ\endcsname}[1]{##1}
+  }
+}
+
+\def\print #1{%
+  \csname #1.get_eqn\endcsname%
+}
+\def\check #1{%
+  \csname #1.get_eqn\endcsname :
+  \print{\csname #1.get_typ\endcsname}%
+}
+
+\RegistMathObj{catCat}={{\sf Cat}}:{???}
+\RegistMathObj{catC}={{\sf C}}:{\catCat}
+\RegistMathObj{objc}={{\sf c}}:{\catC}
+
+\begin{tblr}{
+  colspec={Q[l]Q[l]},
+  hlines,vlines,
+  rows = {LightGray}
+}
+\tcblst{$\print{\objc}$} & $\print{\objc}$ \\
+\tcblst{$\print{\catC}$} & $\print{\catC}$ 
+\end{tblr}
+
+\begin{tblr}{
+  colspec={Q[l]Q[l]},
+  hlines,vlines,
+  rows = {LightGray}
+}
+\tcblst{$\check{\objc}$} & $\check{\objc}$ \\
+\tcblst{$\check{\catC}$} & $\check{\catC}$ 
+\end{tblr}

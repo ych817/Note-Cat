@@ -1,0 +1,146 @@
+% 一系列别名
+\let\ph=\phantom
+\let\hph=\hphantom
+\let\vph=\vphantom
+\let\mrel=\mathrel
+\let\mbin=\mathbin
+\let\mllap=\mathllap
+\let\mrlap=\mathrlap
+\let\mclap=\mathclap
+
+\def\vts#1{\lvert#1\rvert}                     % 竖线 ||
+\def\prs#1{\left(#1\right)}                    % 括号 ()
+\def\bcs#1{\left\{#1\right\}}                  % 括号 {}
+\def\bks#1{\left[#1\right]}                    % 括号 []
+\def\plr{\vph{(fg)}}                           % 柱子, 用于指定盒子的最小高度
+\def\etc{\textrm{etc}}                         % 对应省略号
+\def\wld{\_}                                   % 通配符
+
+% 用于注册需要被高亮的数学对象
+\def\RegistMathHL#1BG#2Font#3{
+  \colorlet{color#1}{#2}
+  \expandafter\newif\csname ifmathHLcolor#1\endcsname    % 确认是否开启背景高亮
+  \expandafter\def\csname #1\endcsname##1{%
+    \setlength{\fboxsep}{0pt}%
+    \setlength{\fboxrule}{0pt}%
+    \let\intermediate=\relax
+    \csname ifmathHLcolor#1\endcsname{%
+      \gdef\intermediate{\colorbox{color#1}}%
+    }\else{%
+      \gdef\intermediate{\fbox}%
+    }\fi%
+    \intermediate{\ensuremath{\plr\smash{#3 ##1}}}%
+  }
+  \csname mathHLcolor#1true\endcsname                    % 默认开启背景高亮
+}
+
+% 注册几种类型 : 对象 , 范畴 , 态射 , 函子 , 自然变换
+\RegistMathHL{obj}BG{blue!10}Font{\sf}
+\RegistMathHL{cat}BG{blue!30}Font{\sf}
+\RegistMathHL{arr}BG{pink!90!Orchid}Font{}
+\RegistMathHL{fct}BG{pink!10!Orchid}Font{}
+\RegistMathHL{ntf}BG{pink!40!Orchid}Font{}
+
+% 测试
+$\obj a,\obj b,\obj c$ , $\cat C$ \par
+$\arr f$ , $\ntf \eta$ , $\fct F$ \par
+
+% 常用变量
+\makeatletter
+\def\RegistVarFreq#1#2{
+  \expandafter\newcommand\expandafter{\csname #1#2\endcsname}[1][]%
+  {\@ifnextchar p%
+    {\csname #1#2@A\endcsname{##1}}%
+    {\csname #1#2@B\endcsname{##1}}%
+  }
+  \expandafter\def\csname #1#2@A\endcsname##1p%
+  {\@ifnextchar p%
+    {\csname #1#2@A@A\endcsname{##1}p}%
+    {\csname #1#2@A@B\endcsname{##1}p}%
+  }
+  \expandafter\def\csname #1#2@A@A\endcsname##1pp%
+  {\csname #1\endcsname {#2_{##1}''}}
+  \expandafter\def\csname #1#2@A@B\endcsname##1p%
+  {\csname #1\endcsname {#2_{##1}'}}
+  \expandafter\def\csname #1#2@B\endcsname##1%
+  {\csname #1\endcsname {#2_{##1}}}
+}
+\makeatother
+
+% 注册几个常用变量
+\RegistVarFreq{obj}{0}                            % 对象 0
+\RegistVarFreq{obj}{1}                            % 对象 1
+\RegistVarFreq{obj}{c}                            % 对象 c
+\RegistVarFreq{obj}{d}                            % 对象 d
+\RegistVarFreq{arr}{f}                            % 箭头 f
+\RegistVarFreq{arr}{g}                            % 箭头 g
+\RegistVarFreq{fct}{F}                            % 函子 F
+\RegistVarFreq{fct}{G}                            % 函子 G
+\RegistVarFreq{cat}{C}                            % 范畴 C
+\RegistVarFreq{cat}{D}                            % 范畴 D
+\RegistVarFreq{cat}{Cat}                          % 范畴 Cat
+\RegistVarFreq{cat}{Set}                          % 范畴 Set
+
+% 测试
+$\obj0$ , $\obj1$ , $\objc[1]pp$ , $\objd[1]p$ , $\objd[i]p$ \par
+$\arrf$ , $\arrf[1]p$ , $\arrg[2]pp$ \par
+$\fctF$ , $\fctG$
+
+% 打印方法名
+% \def\RegistMathOpr#1{%
+%   \expandafter\def\csname #1\endcsname{%
+%     \@ifnextchar [%
+%       {\csname #1@A\endcsname}%
+%       {\csname #1@B\endcsname}%
+%   }%
+%   \expandafter\def\csname #1@A\endcsname[##1]##2{%
+%     Mandatory ##2 , Optional ##1%
+%   }%
+%   \expandafter\def\csname #1@B\endcsname##1{%
+%     \csname #1@A\endcsname[Default]{##1}
+%   }%
+% }
+
+
+
+\newcommand{\opr}[2][\catC]{                      % 方法的名称
+  \plr\smash{\overset{\mclap{\small #1}}{#2}}
+}
+
+\makeatletter
+\def\testOpt#1{
+  \@ifnextchar <%
+  {\testOpt@A#1}%
+  {\testOpt@B#1}%
+}
+\def\testOpt@A#1<#2>{%
+  Mandatory {\ttfamily #2} , Optional {\ttfamily #1}%
+}%
+\def\testOpt@B#1{%
+  \testOpt@A#1[d]
+}%
+\makeatother
+
+\testOpt{A}<x>
+% \testOpt@A x
+
+\makeatletter
+\def\RegistMathOpr#1#2{
+  \expandafter\def\csname #1\endcsname{%
+    \@ifnextchar <%
+      {\csname #1@A\endcsname}%
+      {\csname #1@B\endcsname}%
+  }%
+  \expandafter\def\csname #1@A\endcsname<##1>{%
+    \plr\smash{\overset{\mclap{\small ##1}}{#2}}
+  }%
+  \expandafter\def\csname #1@B\endcsname{%
+    \csname #1@A\endcsname<\catC>
+  }%
+}
+\makeatother
+
+\RegistMathOpr{cattimes}{\times}
+
+$\cattimes<\catD>$\par
+$\cattimes$

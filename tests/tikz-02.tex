@@ -1,0 +1,54 @@
+% keyval test
+\makeatletter
+\define@key{family}{color}[black]{\color{#1}}
+\define@key{family}{font}{#1}
+\def\mybox{%
+  \@ifnextchar[% 如果下一个字符是 [ 
+  \@mybox%     % 那么调用带参数的版本
+  {\@mybox[]}% % 否则调用不带参数的版本
+}
+\def\@mybox[#1]#2{%
+  \setkeys{family}{#1}%
+  #2
+  % some operations to typeset #2
+}
+\makeatother
+
+% \mybox[%
+%   color = red,
+%   % font  = \ttfamily
+% ]{%
+%   This is my box%
+% }%
+
+\pgfkeys{
+  /family/.is family,
+  /family,
+  color/.initial = black,
+  color/.code    = \color{#1},
+  font/.initial  = \normalfont,
+  font/.code     = #1,
+}
+\renewcommand\mybox[2][]{%
+  \pgfkeys{/family, #1}%
+  #2
+}
+
+\pgfkeysvalueof{/family/color}
+
+\mybox[%
+  color = red,
+  % font  = \ttfamily
+]{%
+  This is my box%
+}%
+
+\pgfkeysvalueof{/family/color}
+
+% \def\helloworld{Hello, world!}
+% \pgfkeyslet{/my family/my key}{\helloworld}
+% \pgfkeysvalueof{/my family/my key}
+
+% \pgfkeyssetvalue{/my family/my key}{Hello, world!}
+% \pgfkeysgetvalue{/my family/my key}{\helloworld}
+% \helloworld

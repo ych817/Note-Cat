@@ -1,0 +1,57 @@
+\makeatletter
+% ----- 运算符注册模板
+\def\RegistOprFormTypeAName#1Disp#2Dflt#3{%
+  \xpndaft\newcommand\xpndaft{\csname #1\endcsname}[1][#3]{\plr{\ensuremath{
+    \stackunder[0pt]{\stackon[0pt]{\plr{#2}}
+    {}}
+    {\text{\scriptsize\(\plr{##1}\)}}
+  }}}
+}
+\def\RegistOprFormTypeBName#1Dflt#2{%
+  \xpndaft\newcommand\xpndaft{\csname #1\endcsname}[1][#2]{\plr{\ensuremath{%
+    \xrightarrow[\text{\scriptsize\(\plr{##1}\)}]{}%
+  }}}
+}
+\def\RegistOprFormTypeCName#1Disp#2DfltCat#3DfltIdx#4{%
+  \xpndaft\def\csname #1\endcsname{%
+    \@ifnextchar [%
+    {\csname #1@YCat@\endcsname}
+    {\csname #1@NCat@\endcsname{#3}}
+  }
+  \xpndaft\def\csname #1@NCat@\endcsname##1{%
+    \@ifnextchar <%
+    {\csname #1@NCat@YIdx\endcsname{##1}}
+    {\csname #1@NCat@NIdx\endcsname{##1}{#4}}
+  }
+  \xpndaft\def\csname #1@YCat@\endcsname[##1]{%
+    \@ifnextchar <%
+    {\csname #1@YCat@YIdx\endcsname{##1}}
+    {\csname #1@YCat@NIdx\endcsname{##1}{#4}}
+  }
+  \xpndaft\def\csname #1@NCat@NIdx\endcsname##1##2{%
+    \csname #1@Final\endcsname{##1}{##2}
+  }
+  \xpndaft\def\csname #1@NCat@YIdx\endcsname##1<##2>{%
+    \csname #1@Final\endcsname{##1}{##2}
+  }
+  \xpndaft\def\csname #1@YCat@NIdx\endcsname##1##2{%
+    \csname #1@Final\endcsname{##1}{##2}
+  }
+  \xpndaft\def\csname #1@YCat@YIdx\endcsname##1<##2>{%
+    \csname #1@Final\endcsname{##1}{##2}
+  }
+  \xpndaft\def\csname #1@Final\endcsname##1##2{\plr{\ensuremath{%
+    % \underset{\scriptscriptstyle\plr{{##1}\mbin{.}{##2}}}{%
+    % \overset{}%
+    % {\plr{#2}}}
+    \stackunder[0pt]{\stackon[0pt]{\plr{#2}}
+    {}}
+    {\text{\scriptsize\(\plr{{##1}~{##2}}\)}}
+  }}}%
+}
+\def\RegistOprFormTypeDName#1Disp#2Dflt#3{%
+  \xpndaft\newcommand\xpndaft{\csname #1\endcsname}[1][#3]{\plr{\ensuremath{%
+    {}_{\scriptscriptstyle\plr{##1}}^{}{#2}
+  }}}
+}
+\makeatother

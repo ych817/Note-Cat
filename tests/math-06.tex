@@ -1,0 +1,277 @@
+\let\xpndaft=\expandafter
+\let\ncm=\newcommand
+\let\rcm=\renewcommand
+% ----- 排版相关
+\newcommand{\cfbox}[2][blue]{%
+  \setlength{\fboxsep}{0pt}%
+  \setlength{\fboxrule}{0.4pt}%
+  \colorlet{currentcolor}{.}%
+  {\color{#1}%
+  \fbox{\color{currentcolor}\ensuremath{#2}}}%
+}
+\let\ph=\phantom
+\let\hph=\hphantom
+\let\vph=\vphantom
+\let\mrel=\mathrel
+\let\mbin=\mathbin
+\let\mop=\mathop
+\let\mllap=\mathllap                 % 根据文本右侧对齐
+\let\mrlap=\mathrlap                 % 根据文本左侧对齐
+\let\mclap=\mathclap                 % 根据文本中央对齐
+\def\vts#1{\lvert#1\rvert}
+\def\prs#1{\left(#1\right)}
+\def\bcs#1{\left\{#1\right\}}
+\def\bks#1{\left[#1\right]}
+\def\plr#1{\vph{(fg)}\smash{#1}}     % 柱子
+\def\etc{\plr{\rm etc}}              % 省略号
+\def\occ{\plr{\tt\_}}                % 占位符
+% ----- 变量注册模板 带高亮
+\def\RegistVarType#1BG#2Font#3{
+  \colorlet{color#1}{#2}
+  \xpndaft\newif\csname ifColorVarType#1\endcsname    % 确认是否开启背景高亮
+  \xpndaft\def\csname #1\endcsname##1{{%
+    \setlength{\fboxsep}{0pt}%
+    \setlength{\fboxrule}{0pt}%
+    \let\intermediate=\relax
+    \csname ifColorVarType#1\endcsname{%
+      \gdef\intermediate{\colorbox{color#1}}%
+    }\else{%
+      \gdef\intermediate{\fbox}%
+    }\fi%
+    \intermediate{\ensuremath{\plr{#3 ##1}}}%
+  }}
+  \csname ColorVarType#1true\endcsname                    % 默认开启背景高亮
+}
+% ----- 二元操作符注册模板
+\makeatletter
+\def\RegistOprBin#1Form#2Eval#3OccA#4OccB#5EvU#6EvU#7EvU#8{%
+  \xpndaft\def\csname #1\endcsname{%
+    \@ifnextchar [
+    {\csname #1@optionGet\endcsname}
+    {\def\cache{#2}
+     \csname #1@relax\endcsname
+    }
+  }
+  \xpndaft\def\csname #1@optionGet\endcsname[##1]{
+    \def\cache{#2[##1]}
+    \csname #1@relax\endcsname
+  }
+  \xpndaft\def\csname #1@relax\endcsname{%
+    \@ifnextchar<
+    {\csname #1@\endcsname}
+    {\cache}%
+  }
+  \xpndaft\def\csname #1@\endcsname<{%
+    \@ifnextchar<
+    {\csname #1@YopY@\endcsname}
+    {\csname #1@YopX@\endcsname}%
+  }
+  \xpndaft\def\csname #1@YopX@\endcsname##1{%
+    \@ifnextchar p%
+      {\csname #1@YopX@Yp@\endcsname{##1}}%
+      {\csname #1@YopX@Np@\endcsname{##1}}%
+  }
+  \xpndaft\def\csname #1@YopX@Np@\endcsname##1{%
+    \@ifnextchar<
+    {\csname #1@YopX@Np@YopY@\endcsname{##1}}%
+    {\csname #1@YopX@Np@NopY\endcsname{##1}}%
+  }
+  \xpndaft\def\csname #1@YopX@Np@NopY\endcsname##1{\cfbox{#3{\cache}{##1}{#5}}}
+  \xpndaft\def\csname #1@YopX@Np@YopY@\endcsname##1<##2{%
+    \@ifnextchar p
+    {\csname #1@YopX@Np@YopY@Yp\endcsname{##1}{##2}}% 
+    {\csname #1@YopX@Np@YopY@Np\endcsname{##1}{##2}}%
+  }
+  \xpndaft\def\csname #1@YopX@Np@YopY@Np\endcsname##1##2{\cfbox{#6{\cfbox{#3{\cache}{##1}{}}}{##2}}}
+  \xpndaft\def\csname #1@YopX@Np@YopY@Yp\endcsname##1##2p{\cfbox{\prs{#6{\cfbox{#3{\cache}{##1}{}}}{##2}}}}
+  \xpndaft\def\csname #1@YopX@Yp@\endcsname##1p{%
+    \@ifnextchar<
+    {\csname #1@YopX@Yp@YopY@\endcsname{##1}}%
+    {\csname #1@YopX@Yp@NopY\endcsname{##1}}%
+  }
+  \xpndaft\def\csname #1@YopX@Yp@NopY\endcsname##1{\cfbox{\prs{#3{\cache}{##1}{#5}}}}
+  \xpndaft\def\csname #1@YopX@Yp@YopY@\endcsname##1<##2{%
+    \@ifnextchar p
+    {\csname #1@YopX@Yp@YopY@Yp\endcsname{##1}{##2}}%
+    {\csname #1@YopX@Yp@YopY@Np\endcsname{##1}{##2}}%
+  }
+  \xpndaft\def\csname #1@YopX@Yp@YopY@Np\endcsname##1##2{\cfbox{#7{\cfbox{\prs{#3{\cache}{##1}{#5}}}}{##2}}}
+  \xpndaft\def\csname #1@YopX@Yp@YopY@Yp\endcsname##1##2p{\cfbox{\prs{#7{\cfbox{\prs{#3{\cache}{##1}{#5}}}}{##2}}}}
+
+  \xpndaft\def\csname #1@YopY@\endcsname<##1{%
+    \@ifnextchar p%
+    {\csname #1@YopY@Yp@\endcsname{##1}}%
+    {\csname #1@YopY@Np@\endcsname{##1}}%
+  }
+  \xpndaft\def\csname #1@YopY@Np@\endcsname##1{%
+    \@ifnextchar<
+    {\csname #1@YopY@Np@YopX@\endcsname{##1}}%
+    {\csname #1@YopY@Np@NopX\endcsname{##1}}%
+  }
+  \xpndaft\def\csname #1@YopY@Np@NopX\endcsname##1{\cfbox{#3{\cache}\occ{##1}}}
+  \xpndaft\def\csname #1@YopY@Np@YopX@\endcsname##1<##2{%
+    \@ifnextchar p
+    {\csname #1@YopY@Np@YopX@Yp\endcsname{##1}{##2}}%
+    {\csname #1@YopY@Np@YopX@Np\endcsname{##1}{##2}}%
+  }
+  \xpndaft\def\csname #1@YopY@Np@YopX@Np\endcsname##1##2{\cfbox{#8{\cfbox{#3{\cache}{}{##1}}}{##2}}??}
+  \xpndaft\def\csname #1@YopY@Np@YopX@Yp\endcsname##1##2p{\cfbox{\prs{#6{\cfbox{#3{\cache}{##2}{}}}{##1}}}??}
+  \xpndaft\def\csname #1@YopY@Yp@\endcsname##1p{%
+    \@ifnextchar<
+    {\csname #1@YopY@Yp@YopX@\endcsname{##1}}%
+    {\csname #1@YopY@Yp@NopX\endcsname{##1}}%
+  }
+  \xpndaft\def\csname #1@YopY@Yp@NopX\endcsname##1{\prs{#3{\cache}\occ{##1}}}
+  \xpndaft\def\csname #1@YopY@Yp@YopX@\endcsname##1<##2{%
+    \@ifnextchar p
+    {\csname #1@YopY@Yp@YopX@Yp\endcsname{##1}{##2}}%
+    {\csname #1@YopY@Yp@YopX@Np\endcsname{##1}{##2}}%
+  }
+  \xpndaft\def\csname #1@YopY@Yp@YopX@Np\endcsname##1##2{##2\prs{#3{\cache}\occ{##1}}}
+  \xpndaft\def\csname #1@YopY@Yp@YopX@Yp\endcsname##1##2p{\prs{##2\prs{#3{\cache}\occ{##1}}}}
+}
+\makeatother
+% ----- 二元操作符求值模板
+\ncm{\OprBinEvlPo}[3]{\plr{{#3}{#2}\mop{#1}}}                  % 二元 后缀形式
+\ncm{\OprBinEvlPoR}[3]{
+  \let\OprBinEvlPoRtempA=#3
+  \let\OprBinEvlPoRtempB=#2
+  \plr{{#3}{#2}\mop{#1}}
+}                  % 二元 后缀形式
+\ncm{\OprBinEvlIn}[3]{\plr{{#2}\mbin{#1}{#3}}}                 % 二元 中缀形式
+\ncm{\OprBinEvlInS}[3]{\plr{{}_{\plr{{#2}\mbin{#1}{}}}{#3}}}   % 二元 中缀形式
+\ncm{\OprUniEvlPo}[2]{\plr{{#2}\mop{#1}}}                      % 一元 后缀形式
+\ncm{\OprUniEvlPoS}[2]{\plr{{}_{\plr{#2}}\mop{#1}}}            % 一元 后缀形式
+\ncm{\OprUniEvlPr}[2]{\plr{\mop{#1}{#2}}}                      % 一元 前缀形式
+% ----- 二元操作符形式模板（不包括 Hom 函子）
+\def\RegistOprBinFormA#1Disp#2Dflt#3{
+  \xpndaft\ncm\xpndaft{\csname#1\endcsname}[1][#3]{\plr{
+    \overset{\mclap{\small\plr{}}}{
+    \underset{\mclap{\small\plr{##1}}}
+    {\plr{#2}}}
+  }}
+}
+\def\RegistOprBinFormB#1Dflt#2{
+  \xpndaft\ncm\xpndaft{\csname#1\endcsname}[1][#2]{\plr{
+    \xrightarrow[{\small\plr{##1}}]{}   
+  }}
+}
+
+% ----- 注册变量
+\RegistVarType{obj}BG{pink}Font{\sf}
+\RegistVarType{cat}BG{Rhodamine}Font{\sf}
+\RegistVarType{arr}BG{SpringGreen}Font{}
+\RegistVarType{fct}BG{YellowGreen}Font{}
+\RegistVarType{ntf}BG{LightBlue}Font{}
+% ----- 注册二元运算形式
+\RegistOprBinFormA{catAddForm}Disp{+}Dflt{\cat C}
+\RegistOprBinFormA{catMulForm}Disp{\times}Dflt{\cat C}
+\RegistOprBinFormB{catHomForm}Dflt{\cat C}
+% ----- 注册二元运算
+\RegistOprBin{test}Form{{\rm Opr}}Eval{\OprBinEvlPo}OccA{\occ}OccB{}EvU{\OprUniEvlPo}EvU{\OprUniEvlPo}EvU{\OprUniEvlPo}
+\RegistOprBin{catAdd}Form{\catAddForm}Eval{\OprBinEvlIn}OccA{\occ}OccB{\occ}EvU{\OprUniEvlPr}EvU{\OprUniEvlPo}EvU{\OprUniEvlPo}
+\RegistOprBin{catMul}Form{\catMulForm}Eval{\OprBinEvlIn}OccA{\occ}OccB{\occ}EvU{\OprUniEvlPr}EvU{\OprUniEvlPo}EvU{\OprUniEvlPo}
+\RegistOprBin{catHom}Form{\catHomForm}Eval{\OprBinEvlIn}OccA{\occ}OccB{\occ}EvU{\OprUniEvlPr}EvU{\OprUniEvlPo}EvU{\OprUniEvlPo}
+\RegistOprBin{catExp}Form{\catHomForm}Eval{\OprBinEvlInS}OccA{\occ}OccB{\occ}EvU{\OprUniEvlPr}EvU{\OprUniEvlPo}EvU{\OprUniEvlPoS}
+
+
+\begin{tblr}{
+  colspec={Q[l]Q[r]},
+  hlines,vlines,
+  rows = {LightGray}
+}
+\tcblst{$\test$} &
+$\test$ 
+\\
+\tcblst{$\test<{x_u}$} &
+$\test<{x_u}$ 
+\\
+\tcblst{$\test<{x_u}<{y_u}$} &
+$\test<{x_u}<{y_u}$ 
+\\
+\tcblst{$\test<{x_u}<{y_u}p$} &
+$\test<{x_u}<{y_u}p$ 
+\\
+\tcblst{$\test<{x_u}p$} &
+$\test<{x_u}p$
+\\
+\tcblst{$\test<{x_u}p<{y_u}$} &
+$\test<{x_u}p<{y_u}$
+\\
+\tcblst{$\test<{x_u}p<{y_u}p$} &
+$\test<{x_u}p<{y_u}p$
+\\
+\tcblst{$\test<<{y_u}$} &
+$\test<<{y_u}$ 
+\\
+\tcblst{$\test<<{y_u}<{x_u}$} &
+$\test<<{y_u}<{x_u}$ 
+\\
+\tcblst{$\test<<{y_u}<{x_u}p$} &
+$\test<<{y_u}<{x_u}p$ 
+\\
+\tcblst{$\test<<{y_u}p$} &
+$\test<<{y_u}p$ 
+\\
+\tcblst{$\test<<{y_u}p<{x_u}$} &
+$\test<<{y_u}p<{x_u}$ 
+\\
+\tcblst{$\test<<{y_u}p<{x_u}p$} &
+$\test<<{y_u}p<{x_u}p$ 
+\\
+\end{tblr}
+\begin{tblr}{
+  colspec={Q[l]Q[r]},
+  hlines,vlines,
+  rows = {LightGray}
+}
+\tcblst{$\catExp[\cat D]$} &
+$\catExp[\cat D]$ 
+\\
+\tcblst{$\catExp[\cat D]<{x_u}$} &
+$\catExp[\cat D]<{x_u}$ 
+\\
+\tcblst{$\catExp[\cat D]<{x_u}<{y_u}$} &
+$\catExp[\cat D]<{x_u}<{y_u}$ 
+\\
+\tcblst{$\catExp[\cat D]<{x_u}<{y_u}p$} &
+$\catExp[\cat D]<{x_u}<{y_u}p$ 
+\\
+\tcblst{$\catExp[\cat D]<{x_u}p$} &
+$\catExp[\cat D]<{x_u}p$
+\\
+\tcblst{$\catExp[\cat D]<{x_u}p<{y_u}$} &
+$\catExp[\cat D]<{x_u}p<{y_u}$
+\\
+\tcblst{$\catExp[\cat D]<{x_u}p<{y_u}p$} &
+$\catExp[\cat D]<{x_u}p<{y_u}p$
+\\
+\tcblst{$\catExp[\cat D]<<{y_u}$} &
+$\catExp[\cat D]<<{y_u}$ 
+\\
+\tcblst{$\catExp[\cat D]<<{y_u}<{x_u}$} &
+$\catExp[\cat D]<<{y_u}<{x_u}$ 
+\\
+\tcblst{$\catExp[\cat D]<<{y_u}<{x_u}p$} &
+$\catExp[\cat D]<<{y_u}<{x_u}p$ 
+\\
+\tcblst{$\catExp[\cat D]<<{y_u}p$} &
+$\catExp[\cat D]<<{y_u}p$ 
+\\
+\tcblst{$\catExp[\cat D]<<{y_u}p<{x_u}$} &
+$\catExp[\cat D]<<{y_u}p<{x_u}$ 
+\\
+\tcblst{$\catExp[\cat D]<<{y_u}p<{x_u}p$} &
+$\catExp[\cat D]<<{y_u}p<{x_u}p$ 
+\\
+\end{tblr}
+
+% 测试
+{\ColorVarTypeobjfalse
+$\obj a$ , $\obj b$
+}, 
+$\obj c$ , $\obj d$ , 
+$\cat C$ \par
+$\arr f$ , $\fct F$ , $\ntf \eta$\par
+
+% $\Add[\cat{Cat}]<{\obj a}<{\obj b}$

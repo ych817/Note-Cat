@@ -1,0 +1,78 @@
+% ---- 启用数学堆叠
+\stackMath
+% ---- 常用简写
+\let\xpndaft=\expandafter
+\let\ncm=\newcommand
+\let\rcm=\renewcommand
+% ----- 排版相关
+\newcommand{\cfbox}[2][blue]{%
+  \setlength{\fboxsep}{0pt}%
+  \setlength{\fboxrule}{0.4pt}%
+  \colorlet{currentcolor}{.}%
+  {\color{#1}%
+  \fbox{\color{currentcolor}\ensuremath{#2}}}%
+}
+\let\ph=\phantom
+\let\hph=\hphantom
+\let\vph=\vphantom
+\let\mrel=\mathrel
+\let\mbin=\mathbin
+\let\mop=\mathop
+\let\mllap=\mathllap                 % 根据文本右侧对齐
+\let\mrlap=\mathrlap                 % 根据文本左侧对齐
+\let\mclap=\mathclap                 % 根据文本中央对齐
+\def\vts#1{\lvert#1\rvert}
+\def\prs#1{\left(#1\right)}
+\def\bcs#1{\left\{#1\right\}}
+\def\bks#1{\left[#1\right]}
+\def\plr#1{\vph{(fg)}\smash{#1}}     % 柱子
+\def\etc{\plr{\rm etc}}              % 省略号
+\def\occ{\plr{\texttt{\_}}}          % 占位符
+% ----- 变量注册模板 带高亮
+\def\gobble#1{}                      % 吞掉参数
+\makeatletter
+\def\RegistVarType#1BG#2Font#3{
+  \colorlet{color#1}{#2}
+  \xpndaft\newif\csname ifColorVarType#1\endcsname    % 确认是否开启背景高亮
+  \xpndaft\def\csname var#1\endcsname##1{%
+    \setlength{\fboxsep}{0pt}%
+    \setlength{\fboxrule}{0pt}%
+    \let\RegistVarTypeCache=\relax
+    \csname ifColorVarType#1\endcsname{%
+      \gdef\RegistVarTypeCache{\colorbox{color#1}}%
+    }\else{%
+      \gdef\RegistVarTypeCache{\fbox}%
+    }\fi%
+    \RegistVarTypeCache{\ensuremath{\plr{#3 ##1}}}%
+  }
+  \csname ColorVarType#1true\endcsname                % 默认开启背景高亮
+}
+% ------ 常用变量注册模板 带高亮
+\def\RegistVarFreqType#1Name#2{
+  \@ifnextchar D%
+  {\RegistVarFreqType@{#1}{#2}}
+  {\RegistVarFreqType@{#1}{#2}Disp{#2}}
+}
+\def\RegistVarFreqType@#1#2Disp#3{%
+  \xpndaft\def\csname #1#2\endcsname{%
+    \csname var#1\endcsname{{#3}^{}}%
+  }
+  \xpndaft\def\csname #1#2n\endcsname##1{%
+    \csname var#1\endcsname{{#3}_{##1}^{}}%
+  }
+  \@ifnextchar p
+  {\RegistVarFreqType@Loop{#1}{#2}{p}{'}{#3}}
+  {\relax}
+}
+\def\RegistVarFreqType@Loop#1#2#3#4#5p{% 
+  \xpndaft\def\csname #1#2#3\endcsname{%
+    \csname var#1\endcsname{{#5}#4}%
+  }
+  \xpndaft\def\csname #1#2#3n\endcsname##1{%
+    \csname var#1\endcsname{{#5}#4_{##1}}%
+  } 
+  \@ifnextchar p
+  {\RegistVarFreqType@Loop{#1}{#2}{#3p}{#4'}{#5}} 
+  {\relax}   
+}
+\makeatother

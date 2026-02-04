@@ -1,0 +1,121 @@
+% ----- 求值
+\def\evU#1#2{\plr{\cfbox{%
+  {#2}\mop{#1}%
+}}}
+\def\evUp#1#2{\plr{\cfbox{%
+  \prs{{#2}\mop{#1}}
+}}}
+\def\evUn#1#2{\plr{\cfbox{%
+  {#2}^{#1}%
+}}}
+\def\evUnp#1#2{\plr{\cfbox{%
+  \prs{{#2}^{#1}}
+}}}
+% ------- 二元后缀运算
+\def\evBpo#1#2#3{\cfbox[Purple]{\plr{%
+  {#3}\mop{{#2}\mop{#1}}%
+}}}
+\def\evBpop#1#2#3{\cfbox[Purple]{\plr{%
+  \prs{{#3}\mop{{#2}\mop{#1}}}%
+}}}
+\def\evBpoA#1#2{\plr{\cfbox{%
+  \mop{{#2}\mop{#1}}%
+}}}
+\def\evBpoAp#1#2{\plr{\cfbox{%
+  \prs{\mop{{#2}\mop{#1}}}%
+}}}
+\def\evBpoBp#1#2{\plr{\cfbox{%
+  \prs{{#2}\mop{\occ\mop{#1}}}%
+}}}
+\def\evBpoApB#1#2#3{%\plr{%
+  \evU{\evBpoAp{#1}{#2}}{#3}%
+}%}
+\def\evBpoBpA#1#2#3{%\plr{%
+  \evU{\evBpoBp{#1}{#2}}{#3}%
+}%}
+\def\evBpoApBp#1#2#3{%\plr{%
+  \evUp{\evBpoAp{#1}{#2}}{#3}%
+}%}
+\def\evBpoBpAp#1#2#3{%\plr{%
+  \evUp{\evBpoBp{#1}{#3}}{#2}%
+}%}
+\def\evBpoAB#1#2#3{%\plr{%
+  \evU{\evBpoA{#1}{#2}}{#3}
+}%}
+\def\evBpoABp#1#2#3{%\plr{%
+  \evUp{\evBpoA{#1}{#2}}{#3}
+}%}
+% ------- 二元中缀运算
+\def\evBin#1#2#3{\cfbox[Purple]{\plr{%
+  {#2}\mbin{#1}{#3}%
+}}}
+\def\evBinp#1#2#3{\cfbox[Purple]{%
+  \prs{\plr{{#2}\mbin{#1}{#3}}}%
+}}
+\def\evBinLp#1#2{\plr{\cfbox{%
+  \prs{{#2}\mbin{#1}\occ}
+}}}
+\def\evBinRp#1#2{\plr{\cfbox{%
+  \prs{\occ\mbin{#1}{#2}}
+}}}
+\def\evBinLpR#1#2#3{%\plr{%
+  \evU{\evBinLp{#1}{#2}}{#3}
+}%}
+\def\evBinRpL#1#2#3{%\plr{%
+  \evU{\evBinRp{#1}{#3}}{#2}
+}%}
+\def\evBinLpRp#1#2#3{%\plr{%
+  \evUp{\evBinLp{#1}{#2}}{#3}%
+}%}
+\def\evBinRpLp#1#2#3{%\plr{%
+  \evUp{\evBinRp{#1}{#3}}{#2}%
+}%}
+\def\evBinLR#1#2#3{\plr{\cfbox{%
+  \cfbox{\plr{{#2}\mbin{#1}{}}}{#3}%
+}}}
+\def\evBinLRp#1#2#3{\plr{\cfbox{%
+  \prs{\cfbox{\plr{{#2}\mbin{#1}{}}}{#3}}%
+}}}
+\def\evBinRL#1#2#3{\plr{\cfbox{%
+  {#2}\cfbox{\plr{{}\mbin{#1}{#3}}}%
+}}}
+\def\evBinRLp#1#2#3{\plr{\cfbox{%
+  \prs{{#2}\cfbox{\plr{{}\mbin{#1}{#3}}}}%
+}}}
+% ------- 二元中缀运算 特殊情况（针对指数）
+\def\evBinx#1#2#3{\cfbox[Purple]{\plr{%
+  {}_{\plr{{#2}\mbin{#1}{}}}{#3}%
+}}}
+\def\evBinxp#1#2#3{\cfbox[Purple]{%
+  \prs{\plr{{}_{\plr{{#2}\mbin{#1}{}}}{#3}}}
+}}
+\def\evBinxLp#1#2{\plr{\cfbox{%
+  \prs{\plr{{}_{\plr{{#2}\mbin{#1}{}}}^{}\occ}}
+}}}
+\def\evBinxRp#1#2{\plr{\cfbox{%
+  \prs{\plr{{}_{\plr{\occ\mbin{#1}{}}}^{}{#2}}}
+}}}
+\def\evBinxLpR#1#2#3{%\plr{%
+  \evU{\evBinxLp{#1}{#2}}{#3}
+}%}
+\def\evBinxRpL#1#2#3{%\plr{%
+  \evU{\evBinxRp{#1}{#3}}{#2}
+}%}
+\def\evBinxLpRp#1#2#3{%\plr{%
+  \evUp{\evBinxLp{#1}{#2}}{#3}%
+}%}
+\def\evBinxRpLp#1#2#3{%\plr{%
+  \evUp{\evBinxRp{#1}{#3}}{#2}%
+}%}
+\def\evBinxLR#1#2#3{\plr{\cfbox{%
+  \plr{\cfbox{{}_{\plr{{#2}\mbin{#1}{}}}^{}}{#3}}
+}}}
+\def\evBinxLRp#1#2#3{\plr{\cfbox{%
+  \prs{\plr{\cfbox{{}_{\plr{{#2}\mbin{#1}{}}}^{}}{#3}}}%
+}}}
+\def\evBinxRL#1#2#3{\plr{\cfbox{%
+  \plr{{}_{\plr{{#2}}}\cfbox{{}_{\plr{\mbin{#1}{}}}^{}{#3}}}
+}}}
+\def\evBinxRLp#1#2#3{\plr{\cfbox{%
+  \prs{\plr{{}_{\plr{{#2}}}\cfbox{{}_{\plr{\mbin{#1}{}}}^{}{#3}}}}%
+}}}

@@ -1,0 +1,112 @@
+% 一系列别名
+\let\ph=\phantom
+\let\hph=\hphantom
+\let\vph=\vphantom
+\let\mrel=\mathrel
+\let\mbin=\mathbin
+\let\mllap=\mathllap
+\let\mrlap=\mathrlap
+\let\mclap=\mathclap
+
+\def\vts#1{\lvert#1\rvert}                     % 竖线 ||
+\def\prs#1{\left(#1\right)}                    % 括号 ()
+\def\bcs#1{\left\{#1\right\}}                  % 括号 {}
+\def\bks#1{\left[#1\right]}                    % 括号 []
+\def\plr{\vph{(fg)}}                           % 柱子, 用于指定盒子的最小高度
+\def\etc{\textrm{etc}}                         % 对应省略号
+\def\wld{\_}                                   % 通配符
+
+\makeatletter
+\def\opr{%
+  \@ifnextchar<
+  {\opr@Q}
+  {f}%
+}
+\def\opr@Q<{%
+  \@ifnextchar<%
+  {\opr@YopY}
+  {\opr@YopX}%
+}
+\def\opr@YopX#1{%
+  \@ifnextchar<%
+  {\opr@YopX@YopY{#1}}
+  {\opr@YopX@NopY{#1}}%
+}
+\def\opr@YopX@YopY#1<#2{%
+  (#2~#1~f)
+}
+\def\opr@YopX@NopY#1{%
+  (#1~f)
+}
+\def\opr@YopY<#1{%
+  \@ifnextchar<%
+  {\opr@YopY@YopX{#1}}
+  {\opr@YopY@NopX{#1}}%
+}
+\def\opr@YopY@YopX#1<#2{%
+  (#1~#2~f)%
+  %=#2~(#1~\_~f)%
+}
+\def\opr@YopY@NopX#1{%
+  (#1~\_~f)%
+}
+
+\def\RegistOprBin#1#2{
+  \expandafter\def\csname #1\endcsname{%
+    \@ifnextchar<
+    {\csname #1@\endcsname}
+    {#2}%
+  }
+  \expandafter\def\csname #1@\endcsname<{%
+    \@ifnextchar<%
+    {\csname #1@YopY@\endcsname}
+    {\csname #1@YopX@\endcsname}%
+  }
+  \expandafter\def\csname #1@YopX@\endcsname##1{%
+    \@ifnextchar<%
+    {\csname #1@YopX@YopY\endcsname{##1}}
+    {\csname #1@YopX@NopY\endcsname{##1}}%
+  }
+  \expandafter\def\csname #1@YopX@NopY\endcsname##1{%
+    (##1~#2)%
+  }
+  \expandafter\def\csname #1@YopX@YopY\endcsname##1<##2{%
+    (##2~##1~#2)%
+  }
+  \expandafter\def\csname #1@YopY@\endcsname<##1{%
+    \@ifnextchar<%
+    {\csname #1@YopY@YopX\endcsname{##1}}
+    {\csname #1@YopY@NopX\endcsname{##1}}%
+  }
+  \expandafter\def\csname #1@YopY@NopX\endcsname##1{%
+    (##1~\_~#2)% 
+  }
+  \expandafter\def\csname #1@YopY@YopX\endcsname##1<##2{%
+    (##1~##2~#2)%
+  }
+}
+\makeatother
+
+\RegistOprBin{test}{g}% typeZ <- typeX <- type Y
+
+\begin{tblr}{
+  colspec={Q[l]Q[r]},
+  hlines,vlines,
+  rows = {LightGray}
+}
+\tcblst{$\test=z_u$} &
+$\test=z_u$ 
+\\
+\tcblst{$\test<{x_u}=z_u$} &
+$\test<{x_u}=z_u$ 
+\\
+\tcblst{$\test<{x_u}<{y_u}=z_u$} &
+$\test<{x_u}<{y_u}=z_u$ 
+\\
+\tcblst{$\test<<{y_u}=z_u$} &
+$\test<<{y_u}=z_u$ 
+\\
+\tcblst{$\test<<{y_u}<{x_u}=z_u$} &
+$\test<<{y_u}<{x_u}=z_u$ 
+\\
+\end{tblr}
