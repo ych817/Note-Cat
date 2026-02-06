@@ -1,7 +1,6 @@
 \makeatletter
 \def\RegistOprEvalTypeU#1Form#2{%
   \let\RegistOprEvalTypeU@opr=\relax%
-  % 1. 入口：处理可选参数 [cat]
   \xpndaft\def\csname ev#2\endcsname{%
     \@ifnextchar [%
     {\csname ev#2@Yopt@\endcsname}
@@ -15,120 +14,112 @@
     \def\RegistOprEvalTypeU@opr{\csname #2\endcsname}%
     \csname ev#2@\endcsname
   }%
-  % 2. 分隔符探测：检查是否存在 "."
   \xpndaft\def\csname ev#2@\endcsname{%
     \@ifnextchar .%
     {\csname ev#2@Yarg\endcsname} % 有点，开始读参数
     {\RegistOprEvalTypeU@opr}%        % 没点，直接输出原始命令
   }%
-  % 3. 参数读取：捕获 ".{arg}"
   \xpndaft\def\csname ev#2@Yarg\endcsname.##1{%
     \@ifnextchar p%
     {\csname ev#2@Yp\endcsname{##1}}% % 点后面参数读完，发现有 p
     {\csname evU#1\endcsname{\RegistOprEvalTypeU@opr}{##1}}% % 正常求值
   }%
-  % 4. 结尾处理：处理 "p"
   \xpndaft\def\csname ev#2@Yp\endcsname##1p{%
     \csname evU#1p\endcsname{\RegistOprEvalTypeU@opr}{##1}%
   }%
 }
 \def\RegistOprEvalTypeB#1Form#2{%
   \let\RegistOprEvalTypeB@opr=\relax%
-  \xpndaft\def\csname ev#2\endcsname{%
+  \expandafter\def\csname ev#2\endcsname{%
     \@ifnextchar [%
-    {\csname ev#2@Yopt@\endcsname}
-    {\csname ev#2@Nopt@\endcsname}%
+    {\csname ev#2@Yopt\endcsname}
+    {\csname ev#2@Nopt\endcsname}%
   }%
-  \xpndaft\def\csname ev#2@Yopt@\endcsname[##1]{%
+  \expandafter\def\csname ev#2@Yopt\endcsname[##1]{%
     \def\RegistOprEvalTypeB@opr{\csname #2\endcsname[{##1}]}%
-    \csname ev#2@\endcsname % <--- 移到这里！
+    \csname ev#2@\endcsname
   }%
-  \xpndaft\def\csname ev#2@Nopt@\endcsname{%
+  \expandafter\def\csname ev#2@Nopt\endcsname{%
     \def\RegistOprEvalTypeB@opr{\csname #2\endcsname}%
-    \csname ev#2@\endcsname % <--- 移到这里！
+    \csname ev#2@\endcsname
   }%
-  \xpndaft\def\csname ev#2@\endcsname{%
+  \expandafter\def\csname ev#2@\endcsname{%
     \@ifnextchar <%
     {\csname ev#2@YargL@\endcsname}
     {\@ifnextchar >%
     {\csname ev#2@YargR@\endcsname}
     {\@ifnextchar .%
-    {\csname ev#2@YargL@Qp@\endcsname}
+    {\csname ev#2@YargL@Qp@YargR@\endcsname}
     {\RegistOprEvalTypeB@opr}}}%
   }%
-  \xpndaft\def\csname ev#2@YargL@Qp@\endcsname.##1{%
-    \@ifnextchar .%
-    {\csname ev#2@YargL@Qp@YargR@\endcsname{##1}}%
-    {\relax}%
-  }%
-  \xpndaft\def\csname ev#2@YargL@Qp@YargR@\endcsname##1.##2{%
+  \expandafter\def\csname ev#2@YargL@Qp@YargR@\endcsname.##1.##2{% 
     \@ifnextchar p%
     {\csname ev#2@YargL@Qp@YargR@Yp\endcsname{##1}{##2}}% 
     {\csname evB#1\endcsname{\RegistOprEvalTypeB@opr}{##1}{##2}}%
   }%
-  \xpndaft\def\csname ev#2@YargL@Qp@YargR@Yp\endcsname##1##2p{%
+  \expandafter\def\csname ev#2@YargL@Qp@YargR@Yp\endcsname##1##2p{%
     \csname evB#1p\endcsname{\RegistOprEvalTypeB@opr}{##1}{##2}%
   }%
-  \xpndaft\def\csname ev#2@YargL@\endcsname<##1{%
+  \expandafter\def\csname ev#2@YargL@\endcsname<##1{%
     \@ifnextchar p%
     {\csname ev#2@YargL@Yp@\endcsname{##1}}%
     {\csname ev#2@YargL@Np@\endcsname{##1}}%
   }%
-  \xpndaft\def\csname ev#2@YargL@Np@\endcsname##1{%
+  \expandafter\def\csname ev#2@YargL@Np@\endcsname##1{%
     \@ifnextchar .%
     {\csname ev#2@YargL@Np@YargR@\endcsname{##1}}%
     {\relax}%
   }%
-  \xpndaft\def\csname ev#2@YargL@Np@YargR@\endcsname##1.##2{%
+  \expandafter\def\csname ev#2@YargL@Np@YargR@\endcsname##1.##2{%
     \@ifnextchar p%
     {\csname ev#2@YargL@Np@YargR@Yp\endcsname{##1}{##2}}% 
     {\csname evB#1LR\endcsname{\RegistOprEvalTypeB@opr}{##1}{##2}}%
   }%
-  \xpndaft\def\csname ev#2@YargL@Np@YargR@Yp\endcsname##1##2p{%
+  \expandafter\def\csname ev#2@YargL@Np@YargR@Yp\endcsname##1##2p{%
     \csname evB#1LRp\endcsname{\RegistOprEvalTypeB@opr}{##1}{##2}%
   }%
-  \xpndaft\def\csname ev#2@YargL@Yp@\endcsname##1p{%
+  \expandafter\def\csname ev#2@YargL@Yp@\endcsname##1p{%
     \@ifnextchar .%
     {\csname ev#2@YargL@Yp@YargR@\endcsname{##1}}%
     {\csname evB#1Lp\endcsname{\RegistOprEvalTypeB@opr}{##1}}%
   }%
-  \xpndaft\def\csname ev#2@YargL@Yp@YargR@\endcsname##1.##2{%
+  \expandafter\def\csname ev#2@YargL@Yp@YargR@\endcsname##1.##2{%
     \@ifnextchar p%
     {\csname ev#2@YargL@Yp@YargR@Yp\endcsname{##1}{##2}}% 
     {\csname evB#1LpR\endcsname{\RegistOprEvalTypeB@opr}{##1}{##2}}%
   }%
-  \xpndaft\def\csname ev#2@YargL@Yp@YargR@Yp\endcsname##1##2p{%
+  \expandafter\def\csname ev#2@YargL@Yp@YargR@Yp\endcsname##1##2p{%
     \csname evB#1LpRp\endcsname{\RegistOprEvalTypeB@opr}{##1}{##2}%
   }%
-  \xpndaft\def\csname ev#2@YargR@\endcsname>##1{%
+  \expandafter\def\csname ev#2@YargR@\endcsname>##1{%
     \@ifnextchar p%
     {\csname ev#2@YargR@Yp@\endcsname{##1}}%
     {\csname ev#2@YargR@Np@\endcsname{##1}}%
   }%
-  \xpndaft\def\csname ev#2@YargR@Np@\endcsname##1{%
+  \expandafter\def\csname ev#2@YargR@Np@\endcsname##1{%
     \@ifnextchar .%
     {\csname ev#2@YargR@Np@YargL@\endcsname{##1}}%
-    {\csname evB#1Rp\endcsname{\RegistOprEvalTypeB@opr}{##1}}%
+    {\relax}%
   }%
-  \xpndaft\def\csname ev#2@YargR@Np@YargL@\endcsname##1.##2{%
+  \expandafter\def\csname ev#2@YargR@Np@YargL@\endcsname##1.##2{%
     \@ifnextchar p%
     {\csname ev#2@YargR@Np@YargL@Yp\endcsname{##1}{##2}}% 
     {\csname evB#1RL\endcsname{\RegistOprEvalTypeB@opr}{##2}{##1}}%
   }%
-  \xpndaft\def\csname ev#2@YargR@Np@YargL@Yp\endcsname##1##2p{%
+  \expandafter\def\csname ev#2@YargR@Np@YargL@Yp\endcsname##1##2p{%
     \csname evB#1RLp\endcsname{\RegistOprEvalTypeB@opr}{##2}{##1}%
   }%
-  \xpndaft\def\csname ev#2@YargR@Yp@\endcsname##1p{%
+  \expandafter\def\csname ev#2@YargR@Yp@\endcsname##1p{%
     \@ifnextchar .%
     {\csname ev#2@YargR@Yp@YargL@\endcsname{##1}}%
     {\csname evB#1Rp\endcsname{\RegistOprEvalTypeB@opr}{##1}}%
   }%
-  \xpndaft\def\csname ev#2@YargR@Yp@YargL@\endcsname##1.##2{%
+  \expandafter\def\csname ev#2@YargR@Yp@YargL@\endcsname##1.##2{%
     \@ifnextchar p%
     {\csname ev#2@YargR@Yp@YargL@Yp\endcsname{##1}{##2}}% 
     {\csname evB#1RpL\endcsname{\RegistOprEvalTypeB@opr}{##2}{##1}}%
   }%
-  \xpndaft\def\csname ev#2@YargR@Yp@YargL@Yp\endcsname##1##2p{%
+  \expandafter\def\csname ev#2@YargR@Yp@YargL@Yp\endcsname##1##2p{%
     \csname evB#1RpLp\endcsname{\RegistOprEvalTypeB@opr}{##2}{##1}%
   }%
 }
