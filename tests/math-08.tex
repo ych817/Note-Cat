@@ -1,0 +1,60 @@
+% ----- 注册变量类型
+\RegistVarType{obj}BG{pink}Font{\sf}
+\RegistVarType{cat}BG{Rhodamine}Font{\sf}
+\RegistVarType{arr}BG{SpringGreen}Font{}
+\RegistVarType{fct}BG{YellowGreen}Font{}
+\RegistVarType{ntf}BG{LightBlue}Font{}
+% ----- 注册常用变量
+\RegistVarFamily{c}Type{obj}ppp
+\RegistVarFamily{f}Type{arr}ppp
+\RegistVarFamily{C}Type{cat}ppp
+\RegistVarFamily{D}Type{cat}ppp
+\RegistVarFamily{I}Type{cat}ppp
+\RegistVarFamily{F}Type{fct}ppp
+\RegistVarFamily{G}Type{fct}ppp
+\RegistVarFamily{eta}Type{ntf}Disp{\eta}ppp
+% ----- 注册常量
+\RegistVarFamily{init}Type{obj}Disp{0}ppp
+\RegistVarFamily{term}Type{obj}Disp{1}ppp
+\RegistVarFamily{Cat}Type{cat}Disp{Cat}
+\RegistVarFamily{Set}Type{cat}Disp{Set}
+\RegistVarFamily{Uni}Type{cat}Disp{\text{\ding{192}}}
+\RegistVarFamily{Bin}Type{cat}Disp{\text{\ding{193}}}
+\RegistVarFamily{Tri}Type{cat}Disp{\text{\ding{194}}}
+% ----- 注册常量（运算符）
+\RegistOpr{objget}TypeADflt{\catCat}Disp{{\rm Obj}}
+\RegistOpr{arrget}TypeADflt{\catCat}Disp{{\rm Arr}}
+\RegistOpr{Homo}TypeBDflt{\catC}                                % hom函子
+\RegistOpr{Expo}TypeBDflt{\catC}                                %  ^ 函子
+\RegistOpr{Mult}TypeADflt{\catC}Disp{\times}                    %  × 函子
+\RegistOpr{Addt}TypeADflt{\catC}Disp{+}                         %  + 函子
+\RegistOpr{Diag}TypeADflt{\catC,\catI}Disp{{\rm Di}}            % 对角函子
+\RegistOpr{srcget}TypeADflt{\catC}Disp{{\rm src}}               % 箭头源头
+\RegistOpr{target}TypeADflt{\catC}Disp{{\rm tar}}               % 箭头目标
+\RegistOpr{iden}TypeDDflt{\objc}Disp{{\rm id}}                  % 恒等箭头
+\RegistOpr{bang}TypeDDflt{\objc}Disp{\text{!}}                  % bang箭头
+\RegistOpr{absd}TypeDDflt{\objc}Disp{\text{\textexclamdown}}    % absurd箭头
+\RegistOpr{Yone}TypeADflt{\catC}Disp{\text{よ}}                 % 米田嵌入
+\RegistOpr{Yoda}TypeADflt{\catC}Disp{\text{\small 尤}}          % 尤达嵌入
+% 
+\begin{multicols*}{2}
+
+$\objc$ , $\objcpp$ , $\objcppp$ , $\objcppn1$ , $\objcpn2$ , $\objinit$ , $\objterm$\\
+$\arrf$ , $\arrfp$ , $\arrfn1$ , $\arrfpn2$ , \\
+$\ntfeta$ , $\ntfetap$ , $\ntfetan1$ , $\ntfetapn1$ , \\
+$\catC$ , $\catCp$ , $\catCn1$ , $\catCppn2$ , $\catUni$ , $\catBin$ , $\catTri$\\
+$\fctF$ , $\fctFn1$\ , $\fctG$ , $\fctGpn2$ \\
+$\Yone$ , $\Yoda$ ,
+$\Addt[\catD]$ , 
+$\Mult[\catD]$ , 
+$\Homo$ , 
+$\objget[\catD]$ , 
+$\arrget[\catD]$ , 
+$\Diag$ ,
+$\Diag[\catD,\catUni]$ , \\
+$\srcget$ , $\target$ ,
+$\bang$ , $\bang[\objcpp]$ , $\absd$ , $\iden[\objcpn1]$
+
+\vfill\null\columnbreak
+
+\end{multicols*}

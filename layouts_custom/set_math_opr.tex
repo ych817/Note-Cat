@@ -1,17 +1,50 @@
 \makeatletter
 % ----- 运算符注册模板
-\def\RegistOprFormTypeAName#1Disp#2Dflt#3{%
-  \xpndaft\newcommand\xpndaft{\csname #1\endcsname}[1][#3]{\plr{\ensuremath{
-    \stackunder[0pt]{\stackon[0pt]{\plr{#2}}
-    {}}
-    {\text{\scriptsize\(\plr{##1}\)}}
-  }}}
+\def\RegistOpr#1Type{
+  \@ifnextchar A%
+  {\RegistOpr@TypeA@{#1}}
+  {\@ifnextchar B%
+  {\RegistOpr@TypeB@{#1}}
+  {\@ifnextchar D%
+  {\RegistOpr@TypeD@{#1}}
+  {\relax}}}
 }
-\def\RegistOprFormTypeBName#1Dflt#2{%
-  \xpndaft\newcommand\xpndaft{\csname #1\endcsname}[1][#2]{\plr{\ensuremath{%
-    \xrightarrow[\text{\scriptsize\(\plr{##1}\)}]{}%
-  }}}
+\def\RegistOpr@TypeA@#1ADflt#2Disp#3{
+  \xpndaft\ncm\xpndaft{\csname #1\endcsname}[1][#2]{%
+    \plr{\ensuremath{%
+      \stackunder[0pt]{\stackon[0pt]{\plr{#3}}
+      {}}
+      {\text{\scriptsize\(\plr{##1}\)}}
+    }}
+  }
 }
+\def\RegistOpr@TypeB@#1BDflt#2{
+  \xpndaft\ncm\xpndaft{\csname #1\endcsname}[1][#2]{%
+    \plr{\ensuremath{%
+      \xrightarrow[\text{\scriptsize\(\plr{##1}\)}]{}%
+    }}
+  }
+}
+\def\RegistOpr@TypeD@#1DDflt#2Disp#3{
+  \xpndaft\ncm\xpndaft{\csname #1\endcsname}[1][#2]{%
+    \plr{\ensuremath{%
+      {}_{\scriptscriptstyle\plr{:##1}}^{}{#3}
+    }}
+  }
+}
+
+% \def\RegistOprFormTypeAName#1Disp#2Dflt#3{%
+%   \xpndaft\newcommand\xpndaft{\csname #1\endcsname}[1][#3]{\plr{\ensuremath{
+%     \stackunder[0pt]{\stackon[0pt]{\plr{#2}}
+%     {}}
+%     {\text{\scriptsize\(\plr{##1}\)}}
+%   }}}
+% }
+% \def\RegistOprFormTypeBName#1Dflt#2{%
+%   \xpndaft\newcommand\xpndaft{\csname #1\endcsname}[1][#2]{\plr{\ensuremath{%
+%     \xrightarrow[\text{\scriptsize\(\plr{##1}\)}]{}%
+%   }}}
+% }
 % \def\RegistOprFormTypeCName#1Disp#2DfltCat#3DfltIdx#4{%
 %   \xpndaft\def\csname #1\endcsname{%
 %     \@ifnextchar [%
@@ -46,9 +79,9 @@
 %     {\text{\scriptsize\(\plr{{##1}~{##2}}\)}}
 %   }}}%
 % }
-\def\RegistOprFormTypeDName#1Disp#2Dflt#3{%
-  \xpndaft\newcommand\xpndaft{\csname #1\endcsname}[1][#3]{\plr{\ensuremath{%
-    {}_{\scriptscriptstyle\plr{:##1}}^{}{#2}
-  }}}
-}
+% \def\RegistOprFormTypeDName#1Disp#2Dflt#3{%
+%   \xpndaft\newcommand\xpndaft{\csname #1\endcsname}[1][#3]{\plr{\ensuremath{%
+%     {}_{\scriptscriptstyle\plr{:##1}}^{}{#2}
+%   }}}
+% }
 \makeatother

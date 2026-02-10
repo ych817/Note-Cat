@@ -48,31 +48,31 @@
   \csname ColorVarType#1true\endcsname                % 默认开启背景高亮
 }
 % ------ 常用变量注册模板 带高亮
-\def\RegistVarFreqType#1Name#2{
+\def\RegistVarFamily#1Type#2{
   \@ifnextchar D%
-  {\RegistVarFreqType@{#1}{#2}}
-  {\RegistVarFreqType@{#1}{#2}Disp{#2}}
+  {\RegistVarFamily@{#1}{#2}}
+  {\RegistVarFamily@{#1}{#2}Disp{#1}}
 }
-\def\RegistVarFreqType@#1#2Disp#3{%
-  \xpndaft\def\csname #1#2\endcsname{%
-    \csname var#1\endcsname{{#3}^{}}%
+\def\RegistVarFamily@#1#2Disp#3{%
+  \xpndaft\def\csname #2#1\endcsname{%
+    \csname var#2\endcsname{{#3}^{}}%
   }
-  \xpndaft\def\csname #1#2n\endcsname##1{%
-    \csname var#1\endcsname{{#3}_{##1}^{}}%
+  \xpndaft\def\csname #2#1n\endcsname##1{%
+    \csname var#2\endcsname{{#3}_{##1}^{}}%
   }
   \@ifnextchar p
-  {\RegistVarFreqType@Loop{#1}{#2}{p}{'}{#3}}
+  {\RegistVarFamily@Loop{#1}{#2}{p}{'}{#3}}
   {\relax}
 }
-\def\RegistVarFreqType@Loop#1#2#3#4#5p{% 
-  \xpndaft\def\csname #1#2#3\endcsname{%
-    \csname var#1\endcsname{{#5}#4}%
+\def\RegistVarFamily@Loop#1#2#3#4#5p{% 
+  \xpndaft\def\csname #2#1#3\endcsname{%
+    \csname var#2\endcsname{{#5}#4}%
   }
-  \xpndaft\def\csname #1#2#3n\endcsname##1{%
-    \csname var#1\endcsname{{#5}#4_{##1}}%
+  \xpndaft\def\csname #2#1#3n\endcsname##1{%
+    \csname var#2\endcsname{{#5}#4_{##1}}%
   } 
   \@ifnextchar p
-  {\RegistVarFreqType@Loop{#1}{#2}{#3p}{#4'}{#5}} 
+  {\RegistVarFamily@Loop{#1}{#2}{#3p}{#4'}{#5}} 
   {\relax}   
 }
 \makeatother
