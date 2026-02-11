@@ -29,7 +29,26 @@
 % \input{tests/math-06}
 % \input{tests/math-07}
 \input{tests/math-08}
+% \input{tests/math-09}
 
+% \makeatletter
+% \newcommand\test[2][]{%
+%   \def\testTempBG{}%
+%   \pgfkeys{
+%     /test/#2/.is family, /test/#2,
+%     colorBG/.store in = \testTempBG,
+%     #1
+%   }%
+%   \ifx\testTempBG\empty
+%     \fbox{#2}%
+%   \else
+%     \colorbox{\testTempBG}{#2}%
+%   \fi
+% }
+% \makeatother
 
+% \test[colorBG=pink]{obj}\\
+% \test[colorBG=cyan]{cat}\\
+% \test{arr}
 
 \end{document}

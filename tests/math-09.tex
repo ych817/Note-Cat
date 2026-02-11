@@ -1,0 +1,58 @@
+\ExplSyntaxOn
+
+\NewDocumentCommand{\RegisterVarType}{mO{}}{
+  \keys_set:nn { ych/type } { color=,font=,#2 }
+  \ych_register_type:n {#1}
+}
+
+\keys_define:nn { ych/type }{
+  color .str_set:N = \l__ych_register_type_color_str,
+  font  .str_set:N = \l__ych_register_type_font_str,
+}
+
+\cs_new_protected:Nn \ych_register_type:n
+{
+  \tl_set:Ne \l__ych_register_tmp_tl{
+    \str_if_empty:NTF \l__ych_register_type_color_str
+    { ##1 }                                                         % without  color
+    { \exp_not:N \mathcolor{\l__ych_register_type_color_str}{##1} } % with     color
+  }
+  \str_if_empty:NF \l__ych_register_type_font_str{
+    \tl_set:Ne \l__ych_register_tmp_tl
+    { \exp_not:c { math\l__ych_register_type_font_str } { \exp_not:V \l__ych_register_tmp_tl } }
+  }
+  \exp_args:NNV \cs_set_protected:Nn \__ych_register_tmp:n \l__ych_register_tmp_tl
+  \cs_set_eq:cN {#1} \__ych_register_tmp:n
+}
+\NewDocumentCommand{\RegisterVarFreqType}{O{5}mm}{
+  % #1 = allowed numbers of primes
+  % #2 = type previously defined
+  % #3 = tokens to incorporate in the abbreviation
+  \bool_lazy_and:nnTF { \tl_if_single_p:n {#3} } { \token_if_cs_p:N #3 }{
+    \ych_register_freq:nnne {#1} {#2} {#3} { \cs_to_str:N #3 }
+  }
+  {
+    \ych_register_freq:nnnn {#1} {#2} {#3} {#3}
+  }
+}
+
+\cs_new_protected:Nn \ych_register_freq:nnnn{
+  \int_step_inline:nnn {0} {#1}{
+    \cs_new_protected:cpe { #2#4 \prg_replicate:nn {##1} {p} }{
+      \exp_not:c {#2} {#3} \prg_replicate:nn {##1} {\exp_not:N '}
+    }
+    \cs_new_protected:cpe { #2#4 \prg_replicate:nn {##1} {p} n } ####1{
+      \exp_not:c {#2} {#3} \prg_replicate:nn {##1} {\exp_not:N '} \sb{####1}
+    }
+  }
+}
+\cs_generate_variant:Nn \ych_register_freq:nnnn {nnne}
+\ExplSyntaxOff
+
+\RegisterVarType{obj}[color=pink,font=sf]
+
+$\obj c$ , $\obj{c_1}$
+
+\RegisterVarFreqType{obj}{c}
+
+$\objc$ , $\objcn1$

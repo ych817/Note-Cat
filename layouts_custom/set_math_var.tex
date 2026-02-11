@@ -31,21 +31,31 @@
 % ----- 变量注册模板 带高亮
 % \def\gobble#1{}                      % 吞掉参数
 \makeatletter
-\def\RegistVarType#1BG#2Font#3{
-  \colorlet{color#1}{#2}
-  \xpndaft\newif\csname ifColorVarType#1\endcsname    % 确认是否开启背景高亮
+\def\RegistVarType#1{
+  \@ifnextchar [%
+  {\RegistVarType@{#1}}
+  {\RegistVarType@{#1}[]}
+}
+\def\RegistVarType@#1[#2]{
+  \xpndaft\def\csname var#1colorBG\endcsname{}
+  \xpndaft\def\csname var#1font\endcsname{}
+  \pgfkeys{%
+    /var #1/.is family, /var #1,
+    colorBG/.store in/.expand once = \csname var#1colorBG\endcsname,
+    font/.store in/.expand once = \csname var#1font\endcsname,
+    #2
+  }
   \xpndaft\def\csname var#1\endcsname##1{%
     \setlength{\fboxsep}{0pt}%
     \setlength{\fboxrule}{0pt}%
-    \let\RegistVarTypeCache=\relax
-    \csname ifColorVarType#1\endcsname{%
-      \gdef\RegistVarTypeCache{\colorbox{color#1}}%
-    }\else{%
-      \gdef\RegistVarTypeCache{\fbox}%
-    }\fi%
-    \RegistVarTypeCache{\ensuremath{\plr{#3 ##1}}}%
+    \let\RegistVar@Cache=\relax  
+    \xpndaft\ifx\csname var#1colorBG\endcsname\empty
+      \def\RegistVar@Cache{\fbox}%
+    \else
+      \def\RegistVar@Cache{\colorbox{\csname var#1colorBG\endcsname}}%
+    \fi
+    \RegistVar@Cache{\ensuremath{\plr{\csname var#1font\endcsname ##1}}}%
   }
-  \csname ColorVarType#1true\endcsname                % 默认开启背景高亮
 }
 % ------ 常用变量注册模板 带高亮
 \def\RegistVarFamily#1Type#2{
