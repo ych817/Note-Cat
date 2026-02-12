@@ -5,37 +5,37 @@
 \RegistVarType{fct}[colorBG=YellowGreen]
 \RegistVarType{ntf}[colorBG=LightBlue]
 % ----- 注册常用变量
-\RegistVarFamily{c}Type{obj}ppp
-\RegistVarFamily{f}Type{arr}ppp
-\RegistVarFamily{C}Type{cat}ppp
-\RegistVarFamily{D}Type{cat}ppp
-\RegistVarFamily{I}Type{cat}ppp
-\RegistVarFamily{F}Type{fct}ppp
-\RegistVarFamily{G}Type{fct}ppp
-\RegistVarFamily{eta}Type{ntf}Disp{\eta}ppp
+\RegistVarFamily{c}Type{obj}[prime number=3]
+\RegistVarFamily{f}Type{arr}[prime number=3]
+\RegistVarFamily{C}Type{cat}[prime number=3]
+\RegistVarFamily{D}Type{cat}[prime number=3]
+\RegistVarFamily{I}Type{cat}[prime number=3]
+\RegistVarFamily{F}Type{fct}[prime number=3]
+\RegistVarFamily{G}Type{fct}[prime number=3]
+\RegistVarFamily{eta}Type{ntf}[display as=\eta, prime number=3]
 % ----- 注册常量
-\RegistVarFamily{init}Type{obj}Disp{0}ppp
-\RegistVarFamily{term}Type{obj}Disp{1}ppp
-\RegistVarFamily{Cat}Type{cat}Disp{Cat}
-\RegistVarFamily{Set}Type{cat}Disp{Set}
-\RegistVarFamily{Uni}Type{cat}Disp{\text{\ding{192}}}
-\RegistVarFamily{Bin}Type{cat}Disp{\text{\ding{193}}}
-\RegistVarFamily{Tri}Type{cat}Disp{\text{\ding{194}}}
+\RegistVarFamily{init}Type{obj}[display as=0]
+\RegistVarFamily{term}Type{obj}[display as=1]
+\RegistVarFamily{Cat}Type{cat}[display as=Cat]
+\RegistVarFamily{Set}Type{cat}[display as=Set]
+\RegistVarFamily{Uni}Type{cat}[display as=\text{\ding{192}}]
+\RegistVarFamily{Bin}Type{cat}[display as=\text{\ding{193}}]
+\RegistVarFamily{Tri}Type{cat}[display as=\text{\ding{194}}]
 % ----- 注册常量（运算符）
-\RegistOpr{objget}TypeADflt{\catCat}Disp{{\rm Obj}}
-\RegistOpr{arrget}TypeADflt{\catCat}Disp{{\rm Arr}}
-\RegistOpr{Homo}TypeBDflt{\catC}                                % hom函子
-\RegistOpr{Expo}TypeBDflt{\catC}                                %  ^ 函子
-\RegistOpr{Mult}TypeADflt{\catC}Disp{\times}                    %  × 函子
-\RegistOpr{Addt}TypeADflt{\catC}Disp{+}                         %  + 函子
-\RegistOpr{Diag}TypeADflt{\catC,\catI}Disp{{\rm Di}}            % 对角函子
-\RegistOpr{srcget}TypeADflt{\catC}Disp{{\rm src}}               % 箭头源头
-\RegistOpr{target}TypeADflt{\catC}Disp{{\rm tar}}               % 箭头目标
-\RegistOpr{iden}TypeDDflt{\objc}Disp{{\rm id}}                  % 恒等箭头
-\RegistOpr{bang}TypeDDflt{\objc}Disp{\text{!}}                  % bang箭头
-\RegistOpr{absd}TypeDDflt{\objc}Disp{\text{\textexclamdown}}    % absurd箭头
-\RegistOpr{Yone}TypeADflt{\catC}Disp{\text{よ}}                 % 米田嵌入
-\RegistOpr{Yoda}TypeADflt{\catC}Disp{\text{\small 尤}}          % 尤达嵌入
+\RegistOpr{objget}TypeA[default type=\catCat, display as={\rm Obj}]
+\RegistOpr{arrget}TypeA[default type=\catCat, display as={\rm Arr}]
+\RegistOpr{Homo}TypeB[default type=\catC]                                         % hom函子
+\RegistOpr{Expo}TypeB[default type=\catC]                                         %  ^ 函子
+\RegistOpr{Mult}TypeA[default type=\catC, display as=\times]                      %  × 函子
+\RegistOpr{Addt}TypeA[default type=\catC, display as=+]                           %  + 函子
+\RegistOpr{Diag}TypeC[default type=\catC, default index=\catI, display as={\rm Di}]          % 对角函子
+\RegistOpr{srcget}TypeA[default type=\catC, display as={{\rm src}}]               % 箭头源头
+\RegistOpr{target}TypeA[default type=\catC, display as={{\rm tar}}]               % 箭头目标
+\RegistOpr{iden}TypeD[default type=\objc, display as={{\rm id}}]                  % 恒等箭头
+\RegistOpr{bang}TypeD[default type=\objc, display as={\text{!}}]                  % bang箭头
+\RegistOpr{absd}TypeD[default type=\objc, display as={\text{\textexclamdown}}]    % absurd箭头
+\RegistOpr{Yone}TypeA[default type=\catC, display as={\text{よ}}]                 % 米田嵌入
+\RegistOpr{Yoda}TypeA[default type=\catC, display as={\text{\small 尤}}]          % 尤达嵌入
 % 
 \begin{multicols*}{2}
 
@@ -51,7 +51,7 @@ $\Homo$ ,
 $\objget[\catD]$ , 
 $\arrget[\catD]$ , 
 $\Diag$ ,
-$\Diag[\catD,\catUni]$ , \\
+$\Diag[\catD]<\catUni>$ , \\
 $\srcget$ , $\target$ ,
 $\bang$ , $\bang[\objcpp]$ , $\absd$ , $\iden[\objcpn1]$
 

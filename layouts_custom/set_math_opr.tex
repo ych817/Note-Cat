@@ -1,87 +1,99 @@
 \makeatletter
 % ----- 运算符注册模板
 \def\RegistOpr#1Type{
-  \@ifnextchar A%
-  {\RegistOpr@TypeA@{#1}}
+   \@ifnextchar A%
+  {\RegistOpr@TypeA@{#1}} % 发现 A，交给 TypeA 处理
   {\@ifnextchar B%
-  {\RegistOpr@TypeB@{#1}}
+  {\RegistOpr@TypeB@{#1}} % 发现 B，交给 TypeB 处理
+  {\@ifnextchar C%
+  {\RegistOpr@TypeC@{#1}} % 发现 C，交给 TypeC 处理
   {\@ifnextchar D%
-  {\RegistOpr@TypeD@{#1}}
-  {\relax}}}
+  {\RegistOpr@TypeD@{#1}} % 发现 D，交给 TypeD 处理
+  {\relax}}}}
 }
-\def\RegistOpr@TypeA@#1ADflt#2Disp#3{
-  \xpndaft\ncm\xpndaft{\csname #1\endcsname}[1][#2]{%
+\def\RegistOpr@TypeA@#1A{
+  \@ifnextchar [%
+  {\RegistOpr@TypeA@opt{#1}}
+  {\RegistOpr@TypeA@opt{#1}[]}
+}
+\def\RegistOpr@TypeB@#1B{
+  \@ifnextchar [%
+  {\RegistOpr@TypeB@opt{#1}}
+  {\RegistOpr@TypeB@opt{#1}[]}
+}
+\def\RegistOpr@TypeC@#1C{
+  \@ifnextchar [%
+  {\RegistOpr@TypeC@opt{#1}}
+  {\RegistOpr@TypeC@opt{#1}[]}
+}
+\def\RegistOpr@TypeD@#1D{
+  \@ifnextchar [%
+  {\RegistOpr@TypeD@opt{#1}}
+  {\RegistOpr@TypeD@opt{#1}[]}
+}
+\def\RegistOpr@TypeA@opt#1[#2]{
+  \xpndaft\def\csname opr#1defaultType\endcsname{}
+  \xpndaft\def\csname opr#1display\endcsname{}
+  \pgfkeys{
+    /opr/typeA/#1/.is family, /opr/typeA/#1,
+    default type/.store in/.expand once = \csname opr#1defaultType\endcsname,
+    display as/.store in/.expand once = \csname opr#1display\endcsname,
+    #2
+  }
+  \xpndaft\ncm\xpndaft{\csname #1\endcsname}[1][\csname opr#1defaultType\endcsname]{%
     \plr{\ensuremath{%
-      \stackunder[0pt]{\stackon[0pt]{\plr{#3}}
+      \stackunder[0pt]{\stackon[0pt]{\plr{\csname opr#1display\endcsname}}
       {}}
       {\text{\scriptsize\(\plr{##1}\)}}
     }}
   }
 }
-\def\RegistOpr@TypeB@#1BDflt#2{
-  \xpndaft\ncm\xpndaft{\csname #1\endcsname}[1][#2]{%
+\def\RegistOpr@TypeB@opt#1[#2]{
+  \xpndaft\def\csname opr#1defaultType\endcsname{}
+  \pgfkeys{
+    /opr/typeB/#1/.is family, /opr/typeB/#1,
+    default type/.store in/.expand once = \csname opr#1defaultType\endcsname,
+    #2
+  }
+  \xpndaft\ncm\xpndaft{\csname #1\endcsname}[1][\csname opr#1defaultType\endcsname]{%
     \plr{\ensuremath{%
       \xrightarrow[\text{\scriptsize\(\plr{##1}\)}]{}%
     }}
   }
 }
-\def\RegistOpr@TypeD@#1DDflt#2Disp#3{
-  \xpndaft\ncm\xpndaft{\csname #1\endcsname}[1][#2]{%
+\def\RegistOpr@TypeC@opt#1[#2]{
+  \xpndaft\def\csname opr#1defaultType\endcsname{}
+  \xpndaft\def\csname opr#1defaultIndx\endcsname{}
+  \xpndaft\def\csname opr#1display\endcsname{}
+  \pgfkeys{
+    /opr/typeC/#1/.is family, /opr/typeC/#1,
+    default type/.store in/.expand once = \csname opr#1defaultType\endcsname,
+    default index/.store in/.expand once = \csname opr#1defaultIndx\endcsname,
+    display as/.store in/.expand once = \csname opr#1display\endcsname,
+    #2
+  }
+  \xpndaft\NewDocumentCommand\csname #1\endcsname{ 
+    O{\csname opr#1defaultType\endcsname}   
+    D<>{\csname opr#1defaultIndx\endcsname} 
+  }{\plr{\ensuremath{%
+    \stackunder[0pt]{\stackon[0pt]{\plr{\csname opr#1display\endcsname}}
+    {}}
+    {\text{\scriptsize\(\plr{##1~##2}\)}}}}
+  }
+}
+\def\RegistOpr@TypeD@opt#1[#2]{
+  \xpndaft\def\csname opr#1defaultType\endcsname{}
+  \xpndaft\def\csname opr#1display\endcsname{}
+  \pgfkeys{
+    /opr/typeD/#1/.is family, /opr/typeD/#1,
+    default type/.store in/.expand once = \csname opr#1defaultType\endcsname,
+    display as/.store in/.expand once = \csname opr#1display\endcsname,
+    #2
+  }
+  \xpndaft\ncm\xpndaft{\csname #1\endcsname}[1][\csname opr#1defaultType\endcsname]{%
     \plr{\ensuremath{%
-      {}_{\scriptscriptstyle\plr{:##1}}^{}{#3}
+      {}_{\scriptscriptstyle\plr{:##1}}^{}{\csname opr#1display\endcsname}
     }}
   }
 }
-
-% \def\RegistOprFormTypeAName#1Disp#2Dflt#3{%
-%   \xpndaft\newcommand\xpndaft{\csname #1\endcsname}[1][#3]{\plr{\ensuremath{
-%     \stackunder[0pt]{\stackon[0pt]{\plr{#2}}
-%     {}}
-%     {\text{\scriptsize\(\plr{##1}\)}}
-%   }}}
-% }
-% \def\RegistOprFormTypeBName#1Dflt#2{%
-%   \xpndaft\newcommand\xpndaft{\csname #1\endcsname}[1][#2]{\plr{\ensuremath{%
-%     \xrightarrow[\text{\scriptsize\(\plr{##1}\)}]{}%
-%   }}}
-% }
-% \def\RegistOprFormTypeCName#1Disp#2DfltCat#3DfltIdx#4{%
-%   \xpndaft\def\csname #1\endcsname{%
-%     \@ifnextchar [%
-%     {\csname #1@YCat@\endcsname}
-%     {\csname #1@NCat@\endcsname{#3}}
-%   }
-%   \xpndaft\def\csname #1@NCat@\endcsname##1{%
-%     \@ifnextchar (%
-%     {\csname #1@NCat@YIdx\endcsname{##1}}
-%     {\csname #1@NCat@NIdx\endcsname{##1}{#4}}
-%   }
-%   \xpndaft\def\csname #1@YCat@\endcsname[##1]{%
-%     \@ifnextchar (%
-%     {\csname #1@YCat@YIdx\endcsname{##1}}
-%     {\csname #1@YCat@NIdx\endcsname{##1}{#4}}
-%   }
-%   \xpndaft\def\csname #1@NCat@NIdx\endcsname##1##2{%
-%     \csname #1@Final\endcsname{##1}{##2}
-%   }
-%   \xpndaft\def\csname #1@NCat@YIdx\endcsname##1(##2){%
-%     \csname #1@Final\endcsname{##1}{##2}
-%   }
-%   \xpndaft\def\csname #1@YCat@NIdx\endcsname##1##2{%
-%     \csname #1@Final\endcsname{##1}{##2}
-%   }
-%   \xpndaft\def\csname #1@YCat@YIdx\endcsname##1(##2){%
-%     \csname #1@Final\endcsname{##1}{##2}
-%   }
-%   \xpndaft\def\csname #1@Final\endcsname##1##2{\plr{\ensuremath{%
-%     \stackunder[0pt]{\stackon[0pt]{\plr{#2}}
-%     {}}
-%     {\text{\scriptsize\(\plr{{##1}~{##2}}\)}}
-%   }}}%
-% }
-% \def\RegistOprFormTypeDName#1Disp#2Dflt#3{%
-%   \xpndaft\newcommand\xpndaft{\csname #1\endcsname}[1][#3]{\plr{\ensuremath{%
-%     {}_{\scriptscriptstyle\plr{:##1}}^{}{#2}
-%   }}}
-% }
 \makeatother
