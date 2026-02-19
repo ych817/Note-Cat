@@ -32,8 +32,8 @@
   {\RegistOpr@TypeD@opt{#1}[]}
 }
 \def\RegistOpr@TypeA@opt#1[#2]{
-  \xpndaft\def\csname opr#1defaultType\endcsname{}
-  \xpndaft\def\csname opr#1display\endcsname{}
+  \ExpandArgs{c}\def{opr#1defaultType}{}
+  \ExpandArgs{c}\def{opr#1display}{}
   \pgfkeys{
     /opr/typeA/#1/.is family, /opr/typeA/#1,
     default type/.store in/.expand once = \csname opr#1defaultType\endcsname,
@@ -49,7 +49,7 @@
   }
 }
 \def\RegistOpr@TypeB@opt#1[#2]{
-  \xpndaft\def\csname opr#1defaultType\endcsname{}
+  \ExpandArgs{c}\def{opr#1defaultType}{}
   \pgfkeys{
     /opr/typeB/#1/.is family, /opr/typeB/#1,
     default type/.store in/.expand once = \csname opr#1defaultType\endcsname,
@@ -62,9 +62,9 @@
   }
 }
 \def\RegistOpr@TypeC@opt#1[#2]{
-  \xpndaft\def\csname opr#1defaultType\endcsname{}
-  \xpndaft\def\csname opr#1defaultIndx\endcsname{}
-  \xpndaft\def\csname opr#1display\endcsname{}
+  \ExpandArgs{c}\def{opr#1defaultType}{}
+  \ExpandArgs{c}\def{opr#1defaultIndx}{}
+  \ExpandArgs{c}\def{opr#1display}{}
   \pgfkeys{
     /opr/typeC/#1/.is family, /opr/typeC/#1,
     default type/.store in/.expand once = \csname opr#1defaultType\endcsname,
@@ -74,7 +74,7 @@
   }
   \xpndaft\NewDocumentCommand\csname #1\endcsname{ 
     O{\csname opr#1defaultType\endcsname}   
-    D<>{\csname opr#1defaultIndx\endcsname} 
+    D(){\csname opr#1defaultIndx\endcsname} 
   }{\plr{\ensuremath{%
     \stackunder[0pt]{\stackon[0pt]{\plr{\csname opr#1display\endcsname}}
     {}}
@@ -82,8 +82,8 @@
   }
 }
 \def\RegistOpr@TypeD@opt#1[#2]{
-  \xpndaft\def\csname opr#1defaultType\endcsname{}
-  \xpndaft\def\csname opr#1display\endcsname{}
+  \ExpandArgs{c}\def{opr#1defaultType}{}
+  \ExpandArgs{c}\def{opr#1display}{}
   \pgfkeys{
     /opr/typeD/#1/.is family, /opr/typeD/#1,
     default type/.store in/.expand once = \csname opr#1defaultType\endcsname,

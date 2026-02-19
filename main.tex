@@ -1,4 +1,4 @@
-% arara: xelatex: { shell: yes, interaction: nonstopmode }
+% arara: lualatex: { shell: yes, interaction: nonstopmode }
 \documentclass[10pt,a4paper]{article}
 \input{layouts_origin/use}                 % 宏包导入
 \input{layouts_origin/set_code}            % 样式设置 : codefence 相关包 : tcolorbox , minted , fcextra , fancyvrb
@@ -7,7 +7,7 @@
 \input{layouts_custom/set_math_var.tex}
 \input{layouts_custom/set_math_opr.tex}
 \input{layouts_custom/set_math_evl01.tex}
-% \input{layouts_custom/set_math_evl02.tex}
+\input{layouts_custom/set_math_evl02.tex}
 
 \setlength\parindent{0pt}                  % 段落缩进取消
 \setlength{\columnseprule}{.4pt}           % 绘制每列之间的竖线 (multicol 宏包)
@@ -32,24 +32,20 @@
 \input{tests/math-08}
 % \input{tests/math-09}
 
-% \makeatletter
-% \newcommand\test[2][]{%
-%   \def\testTempBG{}%
-%   \pgfkeys{
-%     /test/#2/.is family, /test/#2,
-%     colorBG/.store in = \testTempBG,
-%     #1
-%   }%
-%   \ifx\testTempBG\empty
-%     \fbox{#2}%
-%   \else
-%     \colorbox{\testTempBG}{#2}%
-%   \fi
-% }
-% \makeatother
-
-% \test[colorBG=pink]{obj}\\
-% \test[colorBG=cyan]{cat}\\
-% \test{arr}
+$\begin{xy}
+(0,0)*+<5pt,3pt>[F-:<3pt>:red][F*:<3pt>:pink]{\vphantom{fg}x}="x",
+\ar@`{"x"+(-10,+10),"x"+(+10,+10)}^{1}
+\ar@`{"x"+(-20,+20),"x"+(+20,+20)}^{2}
+\ar@`{"x"+(-30,+30),"x"+(+30,+30)}^{3}
+\ar@`{"x"+(-40,+40),"x"+(+40,+40)}^{4}
+\ar@`{"x"+(-50,+50),"x"+(+50,+50)}^{5}
+\ar@`{"x"+(-60,+60),"x"+(+60,+60)}^{6}
+\ar@`{"x"+(+10,-10),"x"+(-10,-10)}^{1}
+\ar@`{"x"+(+20,-20),"x"+(-20,-20)}^{2}
+\ar@`{"x"+(+30,-30),"x"+(-30,-30)}^{3}
+\ar@`{"x"+(+40,-40),"x"+(-40,-40)}^{4}
+\ar@`{"x"+(+50,-50),"x"+(-50,-50)}^{5}
+\ar@`{"x"+(+60,-60),"x"+(-60,-60)}^{6}
+\end{xy}$
 
 \end{document}

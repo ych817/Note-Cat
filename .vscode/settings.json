@@ -1,5 +1,5 @@
 {
-  "latex-workshop.latex.recipe.default": "latexmk (xelatex)",
+  "latex-workshop.latex.recipe.default": "latexmk (lualatex)",
   "latex-workshop.latex.tools": [
     {
       "name": "latexmk",
@@ -128,7 +128,7 @@
       "env": {}
     }
   ],
-  "latex-workshop.latex.clean.command": "xelatexmk",
+  "latex-workshop.latex.clean.command": "lualatexmk",
   "[python]": {
     // "editor.insertSpaces": true,
     // "editor.tabSize": 2 ,

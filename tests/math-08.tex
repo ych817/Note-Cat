@@ -37,6 +37,12 @@
 \RegistOpr{Yone}TypeA[default type=\catC, display as={\text{よ}}]                 % 米田嵌入
 \RegistOpr{Yoda}TypeA[default type=\catC, display as={\text{\small 尤}}]          % 尤达嵌入
 % 
+\RegistOprEvalTypeB{in}Form{Homo}
+\RegistOprEvalTypeB{inx}Form{Expo}
+\RegistOprEvalTypeU{}Form{objget}
+\RegistOprEvalTypeU{}Form{arrget}
+\RegistOprEvalTypeU{n}Form{ntfeta}
+
 \begin{multicols*}{2}
 
 $\objc$ , $\objcpp$ , $\objcppp$ , $\objcppn1$ , $\objcpn2$ , $\objinit$ , $\objterm$\\
@@ -51,12 +57,151 @@ $\Homo$ ,
 $\objget[\catD]$ , 
 $\arrget[\catD]$ , 
 $\Diag$ ,
-$\Diag[\catD]<\catUni>$ , \\
+$\Diag[\catD](\catUni)$ , \\
 $\srcget$ , $\target$ ,
 $\bang$ , $\bang[\objcpp]$ , $\absd$ , $\iden[\objcpn1]$
 
+\vspace{10pt}
 
+% $\evobjget$ , $\evobjget.{\catD}$ , $\evobjget[\catCat].{\catD}p$ \\
+% $\evobjget$ , $\evarrget.{\catD}$ , $\evarrget[\catCat].{\catD}p$ \\
+% $\evntfeta$ , $\evntfeta.\objc$ , $\evntfeta.\objc p$
+
+\vspace{10pt}
+
+$\evHomo[{\evHomo[\catCat]<{\catC}.{\catD}}]<{\fctF}.{\fctG}$
 
 \vfill\null\columnbreak
 
+$\evBpo\arrf{\objcn1}{\objcn2}$    , $\evBpop\arrf{\objcn1}{\objcn2}$    \\
+$\evBpoA\arrf{\objcn1}$            ,                                     \\
+$\evBpoAp\arrf{\objcn1}$           ,                                     \\
+$\evBpoBp\arrf{\objcn2}$           ,                                     \\
+$\evBpoAB\arrf{\objcn1}{\objcn2}$  , $\evBpoABp\arrf{\objcn1}{\objcn2}$  \\
+$\evBpoApB\arrf{\objcn1}{\objcn2}$ , $\evBpoApBp\arrf{\objcn1}{\objcn2}$ \\
+$\evBpoBpA\arrf{\objcn2}{\objcn1}$ , $\evBpoBpAp\arrf{\objcn1}{\objcn2}$
+
+\vspace{10pt}
+
+$\evHomo$ , \\
+$\evHomo.{\objcn1}.{\objcn2}$  , $\evHomo.{\objcn1}.{\objcn2}p$   \\
+$\evHomo<{\objcn1}.{\objcn2}$  , $\evHomo<{\objcn1}.{\objcn2}p$   \\
+$\evHomo<{\objcn1}p$           ,                                  \\
+$\evHomo<{\objcn1}p.{\objcn2}$ , $\evHomo<{\objcn1}p.{\objcn2}p$  \\
+$\evHomo>{\objcn2}.{\objcn1}$  , $\evHomo>{\objcn2}.{\objcn1}p$   \\
+$\evHomo>{\objcn2}p$           ,                                  \\
+$\evHomo>{\objcn2}p.{\objcn1}$ , $\evHomo>{\objcn2}p.{\objcn1}p$ 
+
+\vspace{10pt}
+
+$\evExpo$ , \\
+$\evExpo.{\objcn1}.{\objcn2}$ , $\evExpo.{\objcn1}.{\objcn2}p$   \\
+$\evExpo<{\objcn1}.{\objcn2}$ , $\evExpo<{\objcn1}.{\objcn2}p$   \\
+$\evExpo<{\objcn1}p$ ,                                           \\
+$\evExpo<{\objcn1}p.{\objcn2}$ , $\evExpo<{\objcn1}p.{\objcn2}p$ \\
+$\evExpo>{\objcn2}.{\objcn1}$ , $\evExpo>{\objcn2}.{\objcn1}p$   \\
+$\evExpo>{\objcn2}p$ ,                                           \\
+$\evExpo>{\objcn2}p.{\objcn1}$ , $\evExpo>{\objcn2}p.{\objcn1}p$ 
+
 \end{multicols*}
+
+\newpage
+
+\begin{tblr}{
+  colspec={Q[l]Q[r]},
+  hlines,vlines,
+  rows = {LightGray}
+}
+\tcblst{$\evHomo$}                      &
+$\evHomo$                               \\
+\tcblst{$\evHomo.{\objcn1}.{\objcn2}$}  &
+$\evHomo.{\objcn1}.{\objcn2}$           \\
+\tcblst{$\evHomo.{\objcn1}.{\objcn2}p$} &
+$\evHomo.{\objcn1}.{\objcn2}p$          \\
+\tcblst{$\evHomo<{\objcn1}.{\objcn2}$}  &
+$\evHomo<{\objcn1}.{\objcn2}$           \\
+\tcblst{$\evHomo<{\objcn1}.{\objcn2}p$} &
+$\evHomo<{\objcn1}.{\objcn2}p$          \\
+\tcblst{$\evHomo<{\objcn1}p$}           &
+$\evHomo<{\objcn1}p$                    \\
+\tcblst{$\evHomo<{\objcn1}p.{\objcn2}$} &
+$\evHomo<{\objcn1}p.{\objcn2}$          \\
+\tcblst{$\evHomo<{\objcn1}p.{\objcn2}p$}&
+$\evHomo<{\objcn1}p.{\objcn2}p$         \\
+\tcblst{$\evHomo>{\objcn2}.{\objcn1}$}  &
+$\evHomo>{\objcn2}.{\objcn1}$           \\
+\tcblst{$\evHomo>{\objcn2}.{\objcn1}p$} &
+$\evHomo>{\objcn2}.{\objcn1}p$          \\
+\tcblst{$\evHomo>{\objcn2}p$}           &
+$\evHomo>{\objcn2}p$                    \\
+\tcblst{$\evHomo>{\objcn2}p.{\objcn1}$} &
+$\evHomo>{\objcn2}p.{\objcn1}$          \\
+\tcblst{$\evHomo>{\objcn2}p.{\objcn1}p$}&
+$\evHomo>{\objcn2}p.{\objcn1}p$         \\
+\end{tblr}
+% -----
+\begin{tblr}{
+  colspec={Q[l]Q[r]},
+  hlines,vlines,
+  rows = {LightGray}
+}
+\tcblst{$\evExpo$}                      &
+$\evExpo$                               \\
+\tcblst{$\evExpo.{\objcn1}.{\objcn2}$}  &
+$\evExpo.{\objcn1}.{\objcn2}$           \\
+\tcblst{$\evExpo.{\objcn1}.{\objcn2}p$} &
+$\evExpo.{\objcn1}.{\objcn2}p$          \\
+\tcblst{$\evExpo<{\objcn1}.{\objcn2}$}  &
+$\evExpo<{\objcn1}.{\objcn2}$           \\
+\tcblst{$\evExpo<{\objcn1}.{\objcn2}p$} &
+$\evExpo<{\objcn1}.{\objcn2}p$          \\
+\tcblst{$\evExpo<{\objcn1}p$}           &
+$\evExpo<{\objcn1}p$                    \\
+\tcblst{$\evExpo<{\objcn1}p.{\objcn2}$} &
+$\evExpo<{\objcn1}p.{\objcn2}$          \\
+\tcblst{$\evExpo<{\objcn1}p.{\objcn2}p$}&
+$\evExpo<{\objcn1}p.{\objcn2}p$         \\
+\tcblst{$\evExpo>{\objcn2}.{\objcn1}$}  &
+$\evExpo>{\objcn2}.{\objcn1}$           \\
+\tcblst{$\evExpo>{\objcn2}.{\objcn1}p$} &
+$\evExpo>{\objcn2}.{\objcn1}p$          \\
+\tcblst{$\evExpo>{\objcn2}p$}           &
+$\evExpo>{\objcn2}p$                    \\
+\tcblst{$\evExpo>{\objcn2}p.{\objcn1}$} &
+$\evExpo>{\objcn2}p.{\objcn1}$          \\
+\tcblst{$\evExpo>{\objcn2}p.{\objcn1}p$}&
+$\evExpo>{\objcn2}p.{\objcn1}p$         \\
+\end{tblr}
+% % -----
+\begin{tblr}{
+  colspec={Q[l]Q[r]},
+  hlines,vlines,
+  rows = {LightGray}
+}
+\tcblst{$\evobjget$}         &
+$\evobjget$                  \\
+\tcblst{$\evobjget.{\catD}$} & 
+$\evobjget.{\catD}$          \\
+\tcblst{$\evobjget.{\catD}p$}&
+$\evobjget.{\catD}p$         \\
+\tcblst{$\evarrget$}         &
+$\evarrget$                  \\
+\tcblst{$\evarrget.{\catC}$} & 
+$\evarrget.{\catC}$          \\
+\tcblst{$\evarrget.{\catC}p$}&
+$\evarrget.{\catC}p$         \\
+\tcblst{$\evntfeta$}         &
+$\evntfeta$                  \\
+\tcblst{$\evntfeta.{\objc}$} & 
+$\evntfeta.{\objc}$          \\
+\tcblst{$\evntfeta.{\objc}p$}&
+$\evntfeta.{\objc}p$         \\
+\tcblst{$\evntfeta$}         &
+$\evntfeta$                  \\
+\tcblst{$\evntfeta.{\objc}$} & 
+$\evntfeta.{\objc}$          \\
+\tcblst{$\evntfeta.{\objc}p$}&
+$\evntfeta.{\objc}p$         \\
+\tcblst{$\ldots$}            &
+$\ldots$                     \\
+\end{tblr}

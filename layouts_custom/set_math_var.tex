@@ -12,6 +12,16 @@
   {\color{#1}%
   \fbox{\color{currentcolor}\ensuremath{#2}}}%
 }
+\def\mathpalette#1#2{\ifcase\mathstyle
+  #1\displaystyle{#2}\or
+  #1\displaystyle{#2}\or
+  #1\textstyle{#2}\or
+  #1\textstyle{#2}\or
+  #1\scriptstyle{#2}\or
+  #1\scriptstyle{#2}\or
+  #1\scriptscriptstyle{#2}\or
+  #1\scriptscriptstyle{#2}\fi
+}
 \let\ph=\phantom
 \let\hph=\hphantom
 \let\vph=\vphantom
@@ -25,6 +35,7 @@
 \def\prs#1{\left(#1\right)}
 \def\bcs#1{\left\{#1\right\}}
 \def\bks#1{\left[#1\right]}
+% \def\plr#1{#1}
 \def\plr#1{\vph{(fg)}\smash{#1}}     % 柱子
 \def\etc{\plr{\rm etc}}              % 省略号
 \def\occ{\plr{\texttt{\_}}}          % 占位符
