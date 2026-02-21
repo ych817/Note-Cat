@@ -12,6 +12,7 @@
   {\color{#1}%
   \fbox{\color{currentcolor}\ensuremath{#2}}}%
 }
+% 下述代码用于优化 \smash。代码来自 https://tex.stackexchange.com/questions/759247 。
 \def\mathpalette#1#2{\ifcase\mathstyle
   #1\displaystyle{#2}\or
   #1\displaystyle{#2}\or

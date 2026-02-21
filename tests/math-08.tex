@@ -41,9 +41,10 @@
 \RegistOprEvalTypeB{inx}Form{Expo}
 \RegistOprEvalTypeU{}Form{objget}
 \RegistOprEvalTypeU{}Form{arrget}
+\RegistOprEvalTypeU{}Form{Diag}
 \RegistOprEvalTypeU{n}Form{ntfeta}
 
-\begin{multicols*}{2}
+\begin{multicols*}{3}
 
 $\objc$ , $\objcpp$ , $\objcppp$ , $\objcppn1$ , $\objcpn2$ , $\objinit$ , $\objterm$\\
 $\arrf$ , $\arrfp$ , $\arrfn1$ , $\arrfpn2$ , \\
@@ -71,8 +72,21 @@ $\bang$ , $\bang[\objcpp]$ , $\absd$ , $\iden[\objcpn1]$
 
 $\evHomo[{\evHomo[\catCat]<{\catC}.{\catD}}]<{\fctF}.{\fctG}$
 
+\vspace{10pt}
+
+$\begin{xy}
+(0,0)*+<5pt,3pt>[F-:<3pt>:red][F*:<3pt>:pink]{\vphantom{fg}x}="x",
+\ar@`{"x"+(-10,+10),"x"+(+10,+10)}^{1}
+\ar@`{"x"+(-20,+20),"x"+(+20,+20)}^{2}
+\ar@`{"x"+(-30,+30),"x"+(+30,+30)}^{3}
+\ar@`{"x"+(+10,-10),"x"+(-10,-10)}^{1}
+\ar@`{"x"+(+20,-20),"x"+(-20,-20)}^{2}
+\ar@`{"x"+(+30,-30),"x"+(-30,-30)}^{3}
+\end{xy}$
+
 \vfill\null\columnbreak
 
+$f$\\
 $\evBpo\arrf{\objcn1}{\objcn2}$    , $\evBpop\arrf{\objcn1}{\objcn2}$    \\
 $\evBpoA\arrf{\objcn1}$            ,                                     \\
 $\evBpoAp\arrf{\objcn1}$           ,                                     \\
@@ -81,7 +95,7 @@ $\evBpoAB\arrf{\objcn1}{\objcn2}$  , $\evBpoABp\arrf{\objcn1}{\objcn2}$  \\
 $\evBpoApB\arrf{\objcn1}{\objcn2}$ , $\evBpoApBp\arrf{\objcn1}{\objcn2}$ \\
 $\evBpoBpA\arrf{\objcn2}{\objcn1}$ , $\evBpoBpAp\arrf{\objcn1}{\objcn2}$
 
-\vspace{10pt}
+\vfill\null\columnbreak
 
 $\evHomo$ , \\
 $\evHomo.{\objcn1}.{\objcn2}$  , $\evHomo.{\objcn1}.{\objcn2}p$   \\
@@ -178,30 +192,30 @@ $\evExpo>{\objcn2}p.{\objcn1}p$         \\
   hlines,vlines,
   rows = {LightGray}
 }
-\tcblst{$\evobjget$}         &
-$\evobjget$                  \\
-\tcblst{$\evobjget.{\catD}$} & 
-$\evobjget.{\catD}$          \\
-\tcblst{$\evobjget.{\catD}p$}&
-$\evobjget.{\catD}p$         \\
-\tcblst{$\evarrget$}         &
-$\evarrget$                  \\
-\tcblst{$\evarrget.{\catC}$} & 
-$\evarrget.{\catC}$          \\
-\tcblst{$\evarrget.{\catC}p$}&
-$\evarrget.{\catC}p$         \\
-\tcblst{$\evntfeta$}         &
-$\evntfeta$                  \\
-\tcblst{$\evntfeta.{\objc}$} & 
-$\evntfeta.{\objc}$          \\
-\tcblst{$\evntfeta.{\objc}p$}&
-$\evntfeta.{\objc}p$         \\
-\tcblst{$\evntfeta$}         &
-$\evntfeta$                  \\
-\tcblst{$\evntfeta.{\objc}$} & 
-$\evntfeta.{\objc}$          \\
-\tcblst{$\evntfeta.{\objc}p$}&
-$\evntfeta.{\objc}p$         \\
-\tcblst{$\ldots$}            &
-$\ldots$                     \\
+\tcblst{$\evobjget$}                        &
+$\evobjget$                                 \\
+\tcblst{$\evobjget.{\catD}$}                & 
+$\evobjget.{\catD}$                         \\
+\tcblst{$\evobjget.{\catD}p$}               &
+$\evobjget.{\catD}p$                        \\
+\tcblst{$\evarrget$}                        &
+$\evarrget$                                 \\
+\tcblst{$\evarrget.{\catC}$}                & 
+$\evarrget.{\catC}$                         \\
+\tcblst{$\evarrget.{\catC}p$}               &
+$\evarrget.{\catC}p$                        \\
+\tcblst{$\evntfeta$}                        &
+$\evntfeta$                                 \\
+\tcblst{$\evntfeta.{\objc}$}                & 
+$\evntfeta.{\objc}$                         \\
+\tcblst{$\evntfeta.{\objc}p$}               &
+$\evntfeta.{\objc}p$                        \\
+\tcblst{$\evDiag[\catC](\catUni)$}          &
+$\evDiag[\catC](\catUni)$                   \\
+\tcblst{$\evDiag[\catC](\catUni).{\objc}$}  &
+$\evDiag[\catC](\catUni).{\objc}$           \\
+\tcblst{$\evDiag[\catC](\catUni).{\objc}p$} &
+$\evDiag[\catC](\catUni).{\objc}p$          \\
+\tcblst{$\ldots$}                           &
+$\ldots$                                    \\
 \end{tblr}

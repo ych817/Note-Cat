@@ -4,14 +4,21 @@
   \ExpandArgs{c}\def{ev#2}{%
     \@ifnextchar [%
     {\UseName{ev#2@Yopt@}}
-    {\UseName{ev#2@Nopt@}}%
+    {%
+      \def\RegistOprEvalTypeU@opr{\UseName{#2}}%
+      \UseName{ev#2@}
+    }%
   }%
   \ExpandArgs{c}\def{ev#2@Yopt@}[##1]{%
-    \def\RegistOprEvalTypeU@opr{\UseName{#2}[##1]}%
-    \UseName{ev#2@}
+    \@ifnextchar (%
+    {\UseName{ev#2@Yopt@Yopt}{##1}}%
+    {%
+      \def\RegistOprEvalTypeU@opr{\UseName{#2}[{##1}]}%
+      \UseName{ev#2@}
+    }%
   }%
-  \ExpandArgs{c}\def{ev#2@Nopt@}{%
-    \def\RegistOprEvalTypeU@opr{\UseName{#2}}%
+  \ExpandArgs{c}\def{ev#2@Yopt@Yopt}##1(##2){%
+    \def\RegistOprEvalTypeU@opr{\UseName{#2}[{##1}]({##2})}%
     \UseName{ev#2@}
   }%
   \ExpandArgs{c}\def{ev#2@}{%
@@ -48,7 +55,7 @@
   }%
   \ExpandArgs{c}\def{ev#2@Yopt@Yopt}##1(##2){%
     \def\RegistOprEvalTypeB@opr{\UseName{#2}[{##1}]({##2})}%
-    \UseName{ev#2}%
+    \UseName{ev#2@}
   }%
   \ExpandArgs{c}\def{ev#2@}{%
     \@ifnextchar <%

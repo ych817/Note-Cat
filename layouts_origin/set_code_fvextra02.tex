@@ -13,12 +13,12 @@
         \hspace{\myFV@EstimatedNumberWidth}%
         \strut % \strut in the default font size
         \footnotesize
-        \vphantom{000}\llap{\oldstylenums{\arabic{FancyVerbLine}}}%
+        \vphantom{000}\llap{\relsize{-.5}\oldstylenums{\arabic{FancyVerbLine}}}%
         \hspace{\dimexpr+\FV@NumberSep}}%
       \hspace{-\FV@NumberSep}%
     \else
       \footnotesize
-      \oldstylenums{\arabic{FancyVerbLine}}%
+      \relsize{-.5}\oldstylenums{\arabic{FancyVerbLine}}%
     \fi
   \fi
 }
