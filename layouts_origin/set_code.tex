@@ -126,29 +126,3 @@
   \rlap{\colorbox{#1}{\vphantom{(Fg)}\phantom{#2}}}%
   \setlength\fboxsep{3pt}%
 }%
-
-% 测试代码：
-\colorlet{ul}{red}
-\newtcbox{\mybox}[1][]{
-  on line,
-  arc=1pt, outer arc=2pt,
-  colback=ul!5!white, colframe=ul!75!black,
-  boxsep=0pt, left=1pt, right=-0.5pt, top=2pt, bottom=1pt,
-  boxrule=0pt, toprule=1pt, bottomrule=1pt, #1
-}
-
-\makeatletter
-\newcommand\myul[1][red]{%
-  \UseName{str_if_eq:nnF}{#1}{red}{\colorlet{ul}{#1}}%
-  \myul@}
-
-\ulposdef\myul@[xoffset-start=2pt]{%
-  \ifulstarttype{0}%
-    {\tcbset{ULsiderule/.append style={leftrule=1pt}}}%
-    {\tcbset{ULsiderule/.append style={leftrule=0pt,sharp corners=west}}}%
-  \ifulendtype{0}%
-    {\tcbset{ULsiderule/.append style={rightrule=1pt,right=-0.5pt}}}%
-    {\tcbset{ULsiderule/.append style={rightrule=0pt,sharp corners=east,right=-2pt}}}%
-  \mybox[ULsiderule]{\vphantom{Ap}\rule{\ulwidth}{0pt}}%
-}
-\makeatother
