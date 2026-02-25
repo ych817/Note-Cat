@@ -17,124 +17,53 @@
       \UseName{ev#2@}
     }%
   }%
-  \ExpandArgs{c}\def{ev#2@Yopt@Yopt}##1(##2){%
-    \def\RegistOprEvalTypeU@opr{\UseName{#2}[{##1}]({##2})}%
-    \UseName{ev#2@}
-  }%
-  \ExpandArgs{c}\def{ev#2@}{%
-    \@ifnextchar .%
-    {\UseName{ev#2@Yarg}} % 有点，开始读参数
-    {\RegistOprEvalTypeU@opr}%        % 没点，直接输出原始命令
-  }%
-  \ExpandArgs{c}\def{ev#2@Yarg}.##1{%
-    \@ifnextchar p%
-    {\UseName{ev#2@Yp}{##1}}% % 点后面参数读完，发现有 p
-    {\UseName{evU#1}{\RegistOprEvalTypeU@opr}{##1}}% % 正常求值
-  }%
-  \ExpandArgs{c}\def{ev#2@Yp}##1p{%
-    \UseName{evU#1p}{\RegistOprEvalTypeU@opr}{##1}%
-  }%
+  \ExpandArgs{c}\DeclareDocumentCommand{ev#2@}{ e{.} tp }{
+     \IfValueTF{##1}
+    {\IfBooleanTF{##2}
+    {\UseName{evU#1p}{\RegistOprEvalTypeU@opr}{##1}}%
+    {\UseName{evU#1}{\RegistOprEvalTypeU@opr}{##1}}}
+    {\RegistOprEvalTypeU@opr}
+  }
 }
 \def\RegistOprEvalTypeB#1Form#2{%
-  \let\RegistOprEvalTypeB@opr=\relax%
-  \ExpandArgs{c}\def{ev#2}{%
-    \@ifnextchar [%
-    {\UseName{ev#2@Yopt@}}
-    {%
-      \def\RegistOprEvalTypeB@opr{\UseName{#2}}%
-      \UseName{ev#2@}
+  \ExpandArgs{c}\DeclareDocumentCommand{ev#2}{%
+    +O{\UseName{opr#2defaultType}}%
+    d()%
+    e{.}%
+    e{<}% 
+    e{>}%
+    tp%
+    e{.}%
+    tp%
+  } {%
+    \def\cmdout{evB#1}%
+    \def\cmdopr{\UseName{#2}}%
+    \IfValueT{##1}{\edef\cmdopr{\cmdopr[{##1}]}%
+      \IfValueT{##2}{\edef\cmdopr{\cmdopr({##2})}}%
     }%
-  }%
-  \ExpandArgs{c}\def{ev#2@Yopt@}[##1]{%
-    \@ifnextchar (%
-    {\UseName{ev#2@Yopt@Yopt}{##1}}%
-    {%
-      \def\RegistOprEvalTypeB@opr{\UseName{#2}[{##1}]}%
-      \UseName{ev#2@}
+    \IfValueT{##4}{\edef\cmdout{\cmdout L}}%
+    \IfValueT{##5}{\edef\cmdout{\cmdout R}}%
+    \IfBooleanT{##6}{\edef\cmdout{\cmdout p}}%
+    \IfValueT{##4}{\IfValueT{##7}{\edef\cmdout{\cmdout R}}}%
+    \IfValueT{##5}{\IfValueT{##7}{\edef\cmdout{\cmdout L}}}%
+    \IfBooleanT{##8}{\edef\cmdout{\cmdout p}}%
+    \IfValueTF{##7}{%
+    \IfValueTF{##3}{\ExpandArgs{nc}\UseName{\cmdout}{cmdopr}{##3}{##7}}{%
+      \IfValueTF{##4}{\ExpandArgs{nc}\UseName{\cmdout}{cmdopr}{##4}{##7}}{%
+      \IfValueTF{##5}{\ExpandArgs{nc}\UseName{\cmdout}{cmdopr}{##5}{##7}}{%
+        \ERROR % \evB#1[ ]p.{\bojcn2}
+      }%
+      }%
     }%
-  }%
-  \ExpandArgs{c}\def{ev#2@Yopt@Yopt}##1(##2){%
-    \def\RegistOprEvalTypeB@opr{\UseName{#2}[{##1}]({##2})}%
-    \UseName{ev#2@}
-  }%
-  \ExpandArgs{c}\def{ev#2@}{%
-    \@ifnextchar <%
-    {\UseName{ev#2@YargL@}}
-    {\@ifnextchar >%
-    {\UseName{ev#2@YargR@}}
-    {\@ifnextchar .%
-    {\UseName{ev#2@YargL@Qp@YargR@}}
-    {\RegistOprEvalTypeB@opr}}}%
-  }%
-  \ExpandArgs{c}\def{ev#2@YargL@Qp@YargR@}.##1.##2{% 
-    \@ifnextchar p%
-    {\UseName{ev#2@YargL@Qp@YargR@Yp}{##1}{##2}}% 
-    {\UseName{evB#1}{\RegistOprEvalTypeB@opr}{##1}{##2}}%
-  }%
-  \ExpandArgs{c}\def{ev#2@YargL@Qp@YargR@Yp}##1##2p{%
-    \UseName{evB#1p}{\RegistOprEvalTypeB@opr}{##1}{##2}%
-  }%
-  \ExpandArgs{c}\def{ev#2@YargL@}<##1{%
-    \@ifnextchar p%
-    {\UseName{ev#2@YargL@Yp@}{##1}}%
-    {\UseName{ev#2@YargL@Np@}{##1}}%
-  }%
-  \ExpandArgs{c}\def{ev#2@YargL@Np@}##1{%
-    \@ifnextchar .%
-    {\UseName{ev#2@YargL@Np@YargR@}{##1}}%
-    {\relax}%
-  }%
-  \ExpandArgs{c}\def{ev#2@YargL@Np@YargR@}##1.##2{%
-    \@ifnextchar p%
-    {\UseName{ev#2@YargL@Np@YargR@Yp}{##1}{##2}}% 
-    {\UseName{evB#1LR}{\RegistOprEvalTypeB@opr}{##1}{##2}}%
-  }%
-  \ExpandArgs{c}\def{ev#2@YargL@Np@YargR@Yp}##1##2p{%
-    \UseName{evB#1LRp}{\RegistOprEvalTypeB@opr}{##1}{##2}%
-  }%
-  \ExpandArgs{c}\def{ev#2@YargL@Yp@}##1p{%
-    \@ifnextchar .%
-    {\UseName{ev#2@YargL@Yp@YargR@}{##1}}%
-    {\UseName{evB#1Lp}{\RegistOprEvalTypeB@opr}{##1}}%
-  }%
-  \ExpandArgs{c}\def{ev#2@YargL@Yp@YargR@}##1.##2{%
-    \@ifnextchar p%
-    {\UseName{ev#2@YargL@Yp@YargR@Yp}{##1}{##2}}% 
-    {\UseName{evB#1LpR}{\RegistOprEvalTypeB@opr}{##1}{##2}}%
-  }%
-  \ExpandArgs{c}\def{ev#2@YargL@Yp@YargR@Yp}##1##2p{%
-    \UseName{evB#1LpRp}{\RegistOprEvalTypeB@opr}{##1}{##2}%
-  }%
-  \ExpandArgs{c}\def{ev#2@YargR@}>##1{%
-    \@ifnextchar p%
-    {\UseName{ev#2@YargR@Yp@}{##1}}%
-    {\UseName{ev#2@YargR@Np@}{##1}}%
-  }%
-  \ExpandArgs{c}\def{ev#2@YargR@Np@}##1{%
-    \@ifnextchar .%
-    {\UseName{ev#2@YargR@Np@YargL@}{##1}}%
-    {\relax}%
-  }%
-  \ExpandArgs{c}\def{ev#2@YargR@Np@YargL@}##1.##2{%
-    \@ifnextchar p%
-    {\UseName{ev#2@YargR@Np@YargL@Yp}{##1}{##2}}% 
-    {\UseName{evB#1RL}{\RegistOprEvalTypeB@opr}{##2}{##1}}%
-  }%
-  \ExpandArgs{c}\def{ev#2@YargR@Np@YargL@Yp}##1##2p{%
-    \UseName{evB#1RLp}{\RegistOprEvalTypeB@opr}{##2}{##1}%
-  }%
-  \ExpandArgs{c}\def{ev#2@YargR@Yp@}##1p{%
-    \@ifnextchar .%
-    {\UseName{ev#2@YargR@Yp@YargL@}{##1}}%
-    {\UseName{evB#1Rp}{\RegistOprEvalTypeB@opr}{##1}}%
-  }%
-  \ExpandArgs{c}\def{ev#2@YargR@Yp@YargL@}##1.##2{%
-    \@ifnextchar p%
-    {\UseName{ev#2@YargR@Yp@YargL@Yp}{##1}{##2}}% 
-    {\UseName{evB#1RpL}{\RegistOprEvalTypeB@opr}{##2}{##1}}%
-  }%
-  \ExpandArgs{c}\def{ev#2@YargR@Yp@YargL@Yp}##1##2p{%
-    \UseName{evB#1RpLp}{\RegistOprEvalTypeB@opr}{##2}{##1}%
+    }{%
+    \IfValueTF{##3}{\ExpandArgs{nc}\UseName{\cmdout}{cmdopr}{##3}}{%
+      \IfValueTF{##4}{\ExpandArgs{nc}\UseName{\cmdout}{cmdopr}{##4}}{%
+      \IfValueTF{##5}{\ExpandArgs{nc}\UseName{\cmdout}{cmdopr}{##5}}{%
+        \UseName{cmdopr}%
+      }%
+      }%
+    }%
+    }%
   }%
 }
 \makeatother

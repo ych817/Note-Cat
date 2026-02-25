@@ -40,7 +40,9 @@
     display as/.store in/.expand once = \csname opr#1display\endcsname,
     #2
   }
-  \xpndaft\ncm\xpndaft{\csname #1\endcsname}[1][\csname opr#1defaultType\endcsname]{%
+  \ExpandArgs{c}\DeclareDocumentCommand{#1}{%
+    +O{\UseName{opr#1defaultType}}%
+  }{%
     \plr{\ensuremath{%
       \stackunder[0pt]{\stackon[0pt]{\plr{\csname opr#1display\endcsname}}
       {}}
@@ -48,14 +50,16 @@
     }}
   }
 }
-\def\RegistOpr@TypeB@opt#1[#2]{
+\def\RegistOpr@TypeB@opt#1[#2]{%
   \ExpandArgs{c}\def{opr#1defaultType}{}
   \pgfkeys{
     /opr/typeB/#1/.is family, /opr/typeB/#1,
     default type/.store in/.expand once = \csname opr#1defaultType\endcsname,
     #2
   }
-  \xpndaft\ncm\xpndaft{\csname #1\endcsname}[1][\csname opr#1defaultType\endcsname]{%
+  \ExpandArgs{c}\DeclareDocumentCommand{#1}{%
+    +O{\UseName{opr#1defaultType}}%
+  }{%
     \plr{\ensuremath{%
       \xrightarrow[\text{\scriptsize\(\plr{##1}\)}]{}%
     }}
@@ -72,11 +76,11 @@
     display as/.store in/.expand once = \csname opr#1display\endcsname,
     #2
   }
-  \xpndaft\NewDocumentCommand\csname #1\endcsname{ 
-    O{\csname opr#1defaultType\endcsname}   
-    D(){\csname opr#1defaultIndx\endcsname} 
+  \ExpandArgs{c}\DeclareDocumentCommand{#1}{%
+    +O{\UseName{opr#1defaultType}}   
+    D(){\UseName{opr#1defaultIndx}} 
   }{\plr{\ensuremath{%
-    \stackunder[0pt]{\stackon[0pt]{\plr{\csname opr#1display\endcsname}}
+    \stackunder[0pt]{\stackon[0pt]{\plr{\UseName{opr#1display}}}
     {}}
     {\text{\scriptsize\(\plr{##1~##2}\)}}}}
   }
@@ -90,7 +94,9 @@
     display as/.store in/.expand once = \csname opr#1display\endcsname,
     #2
   }
-  \xpndaft\ncm\xpndaft{\csname #1\endcsname}[1][\csname opr#1defaultType\endcsname]{%
+  \ExpandArgs{c}\DeclareDocumentCommand{#1}{
+    +O{\UseName{opr#1defaultType}}
+  }{%
     \plr{\ensuremath{%
       {}_{\scriptscriptstyle\plr{:##1}}^{}{\csname opr#1display\endcsname}
     }}
