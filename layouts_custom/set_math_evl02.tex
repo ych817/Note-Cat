@@ -1,25 +1,27 @@
 \makeatletter
 \def\RegistOprEvalTypeU#1Form#2{%
-  \ExpandArgs{c}\DeclareDocumentCommand{ev#2}{%
+  \ExpandArgs{cc}\DeclareCommandCopy{old#2}{#2}%
+  \ExpandArgs{c}\DeclareDocumentCommand{#2}{%
     +o%
     d()%
     e{.}%
     tp%
   } {%
     \def\cmdout{evU#1}%
-    \edef\cmdopr{\UseName{#2}}
-    \IfValueT{##1}{\edef\cmdopr{\cmdopr[##1]}}%
-    \IfValueT{##2}{\edef\cmdopr{\cmdopr(##2)}}%
+    \edef\cmdopr{\UseName{old#2}}%
+    \IfValueT{##1}{\edef\cmdopr{\cmdopr[{##1}]}}%
+    \IfValueT{##2}{\edef\cmdopr{\cmdopr({##2})}}%
     \IfValueTF{##3}{%
-      \IfBooleanT{##4}{\edef\cmdout{\cmdout p}}
+      \IfBooleanT{##4}{\edef\cmdout{\cmdout p}}%
       \ExpandArgs{nc}\UseName{\cmdout}{cmdopr}{##3}%
     }{%
       \UseName{cmdopr}%
-    }
-  }
+    }%
+  }%
 }
 \def\RegistOprEvalTypeB#1Form#2{%
-  \ExpandArgs{c}\DeclareDocumentCommand{ev#2}{%
+  \ExpandArgs{cc}\DeclareCommandCopy{old#2}{#2}%
+  \ExpandArgs{c}\DeclareDocumentCommand{#2}{%
     +o%
     d()%
     e{.}%
@@ -30,7 +32,7 @@
     tp%
   } {%
     \def\cmdout{evB#1}%
-    \def\cmdopr{\UseName{#2}}%
+    \def\cmdopr{\UseName{old#2}}%
     \IfValueT{##1}{\edef\cmdopr{\cmdopr[##1]}}%
     \IfValueT{##2}{\edef\cmdopr{\cmdopr(##2)}}%
     \IfValueT{##4}{\edef\cmdout{\cmdout L}}%
