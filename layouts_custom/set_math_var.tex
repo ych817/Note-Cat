@@ -2,8 +2,6 @@
 \stackMath
 % ---- 常用简写
 \let\xpndaft=\expandafter
-\let\ncm=\newcommand
-\let\rcm=\renewcommand
 % ----- 排版相关
 \newcommand{\cfbox}[2][blue]{%
   \setlength{\fboxsep}{0pt}%
@@ -48,24 +46,24 @@
   {\RegistVarType@opt{#1}[]}
 }
 \def\RegistVarType@opt#1[#2]{
-  \xpndaft\def\csname var#1colorBG\endcsname{}
-  \xpndaft\def\csname var#1font\endcsname{}
+  \ExpandArgs{c}\def{var#1colorBG}{}
+  \ExpandArgs{c}\def{var#1font}{}
   \pgfkeys{%
     /var/#1/.is family, /var/#1,
     colorBG/.store in/.expand once = \csname var#1colorBG\endcsname,
     font/.store in/.expand once = \csname var#1font\endcsname,
     #2
   }
-  \xpndaft\def\csname var#1\endcsname##1{%
+  \ExpandArgs{c}\def{var#1}##1{%
     \setlength{\fboxsep}{0pt}%
     \setlength{\fboxrule}{0pt}%
     \let\RegistVar@Cache=\relax  
-    \xpndaft\ifx\csname var#1colorBG\endcsname\empty
+    \ExpandArgs{c}\ifx{var#1colorBG}\empty
       \def\RegistVar@Cache{\fbox}%
     \else
-      \def\RegistVar@Cache{\colorbox{\csname var#1colorBG\endcsname}}%
+      \def\RegistVar@Cache{\colorbox{\UseName{var#1colorBG}}}%
     \fi
-    \RegistVar@Cache{\ensuremath{\plr{\csname var#1font\endcsname ##1}}}%
+    \RegistVar@Cache{\ensuremath{\plr{\UseName{var#1font}##1}}}%
   }
 }
 % ------ 常用变量注册模板 带高亮
@@ -75,8 +73,8 @@
   {\RegistVarFamily@{#1}{#2}[]}
 }
 \def\RegistVarFamily@#1#2[#3]{%
-  \expandafter\def\csname var#2#1display\endcsname{#1}%
-  \expandafter\def\csname var#2#1primes\endcsname{0}%
+  \ExpandArgs{c}\def{var#2#1display}{#1}%
+  \ExpandArgs{c}\def{var#2#1primes}{0}%
   \pgfkeys{
     /var/#2/.is family, /var/#2,
     display as/.store in/.expand once = \csname var#2#1display\endcsname,
@@ -84,8 +82,8 @@
     #3
   }
   \RegistVarFamilyLoop{#1}{#2}
-    {\csname var#2#1display\endcsname}
-    {\csname var#2#1primes\endcsname}
+    {\UseName{var#2#1display}}
+    {\UseName{var#2#1primes}}
 }
 \ExplSyntaxOn
 \cs_new_protected:Npn \RegistVarFamilyLoop #1 #2 #3 #4 {

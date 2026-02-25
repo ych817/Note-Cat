@@ -7,7 +7,7 @@
     tp%
   } {%
     \def\cmdout{evU#1}%
-    \def\cmdopr{\UseName{#2}}%
+    \edef\cmdopr{\UseName{#2}}
     \IfValueT{##1}{\edef\cmdopr{\cmdopr[##1]}}%
     \IfValueT{##2}{\edef\cmdopr{\cmdopr(##2)}}%
     \IfValueTF{##3}{%
@@ -43,7 +43,7 @@
     \IfValueTF{##3}{\ExpandArgs{nc}\UseName{\cmdout}{cmdopr}{##3}{##7}}{%
       \IfValueTF{##4}{\ExpandArgs{nc}\UseName{\cmdout}{cmdopr}{##4}{##7}}{%
       \IfValueTF{##5}{\ExpandArgs{nc}\UseName{\cmdout}{cmdopr}{##5}{##7}}{%
-        \ERROR % \evB#1[ ]p.{\bojcn2}
+        \ERROR % \evB#1[ ]p.{\objcn2}
       }%
       }%
     }%
