@@ -1,5 +1,4 @@
 module Main where
-
 import Data.Time.LocalTime
 
 main :: IO ()
